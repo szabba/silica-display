@@ -93,7 +93,7 @@ class Axes(object):
 class DisplayApp(object):
     """Main object"""
 
-    def __init__(config):
+    def __init__(self, config):
 
         self.__window = config.create_window()
 
@@ -112,7 +112,10 @@ class DisplayApp(object):
         self.__window.push_handlers(
                 Axes(config, cam))
 
-        pyglet.closk.set_fps_limit(config.max_fps())
+        self.__window.push_handlers(
+                cam)
+
+        pyglet.clock.set_fps_limit(config.max_fps())
 
         self.__config = config
 
