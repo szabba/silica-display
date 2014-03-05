@@ -95,6 +95,13 @@ class Axes(object):
 
         self.__program = shaders.build_program('axes')
 
+    def on_draw(self):
+
+        gl.glUseProgram(self.__program)
+
+        gl.glUseProgram(0)
+
+
 class DisplayApp(object):
     """Main object"""
 
