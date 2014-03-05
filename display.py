@@ -131,8 +131,8 @@ class DisplayApp(object):
 
         self.__config = config
 
-    def __tick(self):
-        """DA.__tick()
+    def __tick(self, dt):
+        """DA.__tick(dt)
 
         Dispatches an on_tick event to the underlying window. Gets called
         roughly each frame.
