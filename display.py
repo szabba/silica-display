@@ -4,6 +4,8 @@ import pyglet
 
 from pyglet import gl
 
+import shaders
+
 
 class Config(object):
     """The shared configuration of a display app."""
@@ -91,6 +93,7 @@ class Axes(object):
         self.__config = config
         self.__cam = cam
 
+        self.__program = shaders.build_program('axes')
 
 class DisplayApp(object):
     """Main object"""
