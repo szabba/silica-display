@@ -37,6 +37,8 @@ class Config(object):
                 height=600,
                 resizable=True)
 
+        return window
+
     def max_fps(self):
         """C.max_fps()
 
