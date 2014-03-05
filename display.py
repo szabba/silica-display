@@ -138,7 +138,7 @@ class DisplayApp(object):
 
         pyglet.clock.schedule_interval(
                 self.__tick,
-                1. / config.max_fps())
+                1. / self.__config.max_fps())
 
         pyglet.app.run()
 
