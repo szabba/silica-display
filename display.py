@@ -95,6 +95,33 @@ class Axes(object):
 
         self.__program = shaders.build_program('axes')
 
+        self.__sun = self.__uniform_location('sun')
+        self.__ambient = self.__uniform_location('ambient')
+        self.__diffuse = self.__uniform_location('diffuse')
+        self.__colors = self.__uniform_location('colors')
+
+        self.__position = self.__attritbute_location('position')
+        self.__normal = self.__attritbute_location('normal')
+        self.__color_no = self.__attritbute_location('color_no')
+
+    def __uniform_location(self, name):
+        """A.__uniform_location(name) -> location
+
+        The OpenGL location of a uniform value.
+        """
+
+        return gl.glGetUniformLocation(
+                self.__program, name)
+
+    def __attritbute_location(self, name):
+        """A.__attritbute_location(name) -> location
+
+        The OpenGL location of an attribute.
+        """
+
+        return gl.glGetAttribLocation(
+                self.__program, name)
+
     def on_draw(self):
 
         gl.glUseProgram(self.__program)
