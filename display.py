@@ -7,6 +7,11 @@ from pyglet import gl
 import shaders
 
 
+VERTICES_PER_TRIANGLE = 3
+COORDINATES_PER_VERTEX = 3
+COORDINATES_PER_NORMAL = 3
+
+
 class Config(object):
     """The shared configuration of a display app."""
 
@@ -87,6 +92,9 @@ class Fog(object):
 
 class Axes(object):
     """The glass (or it's visible part)"""
+
+    AXIS_COUNT = 3
+    TRIANGLES_PER_AXIS = 8
 
     def __init__(self, config, cam):
 
