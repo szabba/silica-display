@@ -15,24 +15,6 @@ COORDINATES_PER_NORMAL = 3
 class Config(object):
     """The shared configuration of a display app."""
 
-    __cls_init_done = False
-
-    @classmethod
-    def cls_init(cls):
-        """Config.cls_init()
-
-        Perform some one-time initialisation."""
-
-        if not cls.__cls_init_done:
-
-            pyglet.window.Window.register_event_type('on_tick')
-
-            cls.__cls_init_done = True
-
-    def __init__(self):
-
-        self.__class__.cls_init()
-
     def create_window(self):
         """C.create_window()
 
@@ -141,6 +123,8 @@ class DisplayApp(object):
     """Main object"""
 
     def __init__(self, config):
+
+        pyglet.window.Window.register_event_type('on_tick')
 
         self.__window = config.create_window()
 
