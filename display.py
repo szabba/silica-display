@@ -136,3 +136,9 @@ class DisplayApp(object):
                 1. / config.max_fps())
 
         pyglet.app.run()
+
+
+if __name__ == '__main__':
+
+    app = DisplayApp(Config())
+    app.run()
