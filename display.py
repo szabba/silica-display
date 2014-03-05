@@ -22,7 +22,7 @@ class Config(object):
                 *[1, 1, 1])
 
     def create_window(self):
-        """C.create_window()
+        """C.create_window() -> a window
 
         Create a new window, according to the specified config.
         """
@@ -35,7 +35,7 @@ class Config(object):
         return window
 
     def max_fps(self):
-        """C.max_fps()
+        """C.max_fps() -> max fps
 
         The maximum number of frames per second.
         """
