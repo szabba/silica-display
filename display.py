@@ -55,6 +55,11 @@ class Config(object):
 
         return gl.GLfloat(0.4)
 
+    def axis_diffuse(self):
+        """C.axis_diffuse() -> gl.GLfloat"""
+
+        return gl.GLfloat(0.6)
+
 
 class Cam(object):
     """The camera"""
@@ -142,6 +147,10 @@ class Axes(object):
         gl.glUniform1f(
                 self.__ambient,
                 self.__config.axis_ambient())
+
+        gl.glUniform1f(
+                self.__diffuse,
+                self.__config.axis_diffuse())
 
         gl.glUseProgram(0)
 
