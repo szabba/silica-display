@@ -8,6 +8,11 @@ import ctypes as c
 from pyglet import gl
 
 
+SHADER_TYPES = {
+        'v': gl.GL_VERTEX_SHADER,
+        'f': gl.GL_FRAGMENT_SHADER }
+
+
 def check_shader(shader, filename):
     """check_shader(shader, filename)
 
