@@ -10,10 +10,16 @@ import shaders
 VERTICES_PER_TRIANGLE = 3
 COORDINATES_PER_VERTEX = 3
 COORDINATES_PER_NORMAL = 3
+COORDINATES_PER_RAY = 3
 
 
 class Config(object):
     """The shared configuration of a display app."""
+
+    def __init__(self):
+
+        self.__sun = (gl.GLfloat * COORDINATES_PER_RAY)(
+                *[1, 1, 1])
 
     def create_window(self):
         """C.create_window()
@@ -35,6 +41,14 @@ class Config(object):
         """
 
         return 32
+
+    def sun_direction(self):
+        """C.sun_direction() -> a ctypes array of gl.GLfloats
+
+        A vector describing the intensity and direction of the sunlight.
+        """
+
+        return self.__sun
 
 
 class Cam(object):
@@ -115,6 +129,10 @@ class Axes(object):
     def on_draw(self):
 
         gl.glUseProgram(self.__program)
+
+        gl.glUniform3fv(
+                self.__sun, 1,
+                self.__config.sun_direction())
 
         gl.glUseProgram(0)
 
