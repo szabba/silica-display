@@ -11,6 +11,8 @@ VERTICES_PER_TRIANGLE = 3
 COORDINATES_PER_VERTEX = 3
 COORDINATES_PER_NORMAL = 3
 COORDINATES_PER_RAY = 3
+RGB_COMPONENTS = 3
+RGBA_COMPONENTS = 4
 
 
 class Config(object):
@@ -118,6 +120,14 @@ class Axes(object):
         self.__normal = self.__attritbute_location('normal')
         self.__color_no = self.__attritbute_location('color_no')
 
+        self.__axis_colors = (gl.GLfloat * (
+            RGB_COMPONENTS * Axes.AXIS_COUNT))(
+                    *[
+                        1, 0, 0,
+                        0, 1, 0,
+                        0, 0, 1])
+
+
     def __uniform_location(self, name):
         """A.__uniform_location(name) -> location
 
@@ -151,6 +161,10 @@ class Axes(object):
         gl.glUniform1f(
                 self.__diffuse,
                 self.__config.axis_diffuse())
+
+        gl.glUniform3fv(
+                self.__colors, 1,
+                self.__axis_colors)
 
         gl.glUseProgram(0)
 
