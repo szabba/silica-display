@@ -50,6 +50,11 @@ class Config(object):
 
         return self.__sun
 
+    def axis_ambient(self):
+        """C.axis_ambient() -> gl.GLfloat"""
+
+        return gl.GLfloat(0.4)
+
 
 class Cam(object):
     """The camera"""
@@ -133,6 +138,10 @@ class Axes(object):
         gl.glUniform3fv(
                 self.__sun, 1,
                 self.__config.sun_direction())
+
+        gl.glUniform1f(
+                self.__ambient,
+                self.__config.axis_ambient())
 
         gl.glUseProgram(0)
 
