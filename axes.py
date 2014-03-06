@@ -142,6 +142,9 @@ class Axes(object):
 
     def on_draw(self):
 
+        gl.glClearColor(1, 1, 1, 1)
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT)
+
         gl.glUseProgram(self.__program)
 
         gl.glUniform3fv(
