@@ -180,4 +180,7 @@ class Axes(object):
                 self.__color_no_array.ctypes.data_as(
                        c.POINTER(gl.GLfloat)))
 
+        gl.glDrawArrays(gl.GL_TRIANGLES,
+                0, self.__position_array.size // COORDINATES_PER_VERTEX)
+
         gl.glUseProgram(0)
