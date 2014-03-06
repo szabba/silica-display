@@ -14,7 +14,7 @@ varying vec3 color;
 
 void main(void) {
 
-	gl_Position = vec4(position, 1.0);
+	gl_Position = vec4(0.3 * position, 1.0);
 
 	local_normal = normal;
 
