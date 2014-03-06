@@ -3,6 +3,9 @@
 __all__ = ['Axes']
 
 
+import ctypes as c
+
+import numpy
 from pyglet import gl
 
 from constants import *
@@ -38,6 +41,22 @@ class Axes(object):
                         0, 1, 0,
                         0, 0, 1])
 
+        self.__position_array = self.__positions()
+
+    def __positions(self):
+        """A.__positions() -> ctypes array of gl.GLfloat
+
+        Vertex positions.
+        """
+
+        positions = numpy.zeros((
+            Axes.AXIS_COUNT,
+            Axes.TRIANGLES_PER_AXIS,
+            VERTICES_PER_TRIANGLE,
+            COORDINATES_PER_VERTEX))
+
+        return positions.ctypes.data_as(
+                c.POINTER(gl.GLfloat))
 
     def __uniform_location(self, name):
         """A.__uniform_location(name) -> location
