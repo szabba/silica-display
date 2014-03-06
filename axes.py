@@ -55,8 +55,22 @@ class Axes(object):
             VERTICES_PER_TRIANGLE,
             COORDINATES_PER_VERTEX))
 
-        return positions.ctypes.data_as(
-                c.POINTER(gl.GLfloat))
+        for t_ix in range(Axes.TRIANGLES_PER_AXIS):
+
+            positions[0][t_ix][0] = [0, 0, 0]
+            positions[0][t_ix][1] = [
+                    1,
+                    -1 if t_ix in (1, 2, 5, 6) else 1,
+                    -1 if t_ix in (2, 3, 6, 7) else 1]
+
+            t_ix_next_wrap = (t_ix + 1) % Axes.TRIANGLES_PER_AXIS
+
+            positions[0][t_ix][2] = [
+                    1,
+                    -1 if t_ix_next_wrap in (1, 2, 5, 6) else 1,
+                    -1 if t_ix_next_wrap in (2, 3, 6, 7) else 1]
+
+        return positions
 
     def __uniform_location(self, name):
         """A.__uniform_location(name) -> location
@@ -95,5 +109,12 @@ class Axes(object):
         gl.glUniform3fv(
                 self.__colors, 1,
                 self.__axis_colors)
+
+        gl.glEnableVertexAttribArray(self.__position)
+        gl.glVertexAttribPointer(
+                self.__position, COORDINATES_PER_VERTEX,
+                gl.GL_FLOAT, gl.GL_FALSE, 0,
+                self.__position_array.ctypes.data_as(
+                       c.POINTER(gl.GLfloat)))
 
         gl.glUseProgram(0)
