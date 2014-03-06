@@ -46,6 +46,9 @@ class Axes(object):
         self.__normal_array = self.__normals(
                 self.__position_array)
 
+        self.__color_no_array = self.__color_nos(
+                self.__position_array)
+
     def __positions(self):
         """A.__positions() -> ctypes array of gl.GLfloat
 
@@ -103,6 +106,22 @@ class Axes(object):
 
         return normals
 
+    def __color_nos(self, positions):
+        """A.__color_nos(positions) -> ctypes array of gl.GLints
+
+        Color numbers.
+        """
+
+        color_nos = numpy.zeros(positions.size)
+
+        color_nos.reshape((Axes.AXIS_COUNT, -1))
+
+        for i in range(Axes.AXIS_COUNT):
+
+            color_nos[i] = i
+
+        return color_nos
+
     def __uniform_location(self, name):
         """A.__uniform_location(name) -> location
 
@@ -153,6 +172,12 @@ class Axes(object):
                 self.__normal, COORDINATES_PER_NORMAL,
                 gl.GL_FLOAT, gl.GL_FALSE, 0,
                 self.__normal_array.ctypes.data_as(
+                       c.POINTER(gl.GLfloat)))
+
+        gl.glEnableVertexAttribArray(self.__color_no)
+        gl.glVertexAttribPointer(
+                self.__color_no, 1, gl.GL_INT, gl.GL_FALSE, 0,
+                self.__color_no_array.ctypes.data_as(
                        c.POINTER(gl.GLfloat)))
 
         gl.glUseProgram(0)
