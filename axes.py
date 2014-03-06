@@ -43,6 +43,9 @@ class Axes(object):
 
         self.__position_array = self.__positions()
 
+        self.__normal_array = self.__normals(
+                self.__position_array)
+
     def __positions(self):
         """A.__positions() -> ctypes array of gl.GLfloat
 
@@ -71,6 +74,34 @@ class Axes(object):
                     -1 if t_ix_next_wrap in (2, 3, 6, 7) else 1]
 
         return positions
+
+    def __normals(self, positions):
+        """A.__normals(positions) -> ctypes array of gl.GLfloat
+
+        Triangle normals.
+        """
+
+        positions = numpy.array(positions)
+
+        positions.reshape(
+                (-1, VERTICES_PER_TRIANGLE, COORDINATES_PER_VERTEX))
+
+        TRIANGLES = positions.shape[0]
+
+        normals = numpy.zeros(positions.shape)
+
+        for i in range(TRIANGLES):
+
+                edge1 = positions[i][0] - positions[i][1]
+                edge2 = positions[i][1] - positions[i][2]
+
+                normal = numpy.cross(edge1, edge2)
+
+                normal /= numpy.sqrt(numpy.dot(normal, normal))
+
+                normals[i,:] = normal
+
+        return normals
 
     def __uniform_location(self, name):
         """A.__uniform_location(name) -> location
@@ -115,6 +146,13 @@ class Axes(object):
                 self.__position, COORDINATES_PER_VERTEX,
                 gl.GL_FLOAT, gl.GL_FALSE, 0,
                 self.__position_array.ctypes.data_as(
+                       c.POINTER(gl.GLfloat)))
+
+        gl.glEnableVertexAttribArray(self.__normal)
+        gl.glVertexAttribPointer(
+                self.__normal, COORDINATES_PER_NORMAL,
+                gl.GL_FLOAT, gl.GL_FALSE, 0,
+                self.__normal_array.ctypes.data_as(
                        c.POINTER(gl.GLfloat)))
 
         gl.glUseProgram(0)
