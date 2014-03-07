@@ -4,6 +4,11 @@ uniform vec3 sun;
 uniform float ambient;
 uniform float diffuse;
 uniform vec3[3] colors;
+uniform mat4 camera = mat4(
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1);
 
 attribute vec3 position;
 attribute vec3 normal;
@@ -14,7 +19,7 @@ varying vec3 color;
 
 void main(void) {
 
-	gl_Position = vec4(0.3 * position, 1.0);
+	gl_Position = camera * vec4(position, 1.0);
 
 	local_normal = normal;
 
