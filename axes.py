@@ -29,6 +29,7 @@ class Axes(object):
         self.__ambient = self.__uniform_location('ambient')
         self.__diffuse = self.__uniform_location('diffuse')
         self.__colors = self.__uniform_location('colors')
+        self.__camera = self.__uniform_location('camera')
 
         self.__position = self.__attritbute_location('position')
         self.__normal = self.__attritbute_location('normal')
@@ -146,6 +147,13 @@ class Axes(object):
         gl.glClear(gl.GL_COLOR_BUFFER_BIT)
 
         gl.glUseProgram(self.__program)
+
+        print self.__cam.matrix()
+
+        gl.glUniformMatrix4fv(
+                self.__camera, 1, gl.GL_TRUE,
+                self.__cam.matrix().ctypes.data_as(
+                    c.POINTER(gl.GLfloat)))
 
         gl.glUniform3fv(
                 self.__sun, 1,
