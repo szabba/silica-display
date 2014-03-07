@@ -6,6 +6,7 @@ from pyglet import gl
 import shaders
 from constants import *
 from axes import Axes
+from cam import Cam
 
 
 class Config(object):
@@ -54,14 +55,6 @@ class Config(object):
         """C.axis_diffuse() -> gl.GLfloat"""
 
         return gl.GLfloat(0.6)
-
-
-class Cam(object):
-    """The camera"""
-
-    def __init__(self, config):
-
-        self.__config = config
 
 
 class Glass(object):
