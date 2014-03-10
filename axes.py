@@ -152,8 +152,7 @@ class Axes(object):
 
         gl.glUniformMatrix4fv(
                 self.__camera, 1, gl.GL_TRUE,
-                self.__cam.matrix().ctypes.data_as(
-                    c.POINTER(gl.GLfloat)))
+                self.__cam.gl_matrix())
 
         gl.glUniform3fv(
                 self.__sun, 1,
