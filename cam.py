@@ -18,6 +18,8 @@ class Cam(object):
         self.__gl_matrix = (16 * gl.GLfloat)()
         self.__recalc = True
 
+        self.__ratio = numpy.eye(4)
+
     def recalculate(self):
         """C.recalculate()
 
@@ -27,9 +29,13 @@ class Cam(object):
         if not self.__recalc:
             return
 
+        self.__matrix[:] = self.__ratio
+
         for i, elem in enumerate(self.__matrix.flat):
 
             self.__gl_matrix[i] = elem
+
+        self.__recalc = False
 
     def matrix(self):
         """C.matrix() -> camera matrix"""
@@ -44,3 +50,9 @@ class Cam(object):
         self.recalculate()
 
         return self.__gl_matrix
+
+    def on_resize(self, width, height):
+
+        self.__recalc = True
+
+        self.__ratio[0, 0] = float(height) / float(width)
