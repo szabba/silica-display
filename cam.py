@@ -3,6 +3,8 @@
 __all__ = ['Cam']
 
 
+import math
+
 import numpy
 from pyglet import gl
 from pyglet.window import mouse
@@ -92,6 +94,12 @@ class Cam(object):
         if buttons == mouse.LEFT:
 
             self.__phi += dx * self.__config.rot_z_speed()
+
+            while self.__phi < 0:
+                self.__phi += 2 * math.pi
+
+            while self.__phi > 2 * math.pi:
+                self.__phi -= 2 * math.pi
 
             self.__rot_z[0, 0] = self.__rot_z[1, 1] = numpy.cos(self.__phi)
             self.__rot_z[1, 0] = numpy.sin(self.__phi)
