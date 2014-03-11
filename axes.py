@@ -71,7 +71,7 @@ class Axes(object):
 
         for t_ix in range(Axes.TRIANGLES_PER_AXIS):
 
-            positions[0][t_ix][0] = [0, 0, 0]
+            positions[0][t_ix][0] = [0, 0, 0] if t_ix in (0, 1, 2, 3) else [7, 0, 0]
             positions[0][t_ix][1] = [
                     1,
                     -1 if t_ix in (1, 2, 5, 6) else 1,
