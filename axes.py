@@ -132,9 +132,9 @@ class Axes(object):
         Color numbers.
         """
 
-        color_nos = numpy.zeros(positions.size)
+        color_nos = numpy.zeros(positions.size // COORDINATES_PER_VERTEX)
 
-        color_nos.reshape((Axes.AXIS_COUNT, -1))
+        color_nos = color_nos.reshape((Axes.AXIS_COUNT, -1))
 
         for i in range(Axes.AXIS_COUNT):
 
