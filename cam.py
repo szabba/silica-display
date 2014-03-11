@@ -25,6 +25,9 @@ class Cam(object):
         for i in range(3):
             self.__scale[i, i] = self.__s
 
+        self.__phi = config.init_phi()
+        self.__rot_z = numpy.eye(4)
+
     def recalculate(self):
         """C.recalculate()
 
@@ -34,7 +37,7 @@ class Cam(object):
         if not self.__recalc:
             return
 
-        self.__matrix[:] = self.__ratio.dot(self.__scale)
+        self.__matrix[:] = self.__ratio.dot(self.__rot_z).dot(self.__scale)
 
         for i, elem in enumerate(self.__matrix.flat):
 
@@ -73,3 +76,13 @@ class Cam(object):
 
         for i in range(3):
             self.__scale[i, i] *= multiplier
+
+    def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+
+        self.__recalc = True
+
+        self.__phi += dx * self.__config.rot_z_speed()
+
+        self.__rot_z[0, 0] = self.__rot_z[1, 1] = numpy.cos(self.__phi)
+        self.__rot_z[1, 0] = numpy.sin(self.__phi)
+        self.__rot_z[0, 1] = -self.__rot_z[1, 0]

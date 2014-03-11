@@ -51,8 +51,18 @@ class Config(object):
 
         return 0.05
 
+    def init_phi(self):
+        """C.init_phi() -> initial rotation about the z axis"""
+
+        return 0.0
+
     def zoom_speed(self):
         """C.zoom_speed() -> zoom speed factor"""
+
+        return 0.05
+
+    def rot_z_speed(self):
+        """C.rot_z_speed() -> speed of rotation about the z axis"""
 
         return 0.05
 
