@@ -38,7 +38,14 @@ class Cam(object):
         if not self.__recalc:
             return
 
-        self.__matrix[:] = self.__ratio.dot(self.__rot_z).dot(self.__scale)
+        self.__matrix[:] = numpy.eye(4)
+
+        for transform in [
+                self.__ratio,
+                self.__rot_z,
+                self.__scale]:
+
+            self.__matrix[:] = numpy.dot(self.__matrix, transform)
 
         for i, elem in enumerate(self.__matrix.flat):
 
