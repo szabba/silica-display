@@ -31,6 +31,9 @@ class Cam(object):
         self.__phi = config.init_phi()
         self.__rot_z = numpy.eye(4)
 
+        self.__theta = config.init_theta()
+        self.__rot_y = numpy.eye(4)
+
     def recalculate(self):
         """C.recalculate()
 
@@ -44,6 +47,7 @@ class Cam(object):
 
         for transform in [
                 self.__ratio,
+                self.__rot_y,
                 self.__rot_z,
                 self.__scale]:
 
@@ -104,3 +108,15 @@ class Cam(object):
             self.__rot_z[0, 0] = self.__rot_z[1, 1] = numpy.cos(self.__phi)
             self.__rot_z[1, 0] = numpy.sin(self.__phi)
             self.__rot_z[0, 1] = -self.__rot_z[1, 0]
+
+            self.__theta += dy * self.__config.rot_z_speed()
+
+            while self.__theta < -math.pi / 2:
+                self.__theta = -math.pi / 2
+
+            while self.__theta > math.pi / 2:
+                self.__theta = math.pi / 2
+
+            self.__rot_y[0, 0] = self.__rot_y[2, 2] = numpy.cos(self.__theta)
+            self.__rot_y[2, 0] = numpy.sin(self.__theta)
+            self.__rot_y[0, 2] = -self.__rot_y[2, 0]

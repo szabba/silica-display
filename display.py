@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import math
+
 import pyglet
 from pyglet import gl
 
@@ -55,6 +57,11 @@ class Config(object):
         """C.init_phi() -> initial rotation about the z axis"""
 
         return 0.0
+
+    def init_theta(self):
+        """C.init_theta() -> initial rotation about the y axis"""
+
+        return math.pi / 2
 
     def zoom_speed(self):
         """C.zoom_speed() -> zoom speed factor"""
