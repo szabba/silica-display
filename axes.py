@@ -9,6 +9,7 @@ import numpy
 from pyglet import gl
 
 from constants import *
+from utils import *
 import shaders
 
 
@@ -49,6 +50,12 @@ class Axes(object):
 
         self.__color_no_array = self.__color_nos(
                 self.__position_array)
+
+        self.__gl_positions = numpy_to_c(self.__position_array, gl.GLfloat)
+        self.__gl_normals = numpy_to_c(self.__normal_array, gl.GLfloat)
+        self.__gl_color_nos = numpy_to_c(
+                self.__color_no_array.astype('int'),
+                gl.GLint)
 
     def __positions(self):
         """A.__positions() -> ctypes array of gl.GLfloat
@@ -172,21 +179,18 @@ class Axes(object):
         gl.glVertexAttribPointer(
                 self.__position, COORDINATES_PER_VERTEX,
                 gl.GL_FLOAT, gl.GL_FALSE, 0,
-                self.__position_array.ctypes.data_as(
-                       c.POINTER(gl.GLfloat)))
+                self.__gl_positions)
 
         gl.glEnableVertexAttribArray(self.__normal)
         gl.glVertexAttribPointer(
                 self.__normal, COORDINATES_PER_NORMAL,
                 gl.GL_FLOAT, gl.GL_FALSE, 0,
-                self.__normal_array.ctypes.data_as(
-                       c.POINTER(gl.GLfloat)))
+                self.__gl_normals)
 
         gl.glEnableVertexAttribArray(self.__color_no)
         gl.glVertexAttribPointer(
                 self.__color_no, 1, gl.GL_INT, gl.GL_FALSE, 0,
-                self.__color_no_array.ctypes.data_as(
-                       c.POINTER(gl.GLfloat)))
+                self.__gl_color_nos)
 
         gl.glDrawArrays(gl.GL_TRIANGLES,
                 0, self.__position_array.size // COORDINATES_PER_VERTEX)
