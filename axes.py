@@ -84,6 +84,18 @@ class Axes(object):
                     -1 if t_ix_next_wrap in (1, 2, 5, 6) else 1,
                     -1 if t_ix_next_wrap in (2, 3, 6, 7) else 1]
 
+        shift = numpy.array([
+            [0, 1, 0],
+            [0, 0, 1],
+            [1, 0, 0]])
+
+        for axis in range(1, Axes.AXIS_COUNT):
+            for t_ix in range(Axes.TRIANGLES_PER_AXIS):
+                for v_ix in range(VERTICES_PER_TRIANGLE):
+
+                    v = shift.dot(positions[axis - 1][t_ix][v_ix])
+                    positions[axis][t_ix][v_ix] = v
+
         return positions
 
     def __normals(self, positions):
