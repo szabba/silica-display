@@ -14,10 +14,11 @@ void main(void) {
 	vec3 sun_dir = normalize(sun);
 	vec3 normal = normalize(local_normal);
 
-	float I = I_0 * ambient;
+	float I = ambient;
 
+	// FIXME: Ensure proper comparison sign
 	if (dot(sun_dir, normal) > 0) {
-		I += I_0 * dot(sun_dir, normal) * diffuse;
+		I += dot(sun_dir, normal) * diffuse;
 	}
 
 	gl_FragColor.a = 1;
