@@ -148,8 +148,6 @@ class Axes(object):
 
         gl.glUseProgram(self.__program)
 
-        print self.__cam.matrix()
-
         gl.glUniformMatrix4fv(
                 self.__camera, 1, gl.GL_TRUE,
                 self.__cam.gl_matrix())

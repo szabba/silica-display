@@ -46,6 +46,16 @@ class Config(object):
 
         return self.__sun
 
+    def init_scale(self):
+        """C.init_scale() -> initial scaling factor"""
+
+        return 0.05
+
+    def zoom_speed(self):
+        """C.zoom_speed() -> zoom speed factor"""
+
+        return 0.05
+
     def axis_ambient(self):
         """C.axis_ambient() -> gl.GLfloat"""
 

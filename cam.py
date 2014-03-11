@@ -20,6 +20,11 @@ class Cam(object):
 
         self.__ratio = numpy.eye(4)
 
+        self.__s = config.init_scale()
+        self.__scale = numpy.eye(4)
+        for i in range(3):
+            self.__scale[i, i] = self.__s
+
     def recalculate(self):
         """C.recalculate()
 
@@ -29,7 +34,7 @@ class Cam(object):
         if not self.__recalc:
             return
 
-        self.__matrix[:] = self.__ratio
+        self.__matrix[:] = self.__ratio.dot(self.__scale)
 
         for i, elem in enumerate(self.__matrix.flat):
 
@@ -56,3 +61,15 @@ class Cam(object):
         self.__recalc = True
 
         self.__ratio[0, 0] = float(height) / float(width)
+
+    def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
+
+        self.__recalc = True
+
+        if scroll_y < 0:
+            multiplier = (1 - self.__config.zoom_speed()) * abs(scroll_y)
+        else:
+            multiplier = (1 + self.__config.zoom_speed()) * abs(scroll_y)
+
+        for i in range(3):
+            self.__scale[i, i] *= multiplier
