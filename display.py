@@ -89,6 +89,8 @@ class DisplayApp(object):
 
             raise RuntimeError('OpenGL 3.0 required!')
 
+        gl.glEnable(gl.GL_DEPTH_TEST)
+
         pyglet.clock.schedule_interval(
                 self.__tick,
                 1. / self.__config.max_fps())
