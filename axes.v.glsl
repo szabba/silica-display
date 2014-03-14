@@ -3,7 +3,6 @@
 uniform vec3 sun;
 uniform float ambient;
 uniform float diffuse;
-uniform vec3[3] colors;
 uniform mat4 camera = mat4(
 		1, 0, 0, 0,
 		0, 1, 0, 0,
@@ -12,10 +11,10 @@ uniform mat4 camera = mat4(
 
 attribute vec3 position;
 attribute vec3 normal;
-attribute int color_no;
+attribute vec3 color;
 
 varying vec3 local_normal;
-varying vec3 color;
+varying vec3 local_color;
 
 void main(void) {
 
@@ -23,5 +22,5 @@ void main(void) {
 
 	local_normal = normal;
 
-	color = colors[color_no];
+	local_color = color;
 }

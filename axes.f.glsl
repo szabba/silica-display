@@ -5,7 +5,7 @@ uniform float ambient;
 uniform float diffuse;
 
 varying vec3 local_normal;
-varying vec3 color;
+varying vec3 local_color;
 
 void main(void) {
 
@@ -23,5 +23,5 @@ void main(void) {
 
 	gl_FragColor.a = 1;
 
-	gl_FragColor.rgb = I * color;
+	gl_FragColor.rgb = I * local_color;
 }
