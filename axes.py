@@ -29,12 +29,11 @@ class Axes(object):
         self.__sun = self.__uniform_location('sun')
         self.__ambient = self.__uniform_location('ambient')
         self.__diffuse = self.__uniform_location('diffuse')
-        self.__colors = self.__uniform_location('colors')
         self.__camera = self.__uniform_location('camera')
 
         self.__position = self.__attritbute_location('position')
         self.__normal = self.__attritbute_location('normal')
-        self.__color_no = self.__attritbute_location('color_no')
+        self.__color = self.__attritbute_location('color')
 
         self.__axis_colors = (gl.GLfloat * (
             RGB_COMPONENTS * Axes.AXIS_COUNT))(
@@ -48,14 +47,11 @@ class Axes(object):
         self.__normal_array = self.__normals(
                 self.__position_array)
 
-        self.__color_no_array = self.__color_nos(
-                self.__position_array)
+        self.__color_array = self.__colors(self.__position_array)
 
         self.__gl_positions = numpy_to_c(self.__position_array, gl.GLfloat)
         self.__gl_normals = numpy_to_c(self.__normal_array, gl.GLfloat)
-        self.__gl_color_nos = numpy_to_c(
-                self.__color_no_array.astype('int'),
-                gl.GLint)
+        self.__gl_colors = numpy_to_c(self.__color_array, gl.GLfloat)
 
     def __positions(self):
         """A.__positions() -> ctypes array of gl.GLfloat
@@ -126,21 +122,23 @@ class Axes(object):
 
         return normals
 
-    def __color_nos(self, positions):
-        """A.__color_nos(positions) -> ctypes array of gl.GLints
+    def __colors(self, positions):
+        """A.__colors(positions) -> ctypes array of gl.GLfloats
 
-        Color numbers.
+        Colors.
         """
 
-        color_nos = numpy.zeros(positions.size // COORDINATES_PER_VERTEX)
+        colors = numpy.zeros(positions.size)
 
-        color_nos = color_nos.reshape((Axes.AXIS_COUNT, -1))
+        colors = colors.reshape((Axes.AXIS_COUNT, -1, RGB_COMPONENTS))
 
+        color = [1, 0, 0]
         for i in range(Axes.AXIS_COUNT):
 
-            color_nos[i] = i
+            colors[i, :] = color
+            color.append(color.pop(0))
 
-        return color_nos
+        return colors
 
     def __uniform_location(self, name):
         """A.__uniform_location(name) -> location
@@ -183,10 +181,6 @@ class Axes(object):
                 self.__diffuse,
                 self.__config.axis_diffuse())
 
-        gl.glUniform3fv(
-                self.__colors, 1,
-                self.__axis_colors)
-
         gl.glEnableVertexAttribArray(self.__position)
         gl.glVertexAttribPointer(
                 self.__position, COORDINATES_PER_VERTEX,
@@ -199,10 +193,10 @@ class Axes(object):
                 gl.GL_FLOAT, gl.GL_FALSE, 0,
                 self.__gl_normals)
 
-        gl.glEnableVertexAttribArray(self.__color_no)
+        gl.glEnableVertexAttribArray(self.__color)
         gl.glVertexAttribPointer(
-                self.__color_no, 1, gl.GL_INT, gl.GL_FALSE, 0,
-                self.__gl_color_nos)
+                self.__color, RGB_COMPONENTS, gl.GL_FLOAT, gl.GL_FALSE, 0,
+                self.__gl_colors)
 
         gl.glDrawArrays(gl.GL_TRIANGLES,
                 0, self.__position_array.size // COORDINATES_PER_VERTEX)
