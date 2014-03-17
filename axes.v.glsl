@@ -20,7 +20,7 @@ void main(void) {
 
 	gl_Position = camera * vec4(position, 1.0);
 
-	local_normal = normal;
+	local_normal = normalize(normal);
 
 	local_color = color;
 }
