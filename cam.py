@@ -37,6 +37,12 @@ class Cam(object):
         self.__right_hand = numpy.eye(4)
         self.__right_hand[2, 2] = -1
 
+        self.__permute = numpy.array([
+            [0, 1, 0, 0],
+            [0, 0, 1, 0],
+            [1, 0, 0, 0],
+            [0, 0, 0, 1]])
+
     def recalculate(self):
         """C.recalculate()
 
@@ -50,6 +56,7 @@ class Cam(object):
 
         for transform in [
                 self.__right_hand,
+                self.__permute,
                 self.__ratio,
                 self.__rot_y,
                 self.__rot_z,
