@@ -85,9 +85,9 @@ class DisplayApp(object):
         Runs the app.
         """
 
-        if not gl.gl_info.have_version(3, 0):
+        if not gl.gl_info.have_version(2, 1):
 
-            raise RuntimeError('OpenGL 3.0 required!')
+            raise RuntimeError('OpenGL 2.1 required!')
 
         gl.glEnable(gl.GL_DEPTH_TEST)
 
