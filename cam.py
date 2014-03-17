@@ -55,9 +55,9 @@ class Cam(object):
         self.__matrix[:] = numpy.eye(4)
 
         for transform in [
+                self.__ratio,
                 self.__right_hand,
                 self.__permute,
-                self.__ratio,
                 self.__rot_y,
                 self.__rot_z,
                 self.__scale]:
