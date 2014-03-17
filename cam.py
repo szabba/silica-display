@@ -34,6 +34,9 @@ class Cam(object):
         self.__theta = config.init_theta()
         self.__rot_y = numpy.eye(4)
 
+        self.__right_hand = numpy.eye(4)
+        self.__right_hand[2, 2] = -1
+
     def recalculate(self):
         """C.recalculate()
 
@@ -46,6 +49,7 @@ class Cam(object):
         self.__matrix[:] = numpy.eye(4)
 
         for transform in [
+                self.__right_hand,
                 self.__ratio,
                 self.__rot_y,
                 self.__rot_z,
