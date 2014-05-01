@@ -191,6 +191,21 @@ class Camera(object):
             while self.__theta >= 2 * math.pi:
                 self.__theta -= 2 * math.pi
 
+        elif buttons == mouse.RIGHT:
+
+            SR = self.__dot([
+                    self.scale(),
+                    self.rot_y(),
+                    self.rot_z()])
+
+            u = numpy.array([
+                [dx * self.__config.trans_speed()],
+                [dy * self.__config.trans_speed()],
+                [0],
+                [0]])
+
+            self.__trans = self.__trans + numpy.linalg.inv(SR).dot(u)
+
         self.dirty()
 
     def __dot(self, matrices, vect=numpy.array([[0], [0], [5], [1]])):
