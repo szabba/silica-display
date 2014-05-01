@@ -24,6 +24,8 @@ class Camera(object):
         self.__phi = config.init_phi()
         self.__theta = config.init_theta()
 
+        self.__trans = config.init_translation()
+
         self.__matrix = None
         self.__gl_matrix = None
 
@@ -132,6 +134,18 @@ class Camera(object):
 
         return rot_y
 
+    def translate(self):
+
+        translate = numpy.eye(4)
+
+        translate[:, 3] = self.__trans.reshape((4,))
+
+        print "translate"
+        print translate
+        print
+
+        return translate
+
     def dirty(self):
         '''C.dirty()
 
@@ -202,6 +216,7 @@ class Camera(object):
                     self.scale(),
                     self.rot_y(),
                     self.rot_z(),
+                    self.translate(),
                     ])
 
         print self.__matrix

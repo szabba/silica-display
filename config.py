@@ -7,6 +7,8 @@ import math
 import pyglet
 from pyglet import gl
 
+import numpy
+
 from constants import *
 
 
@@ -66,6 +68,11 @@ class Config(object):
         """C.init_theta() -> initial rotation about the y axis"""
 
         return 0
+
+    def init_translation(self):
+        """C.init_translation() -> initial translation vector's coordinates"""
+
+        return numpy.array([[0], [0], [0], [1]])
 
     def zoom_speed(self):
         """C.zoom_speed() -> zoom speed factor"""
