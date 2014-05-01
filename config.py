@@ -39,6 +39,11 @@ class Config(object):
 
         return 32
 
+    def perspective_params(self):
+        """C.perspective_params() -> (d0, d)"""
+
+        return 50.0, 140.0
+
     def sun_direction(self):
         """C.sun_direction() -> a ctypes array of gl.GLfloats
 
