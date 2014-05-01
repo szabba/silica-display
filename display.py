@@ -8,7 +8,7 @@ from pyglet import gl
 import shaders
 from constants import *
 from axes import Axes
-from cam import Cam
+from camera import Camera
 from config import Config
 
 
@@ -48,7 +48,7 @@ class DisplayApp(object):
 
         self.__window = config.create_window()
 
-        cam = Cam(config)
+        cam = Camera(config)
 
         glass = Glass(config, cam)
 
