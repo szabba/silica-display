@@ -84,6 +84,11 @@ class Config(object):
 
         return 0.05
 
+    def trans_speed(self):
+        """C.translation_speed() -> speed of translation"""
+
+        return 2.5
+
     def unit_factor(self):
         """C.unit_factor() -> factor fixing unit sizes"""
 
