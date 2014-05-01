@@ -55,7 +55,7 @@ class Config(object):
     def init_scale(self):
         """C.init_scale() -> initial scaling factor"""
 
-        return 0.05
+        return 10.0
 
     def init_phi(self):
         """C.init_phi() -> initial rotation about the z axis"""
@@ -65,7 +65,7 @@ class Config(object):
     def init_theta(self):
         """C.init_theta() -> initial rotation about the y axis"""
 
-        return math.pi / 2
+        return 0
 
     def zoom_speed(self):
         """C.zoom_speed() -> zoom speed factor"""
@@ -76,6 +76,11 @@ class Config(object):
         """C.rot_z_speed() -> speed of rotation about the z axis"""
 
         return 0.05
+
+    def unit_factor(self):
+        """C.unit_factor() -> factor fixing unit sizes"""
+
+        return 5.
 
     def axis_ambient(self):
         """C.axis_ambient() -> gl.GLfloat"""
