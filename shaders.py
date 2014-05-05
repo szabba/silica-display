@@ -187,13 +187,15 @@ class GLSLType(object):
 
         return getattr(gl, name)
 
+
 class Uniform(object):
     """A GLSL uniform value"""
 
-    def __init__(self, program, uniform):
+    def __init__(self, program, uniform, type):
 
         self.__program = program
         self.__uniform = uniform
+        self.__type = type
 
 
 class Program(object):
