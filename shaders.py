@@ -201,11 +201,12 @@ class GLSLType(object):
 class Uniform(object):
     """A GLSL uniform value"""
 
-    def __init__(self, program, uniform, type):
+    def __init__(self, program, uniform, type, count):
 
         self.__program = program
         self.__uniform = uniform
         self.__type = type
+        self.__count = count
 
 
 class Program(object):
