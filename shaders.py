@@ -136,6 +136,12 @@ class GLSLType(object):
 
             raise NotImplementedError()
 
+    class Scalar(Shape):
+
+        def to_api_string(self):
+
+            return "1"
+
     INT, FLOAT = range(2)
 
     @staticmethod
