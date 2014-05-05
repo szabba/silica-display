@@ -152,6 +152,16 @@ class GLSLType(object):
 
             return str(self.__size)
 
+    class Matrix(Shape):
+
+        def __init__(self, size):
+
+            self.__size = size
+
+        def to_api_string(self):
+
+            return "Matrix" + str(self.__size)
+
     INT, FLOAT = range(2)
 
     @staticmethod
