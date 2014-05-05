@@ -164,46 +164,10 @@ class GLSLType(object):
 
     INT, FLOAT = range(2)
 
-    @staticmethod
-    def enshape(shape):
-        """GLSLType.enshape(shape) -> shape
-
-        Takes the given shape and returns it's "normal form".
-        """
-
-        if isinstance(shape, int):
-
-            return (shape, 1)
-
-        elif isinstance(shape, tuple) and len(shape) == 2:
-
-            fst, snd = shape
-
-            if fst == 1:
-
-                return (snd, fst)
-
-            return shape
-
-        else:
-
-            raise ValueError(
-                    ("A GLSLType shape must be an integer or a two-integer" +
-                        " tuple, not an %s") % type(shape))
-
-    def __init__(self, element_type, shape=1):
-
-        if element_type not in (GLSLType.INT, GLSLType.FLOAT):
-
-            raise ValueError(
-                    "A GLSLType element_type must be either GLSLType.INT" +\
-                            " or GLSLType.FLOAT")
-
-        shape = GLSLType.enshape(shape)
+    def __init__(self, element_type, shape=Scalar()):
 
         if (shape not in [(1, 1), (2, 1), (3, 1), (4, 1)] and
-                element_type == GLSLType.INT
-                ):
+                element_type == GLSLType.INT):
 
             raise ValueError(
                 "GLSL matrices cannot have integer elements in Opengl 2.1!")
