@@ -148,3 +148,11 @@ class Program(object):
         """
 
         gl.glUseProgram(0)
+
+    def __enter__(self):
+
+        self.use()
+
+    def __exit__(self):
+
+        self.unuse()
