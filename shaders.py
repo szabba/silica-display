@@ -185,7 +185,17 @@ class GLSLType(object):
 
         name += 'v'
 
-        return getattr(gl, name)
+        setter = getattr(gl, name)
+
+        if not isinstance(self.__shape, GLSLType.Matrix):
+
+            return setter
+
+        def better_setter(locus, count, data):
+
+            setter(locus, count, gl.GL_TRUE, data)
+
+        return better_setter
 
 
 class Uniform(object):
