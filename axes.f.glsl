@@ -15,11 +15,9 @@ void main(void) {
 
 	float I = ambient;
 
-	// FIXME: Ensure proper comparison sign
-	if (dot(sun_dir, local_normal) > 0) {
-		I += dot(sun_dir, local_normal) * diffuse;
-	}
-
+	//if (dot(sun_dir, local_normal) > 0) {
+	//	I += dot(sun_dir, local_normal) * diffuse;
+	//}
 	gl_FragColor.a = 1;
 
 	gl_FragColor.rgb = I * local_color;

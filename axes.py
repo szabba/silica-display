@@ -187,11 +187,19 @@ class Axes(object):
                 gl.GL_FLOAT, gl.GL_FALSE, 0,
                 self.__gl_positions)
 
-        gl.glEnableVertexAttribArray(self.__normal)
-        gl.glVertexAttribPointer(
-                self.__normal, COORDINATES_PER_NORMAL,
-                gl.GL_FLOAT, gl.GL_FALSE, 0,
-                self.__gl_normals)
+        # FIXME: Remove the if once it's unnecessary (the OpenGL
+        # compilers seem to optimize the normal attribute away when it's
+        buffy = (1 * gl.GLint)()
+        gl.glGetIntegerv(
+                gl.GL_MAX_VERTEX_ATTRIBS,
+                buffy)
+        max_atribx = buffy[0]
+        if 0 < self.__normal <= max_atribx:
+            gl.glEnableVertexAttribArray(self.__normal)
+            gl.glVertexAttribPointer(
+                    self.__normal, COORDINATES_PER_NORMAL,
+                    gl.GL_FLOAT, gl.GL_FALSE, 0,
+                    self.__gl_normals)
 
         gl.glEnableVertexAttribArray(self.__color)
         gl.glVertexAttribPointer(
