@@ -175,6 +175,17 @@ class GLSLType(object):
         self.__elem_type = element_type
         self.__shape = shape
 
+    def uniform_setter(self):
+
+        name = 'glUniform'
+
+        name += self.__shape.to_api_string()
+
+        name += 'i' if self.__elem_type == GLSLType.INT else 'f'
+
+        name += 'v'
+
+        return getattr(gl, name)
 
 class Uniform(object):
     """A GLSL uniform value"""
