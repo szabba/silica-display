@@ -2,7 +2,7 @@
 
 __all__ = [
         'check_shader', 'check_program', 'load_shader', 'build_program',
-        'Program']
+        'Program', 'GLSLType']
 
 
 import ctypes as c
@@ -124,6 +124,53 @@ def build_program(name):
     # If everything is ok -- return the program
     check_program(program)
     return program
+
+
+class GLSLType(object):
+
+    SCALAR, VECT, MATRIX = range(3)
+    INT, FLOAT = range(2)
+
+    @staticmethod
+    def enshape(shape):
+        """GLSLType.enshape(shape) -> shape
+
+        Takes the given shape and returns it's "normal form".
+        """
+
+        if isinstance(shape, int):
+
+            return (shape, 1)
+
+        elif isinstance(shape, tuple) and len(shape) == 2:
+
+            fst, snd = shape
+
+            if fst == 1:
+
+                return (snd, fst)
+
+            return shape
+
+        else:
+
+            raise ValueError(
+                    ("A GLSLType shape must be an integer or a two-integer" +
+                        " tuple, not an %s") % type(shape))
+
+    def __init__(self, element_type, shape=1):
+
+        shape = GLSLType.enshape(shape)
+
+        if (shape not in [(1, 1), (2, 1), (3, 1), (4, 1)] and
+                element_type == INT
+                ):
+
+            raise ValueError(
+                "GLSL matrices cannot have integer elements in Opengl 2.1!")
+
+        self.__elem_type = element_type
+        self.__shape = shape
 
 
 class Uniform(object):
