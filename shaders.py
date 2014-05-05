@@ -132,3 +132,19 @@ class Program(object):
     def __init__(self, name):
 
         self.__program = build_program(name)
+
+    def use(self):
+        """P.use()
+
+        Enables the program for rendering.
+        """
+
+        gl.glUseProgram(self.__program)
+
+    def unuse(self):
+        """P.unuse()
+
+        Disable the program for rendering.
+        """
+
+        gl.glUseProgram(0)
