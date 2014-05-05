@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['check_shader', 'check_program', 'load_shader', 'build_program']
+__all__ = [
+        'check_shader', 'check_program', 'load_shader', 'build_program',
+        'Program']
 
 
 import ctypes as c
@@ -122,3 +124,11 @@ def build_program(name):
     # If everything is ok -- return the program
     check_program(program)
     return program
+
+
+class Program(object):
+    """A GLSL shader program"""
+
+    def __init__(self, name):
+
+        self.__program = build_program(name)
