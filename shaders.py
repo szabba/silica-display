@@ -162,7 +162,7 @@ class GLSLType(object):
 
             return "Matrix" + str(self.__size)
 
-    INT, FLOAT = range(2)
+    INT, FLOAT = gl.GLint, gl.GLfloat
 
     def __init__(self, element_type, shape=Scalar()):
 
