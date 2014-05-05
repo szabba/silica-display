@@ -142,6 +142,16 @@ class GLSLType(object):
 
             return "1"
 
+    class Vector(Shape):
+
+        def __init__(self, size):
+
+            self.__size = size
+
+        def to_api_string(self):
+
+            return str(self.__size)
+
     INT, FLOAT = range(2)
 
     @staticmethod
