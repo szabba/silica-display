@@ -126,6 +126,15 @@ def build_program(name):
     return program
 
 
+class Uniform(object):
+    """A GLSL uniform value"""
+
+    def __init__(self, program, uniform):
+
+        self.__program = program
+        self.__uniform = uniform
+
+
 class Program(object):
     """A GLSL shader program"""
 
