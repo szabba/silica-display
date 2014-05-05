@@ -160,10 +160,16 @@ class GLSLType(object):
 
     def __init__(self, element_type, shape=1):
 
+        if element_type not in (GLSLType.INT, GLSLType.FLOAT):
+
+            raise ValueError(
+                    "A GLSLType element_type must be either GLSLType.INT" +\
+                            " or GLSLType.FLOAT")
+
         shape = GLSLType.enshape(shape)
 
         if (shape not in [(1, 1), (2, 1), (3, 1), (4, 1)] and
-                element_type == INT
+                element_type == GLSLType.INT
                 ):
 
             raise ValueError(
