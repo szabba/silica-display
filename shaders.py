@@ -127,8 +127,15 @@ def build_program(name):
 
 
 class GLSLType(object):
+    """A GLSL type representation"""
 
-    SCALAR, VECT, MATRIX = range(3)
+    class Shape(object):
+        """A shape of a GLSL value"""
+
+        def to_api_string(self):
+
+            raise NotImplementedError()
+
     INT, FLOAT = range(2)
 
     @staticmethod
