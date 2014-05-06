@@ -256,6 +256,12 @@ class Uniform(object):
 
         return self.__fill == len(self.__buf)
 
+    def set(self):
+
+        setter = self.__type.uniform_setter()
+
+        setter(self.__uniform, self.__count, self.__buf)
+
 
 class Program(object):
     """A GLSL shader program"""
