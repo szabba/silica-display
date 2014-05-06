@@ -136,11 +136,19 @@ class GLSLType(object):
 
             raise NotImplementedError()
 
+        def value_count(self):
+
+            raise NotImplementedError()
+
     class Scalar(Shape):
 
         def to_api_string(self):
 
             return "1"
+
+        def value_count(self):
+
+            return 1
 
     class Vector(Shape):
 
@@ -152,6 +160,10 @@ class GLSLType(object):
 
             return str(self.__size)
 
+        def value_count(self):
+
+            return self.__size
+
     class Matrix(Shape):
 
         def __init__(self, size):
@@ -161,6 +173,10 @@ class GLSLType(object):
         def to_api_string(self):
 
             return "Matrix" + str(self.__size)
+
+        def value_count(self):
+
+            return self.__size
 
     INT, FLOAT = gl.GLint, gl.GLfloat
 
