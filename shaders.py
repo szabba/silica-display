@@ -242,6 +242,11 @@ class Uniform(object):
 
         self.__fill += len(values)
 
+    def filled(self):
+
+        return self.__fill == len(self.__buf)
+
+
 class Program(object):
     """A GLSL shader program"""
 
