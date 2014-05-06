@@ -191,6 +191,10 @@ class GLSLType(object):
         self.__elem_type = element_type
         self.__shape = shape
 
+    def element_type(self):
+
+        return self.__elem_type
+
     def uniform_setter(self):
 
         name = 'glUniform'
