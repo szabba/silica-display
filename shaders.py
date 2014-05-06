@@ -228,6 +228,19 @@ class Uniform(object):
         self.__type = type
         self.__count = count
 
+        element_type = self.__type.element_type()
+        value_count = self.__type.value_count()
+
+        self.__buf = (element_type * (value_count * count))()
+        self.__fill = 0
+
+    def add(self, *values):
+
+        for i, value in enumerate(values):
+
+            self.__buf[self.__fill + i] = value
+
+        self.__fill += len(values)
 
 class Program(object):
     """A GLSL shader program"""
