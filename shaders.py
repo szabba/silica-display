@@ -236,6 +236,12 @@ class Uniform(object):
 
     def add(self, *values):
 
+        if len(values) != self.__type.value_count():
+
+            raise TypeError(
+                    'This uniform requires %d components per value.' %
+                    self.__type.value_count())
+
         for i, value in enumerate(values):
 
             self.__buf[self.__fill + i] = value
