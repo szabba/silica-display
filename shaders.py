@@ -281,6 +281,15 @@ class Program(object):
 
         return self.__uniforms[name]
 
+    def triangle_list(self):
+        """P.triangle_list() -> a TriangleList
+
+        Produces a triangle list that can be used to draw with the given
+        program.
+        """
+
+        return TriangleList(self)
+
     def use(self):
         """P.use()
 
