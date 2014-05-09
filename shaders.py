@@ -304,3 +304,11 @@ class Program(object):
     def __exit__(self):
 
         self.unuse()
+
+
+class TriangleList(object):
+    """A set of data that can be used with a program to draw something."""
+
+    def __init__(self, program):
+
+        self.__program = program
