@@ -269,6 +269,17 @@ class Program(object):
     def __init__(self, name):
 
         self.__program = build_program(name)
+        self.__uniforms = {}
+
+    def uniform(self, name, type, count):
+
+        location = gl.glGetUniformLocation(
+                self.__program, name)
+
+        self.__uniforms[name] = Uniform(
+                self.__program, name, type, count)
+
+        return self.__uniforms[name]
 
     def use(self):
         """P.use()
