@@ -281,11 +281,11 @@ class Program(object):
 
         return self.__uniforms[name]
 
-    def triangle_list(self):
-        """P.triangle_list() -> a TriangleList
+    def triangle_list(self, count):
+        """P.triangle_list(count) -> a TriangleList
 
-        Produces a triangle list that can be used to draw with the given
-        program.
+        Produces a triangle list that can be used to draw count triangles with
+        the given shader program.
         """
 
         return TriangleList(self)
@@ -318,6 +318,7 @@ class Program(object):
 class TriangleList(object):
     """A set of data that can be used with a program to draw something."""
 
-    def __init__(self, program):
+    def __init__(self, program, count):
 
         self.__program = program
+        self.__count = count
