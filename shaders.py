@@ -314,7 +314,7 @@ class Attribute(object):
                 self.__components_per_vertex(),
                 self.__gl_type.element_type(),
                 gl.GL_FALSE, 0,
-                data.data_for(attribute))
+                source)
 
     def gl_type(self):
         """A.gl_type() -> GLSLType"""
