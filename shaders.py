@@ -270,12 +270,23 @@ class Uniform(object):
 class Attribute(object):
     """A GLSL attribute"""
 
-    def __init__(self, gl_program, gl_id, gl_type, per_vertex):
+    def __init__(self, gl_program, gl_id, gl_type, values_per_vertex):
 
         self.__gl_program = gl_program
         self.__gl_id = gl_id
         self.__gl_type = gl_type
-        self.__per_vertex = per_vertex
+        self.__values_per_vertex = values_per_vertex
+
+    def __components_per_vertex(self):
+        """A.__components_per_vertex() -> int
+
+        The number of components that need to be specified each at each vertex.
+        """
+
+        components_per_value = self.__gl_type.shape().size()
+        values_per_vertex = self.__values_per_vertex
+
+        return components_per_value * values_per_vertex
 
 
     def c_array_for(self, triangle_count):
@@ -287,9 +298,8 @@ class Attribute(object):
 
         element_type = self.__gl_type.element_type()
 
-        components_per_vertex = self.__gl_type.shape().size()
-
-        size = triangle_count * VERTICES_PER_TRIANGLE * components_per_vertex
+        size = (triangle_count * VERTICES_PER_TRIANGLE *
+                self.__components_per_vertex())
 
         return (element_type * size)()
 
