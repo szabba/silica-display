@@ -263,6 +263,17 @@ class Uniform(object):
         setter(self.__uniform, self.__count, self.__buf)
 
 
+class Attribute(object):
+    """A GLSL attribute"""
+
+    def __init__(self, gl_program, gl_id, gl_type, per_vertex):
+
+        self.__gl_program = gl_program
+        self.__gl_id = gl_id
+        self.__gl_type = gl_type
+        self.__per_vertex = per_vertex
+
+
 class Program(object):
     """A GLSL shader program"""
 
