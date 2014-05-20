@@ -316,6 +316,11 @@ class Attribute(object):
                 gl.GL_FALSE, 0,
                 data.data_for(attribute))
 
+    def gl_type(self):
+        """A.gl_type() -> GLSLType"""
+
+        return self.__gl_type
+
 
 class Program(object):
     """A GLSL shader program"""
