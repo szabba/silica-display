@@ -278,6 +278,22 @@ class Attribute(object):
         self.__per_vertex = per_vertex
 
 
+    def c_array_for(self, triangle_count):
+        """A.c_array_for(triangle_count) -> a ctypes array
+
+        Creates a ctypes array with size and type appropriate for this
+        attribute.
+        """
+
+        element_type = self.__gl_type.element_type()
+
+        components_per_vertex = self.__gl_type.shape().size()
+
+        size = triangle_count * VERTICES_PER_TRIANGLE * components_per_vertex
+
+        return (element_type * size)()
+
+
 class Program(object):
     """A GLSL shader program"""
 
