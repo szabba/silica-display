@@ -392,3 +392,7 @@ class TriangleList(object):
         self.__program = program
         self.__count = count
         self.__attrs = attrs
+
+        self.__arrays = {}
+        for name, attr in self.__attrs.items():
+            self.__arrays[name] = attr.c_array_for(self.__count)
