@@ -217,6 +217,10 @@ class GLSLType(object):
 
         return better_setter
 
+    def shape(self):
+
+        return self.__shape
+
 
 class Uniform(object):
     """A GLSL uniform value"""
