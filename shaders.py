@@ -270,9 +270,8 @@ class Uniform(object):
 class Attribute(object):
     """A GLSL attribute"""
 
-    def __init__(self, gl_program, gl_id, gl_type, values_per_vertex):
+    def __init__(self, gl_id, gl_type, values_per_vertex):
 
-        self.__gl_program = gl_program
         self.__gl_id = gl_id
         self.__gl_type = gl_type
         self.__values_per_vertex = values_per_vertex
@@ -325,6 +324,7 @@ class Program(object):
 
         self.__program = build_program(name)
         self.__uniforms = {}
+        self.__attributes = {}
 
     def uniform(self, name, type, count):
 
@@ -335,6 +335,16 @@ class Program(object):
                 self.__program, name, type, count)
 
         return self.__uniforms[name]
+
+    def attribute(self, name, type, values_per_vertex):
+
+        location = gl.glGetAttribLocation(
+                self.__program, name)
+
+        self.__attributes[name] = Attribute(
+                location, type, values_per_vertex)
+
+        return self.__attributes[name]
 
     def triangle_list(self, count):
         """P.triangle_list(count) -> a TriangleList
