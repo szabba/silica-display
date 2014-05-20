@@ -328,21 +328,25 @@ class Program(object):
 
     def uniform(self, name, type, count):
 
-        location = gl.glGetUniformLocation(
-                self.__program, name)
+        if name not in self.__uniforms:
 
-        self.__uniforms[name] = Uniform(
-                self.__program, name, type, count)
+            location = gl.glGetUniformLocation(
+                    self.__program, name)
+
+            self.__uniforms[name] = Uniform(
+                    self.__program, name, type, count)
 
         return self.__uniforms[name]
 
     def attribute(self, name, type, values_per_vertex):
 
-        location = gl.glGetAttribLocation(
-                self.__program, name)
+        if name not in self.__attributes:
 
-        self.__attributes[name] = Attribute(
-                location, type, values_per_vertex)
+            location = gl.glGetAttribLocation(
+                    self.__program, name)
+
+            self.__attributes[name] = Attribute(
+                    location, type, values_per_vertex)
 
         return self.__attributes[name]
 
