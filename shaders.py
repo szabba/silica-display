@@ -416,3 +416,19 @@ class TriangleList(object):
             for i in range(len(array)):
 
                 array[i] = source[i]
+
+    def __enter__(self):
+
+        self.__program.use()
+
+        for name, attr in self.__attrs.items():
+
+            array = self.__arrays[name]
+
+            attr.set(array)
+
+            gl.glDrawArrays(gl.GL_TRIANGLES, 0, self.__count)
+
+    def __exit__(self):
+
+        self.__program.unuse()
