@@ -303,6 +303,20 @@ class Attribute(object):
 
         return (element_type * size)()
 
+    def set(self, source):
+        """A.set(source)
+
+        Set the given attribute's value using the source for data.
+        """
+
+        gl.glEnableVertexAttribArray(self.__gl_id)
+        gl.glVertexAttribPointer(
+                self.__gl_id,
+                self.__components_per_vertex(),
+                self.__gl_type.element_type(),
+                gl.GL_FALSE, 0,
+                data.data_for(attribute))
+
 
 class Program(object):
     """A GLSL shader program"""
