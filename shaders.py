@@ -401,3 +401,18 @@ class TriangleList(object):
         self.__arrays = {}
         for name, attr in self.__attrs.items():
             self.__arrays[name] = attr.c_array_for(self.__count)
+
+    def from_ndarrays(self, arrays):
+        """TL.from_ndarrays(arrays)
+
+        Loads the data for all the attributes from an dictionary of ndarrays
+        containing the data. The arrays get implicitly flattened before use.
+        """
+
+        for name, array in self.__arrays.items():
+
+            source = arrays[name].flatten()
+
+            for i in range(len(array)):
+
+                array[i] = source[i]
