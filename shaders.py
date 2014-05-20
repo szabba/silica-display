@@ -357,7 +357,7 @@ class Program(object):
         the given shader program.
         """
 
-        return TriangleList(self)
+        return TriangleList(self, count, self.__attributes)
 
     def use(self):
         """P.use()
@@ -387,7 +387,8 @@ class Program(object):
 class TriangleList(object):
     """A set of data that can be used with a program to draw something."""
 
-    def __init__(self, program, count):
+    def __init__(self, program, count, attrs):
 
         self.__program = program
         self.__count = count
+        self.__attrs = attrs
