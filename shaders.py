@@ -276,8 +276,8 @@ class Attribute(object):
         self.__gl_type = gl_type
         self.__values_per_vertex = values_per_vertex
 
-    def __components_per_vertex(self):
-        """A.__components_per_vertex() -> int
+    def components_per_vertex(self):
+        """A.components_per_vertex() -> int
 
         The number of components that need to be specified each at each vertex.
         """
@@ -298,7 +298,7 @@ class Attribute(object):
         element_type = self.__gl_type.element_type()
 
         size = (triangle_count * VERTICES_PER_TRIANGLE *
-                self.__components_per_vertex())
+                self.components_per_vertex())
 
         return (element_type * size)()
 
