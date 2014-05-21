@@ -415,6 +415,7 @@ class Program(object):
     def __enter__(self):
 
         self.use()
+        return self
 
     def __exit__(self):
 
@@ -461,6 +462,8 @@ class TriangleList(object):
             array = self.__arrays[name]
 
             attr.set(array)
+
+        return self
 
     def draw(self):
         """TL.draw()
