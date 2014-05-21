@@ -7,6 +7,7 @@ __all__ = [
 
 import ctypes as c
 
+import numpy
 from pyglet import gl
 
 
@@ -421,16 +422,19 @@ class TriangleList(object):
         for name, attr in self.__attrs.items():
             self.__arrays[name] = attr.c_array_for(self.__count)
 
-    def from_ndarrays(self, arrays):
-        """TL.from_ndarrays(arrays)
+    def from_arrays(self, arrays):
+        """TL.from_arrays(arrays)
 
         Loads the data for all the attributes from an dictionary of ndarrays
-        containing the data. The arrays get implicitly flattened before use.
+        and other sequences containing the data. The arrays get implicitly
+        flattened before use.
         """
 
         for name, array in self.__arrays.items():
 
-            source = arrays[name].flatten()
+            source = arrays[name]
+            if isinstance(source, numpy.ndarray):
+                source = source.flatten()
 
             for i in range(len(array)):
 
