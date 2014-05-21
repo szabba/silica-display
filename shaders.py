@@ -215,6 +215,16 @@ class GLSLType(object):
 
         return self.__elem_type
 
+    def element_type_tag(self):
+
+        if self.element_type() is gl.GLint:
+
+            return gl.GL_INT
+
+        elif self.element_type() is gl.GLfloat:
+
+            return gl.GL_FLOAT
+
     def uniform_setter(self):
 
         name = 'glUniform'
