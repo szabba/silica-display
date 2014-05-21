@@ -325,13 +325,15 @@ class Attribute(object):
         Set the given attribute's value using the source for data.
         """
 
-        gl.glEnableVertexAttribArray(self.__gl_id)
-        gl.glVertexAttribPointer(
-                self.__gl_id,
-                self.__components_per_vertex(),
-                self.__gl_type.element_type(),
-                gl.GL_FALSE, 0,
-                source)
+        if 0 < self.__gl_id <= _MAX_VERTEX_ATTRIB:
+
+            gl.glEnableVertexAttribArray(self.__gl_id)
+            gl.glVertexAttribPointer(
+                    self.__gl_id,
+                    self.components_per_vertex(),
+                    self.__gl_type.element_type_tag(),
+                    gl.GL_FALSE, 0,
+                    source)
 
     def gl_type(self):
         """A.gl_type() -> GLSLType"""
