@@ -417,7 +417,7 @@ class Program(object):
         self.use()
         return self
 
-    def __exit__(self):
+    def __exit__(self, type, value, traceback):
 
         self.unuse()
 
@@ -473,6 +473,6 @@ class TriangleList(object):
 
         gl.glDrawArrays(gl.GL_TRIANGLES, 0, self.__count)
 
-    def __exit__(self):
+    def __exit__(self, type, value, traceback):
 
         self.__program.unuse()
