@@ -427,7 +427,13 @@ class TriangleList(object):
 
             attr.set(array)
 
-            gl.glDrawArrays(gl.GL_TRIANGLES, 0, self.__count)
+    def draw(self):
+        """TL.draw()
+
+        Draws the triangle list on screen.
+        """
+
+        gl.glDrawArrays(gl.GL_TRIANGLES, 0, self.__count)
 
     def __exit__(self):
 
