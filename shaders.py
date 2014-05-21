@@ -126,6 +126,23 @@ def build_program(name):
     return program
 
 
+def __max_vertex_attribute():
+    """__max_vertex_attribute() -> int
+
+    Maximal valid value for vertex attribute identifiers.
+    """
+
+    buffy = (1 * gl.GLint)()
+    gl.glGetIntegerv(
+            gl.GL_MAX_VERTEX_ATTRIBS,
+            buffy)
+
+    return buffy[0]
+
+
+_MAX_VERTEX_ATTRIB = __max_vertex_attribute()
+
+
 class GLSLType(object):
     """A GLSL type representation"""
 
