@@ -194,7 +194,7 @@ class GLSLType(object):
 
         def value_count(self):
 
-            return self.__size
+            return self.__size * self.__size
 
     INT, FLOAT = gl.GLint, gl.GLfloat
 
