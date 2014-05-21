@@ -363,7 +363,7 @@ class Program(object):
         self.__uniforms = {}
         self.__attributes = {}
 
-    def uniform(self, name, type, count):
+    def uniform(self, name, type, count=1):
 
         if name not in self.__uniforms:
 
@@ -375,7 +375,7 @@ class Program(object):
 
         return self.__uniforms[name]
 
-    def attribute(self, name, type, values_per_vertex):
+    def attribute(self, name, type, values_per_vertex=1):
 
         if name not in self.__attributes:
 
