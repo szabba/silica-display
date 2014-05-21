@@ -24,34 +24,45 @@ class Axes(object):
         self.__config = config
         self.__cam = cam
 
-        self.__program = shaders.build_program('axes')
+        self.__program = shaders.Program('axes')
 
-        self.__sun = self.__uniform_location('sun')
-        self.__ambient = self.__uniform_location('ambient')
-        self.__diffuse = self.__uniform_location('diffuse')
-        self.__camera = self.__uniform_location('camera')
+        self.__sun = self.__program.uniform(
+                'sun',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
-        self.__position = self.__attritbute_location('position')
-        self.__normal = self.__attritbute_location('normal')
-        self.__color = self.__attritbute_location('color')
+        self.__ambient = self.__program.uniform(
+                'ambient',
+                shaders.GLSLType(gl.GLfloat))
 
-        self.__axis_colors = (gl.GLfloat * (
-            RGB_COMPONENTS * Axes.AXIS_COUNT))(
-                    *[
-                        1, 0, 0,
-                        0, 1, 0,
-                        0, 0, 1])
+        self.__diffuse = self.__program.uniform(
+                'diffuse',
+                shaders.GLSLType(gl.GLfloat))
 
-        self.__position_array = self.__positions()
+        self.__camera = self.__program.uniform(
+                'camera',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Matrix(4)))
 
-        self.__normal_array = self.__normals(
-                self.__position_array)
+        self.__program.attribute(
+                'position',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
-        self.__color_array = self.__colors(self.__position_array)
+        self.__program.attribute(
+                'normal',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
-        self.__gl_positions = numpy_to_c(self.__position_array, gl.GLfloat)
-        self.__gl_normals = numpy_to_c(self.__normal_array, gl.GLfloat)
-        self.__gl_colors = numpy_to_c(self.__color_array, gl.GLfloat)
+        self.__program.attribute(
+                'color',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        self.__triangles = self.__program.triangle_list(
+                Axes.AXIS_COUNT * Axes.TRIANGLES_PER_AXIS)
+
+        pos_arr = self.__positions()
+
+        self.__triangles.from_arrays(dict(
+            color=self.__colors(pos_arr),
+            normal=self.__normals(pos_arr),
+            position=pos_arr))
 
     def __positions(self):
         """A.__positions() -> ctypes array of gl.GLfloat
@@ -163,50 +174,22 @@ class Axes(object):
         gl.glClearColor(1, 1, 1, 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
-        gl.glUseProgram(self.__program)
+        with self.__triangles as triangles:
 
-        gl.glUniformMatrix4fv(
-                self.__camera, 1, gl.GL_TRUE,
-                self.__cam.gl_matrix())
+            if not self.__camera.filled():
+                self.__camera.add(*self.__cam.gl_matrix())
+            self.__camera.set()
 
-        gl.glUniform3fv(
-                self.__sun, 1,
-                self.__config.sun_direction())
+            if not self.__sun.filled():
+                self.__sun.add(*self.__config.sun_direction())
+            self.__sun.set()
 
-        gl.glUniform1f(
-                self.__ambient,
-                self.__config.axis_ambient())
+            if not self.__ambient.filled():
+                self.__ambient.add(self.__config.axis_ambient())
+            self.__ambient.set()
 
-        gl.glUniform1f(
-                self.__diffuse,
-                self.__config.axis_diffuse())
+            if not self.__diffuse.filled():
+                self.__diffuse.add(self.__config.axis_diffuse())
+            self.__diffuse.set()
 
-        gl.glEnableVertexAttribArray(self.__position)
-        gl.glVertexAttribPointer(
-                self.__position, COORDINATES_PER_VERTEX,
-                gl.GL_FLOAT, gl.GL_FALSE, 0,
-                self.__gl_positions)
-
-        # FIXME: Remove the if once it's unnecessary (the OpenGL
-        # compilers seem to optimize the normal attribute away when it's
-        buffy = (1 * gl.GLint)()
-        gl.glGetIntegerv(
-                gl.GL_MAX_VERTEX_ATTRIBS,
-                buffy)
-        max_atribx = buffy[0]
-        if 0 < self.__normal <= max_atribx:
-            gl.glEnableVertexAttribArray(self.__normal)
-            gl.glVertexAttribPointer(
-                    self.__normal, COORDINATES_PER_NORMAL,
-                    gl.GL_FLOAT, gl.GL_FALSE, 0,
-                    self.__gl_normals)
-
-        gl.glEnableVertexAttribArray(self.__color)
-        gl.glVertexAttribPointer(
-                self.__color, RGB_COMPONENTS, gl.GL_FLOAT, gl.GL_FALSE, 0,
-                self.__gl_colors)
-
-        gl.glDrawArrays(gl.GL_TRIANGLES,
-                0, self.__position_array.size // COORDINATES_PER_VERTEX)
-
-        gl.glUseProgram(0)
+            triangles.draw()
