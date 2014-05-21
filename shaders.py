@@ -251,18 +251,18 @@ class Uniform(object):
         self.__count = count
 
         element_type = self.__type.element_type()
-        value_count = self.__type.value_count()
+        value_count = self.__type.shape().value_count()
 
         self.__buf = (element_type * (value_count * count))()
         self.__fill = 0
 
     def add(self, *values):
 
-        if len(values) != self.__type.value_count():
+        if len(values) != self.__type.shape().value_count():
 
             raise TypeError(
                     'This uniform requires %d components per value.' %
-                    self.__type.value_count())
+                    self.__type.shape().value_count())
 
         for i, value in enumerate(values):
 
@@ -300,7 +300,7 @@ class Attribute(object):
         The number of components that need to be specified each at each vertex.
         """
 
-        components_per_value = self.__gl_type.shape().size()
+        components_per_value = self.__gl_type.shape().value_count()
         values_per_vertex = self.__values_per_vertex
 
         return components_per_value * values_per_vertex
