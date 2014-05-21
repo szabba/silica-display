@@ -10,6 +10,8 @@ import ctypes as c
 import numpy
 from pyglet import gl
 
+from constants import *
+
 
 SHADER_TYPES = {
         'v': gl.GL_VERTEX_SHADER,
