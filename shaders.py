@@ -371,7 +371,7 @@ class Program(object):
                     self.__program, name)
 
             self.__uniforms[name] = Uniform(
-                    self.__program, name, type, count)
+                    self.__program, location, type, count)
 
         return self.__uniforms[name]
 
