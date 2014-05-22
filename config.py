@@ -2,6 +2,7 @@
 
 __all__ = ['Config']
 
+import os.path
 import math
 
 import pyglet
@@ -40,6 +41,17 @@ class Config(object):
         """
 
         return 32
+
+    def grid_file(self):
+        """C.grid_file() -> filename
+
+        Filename of the grid file.
+        """
+
+        return os.path.join(
+                os.path.dirname(os.path.dirname(os.path.abspath(__name__))),
+                'SYM0',
+                'data50x50x50t9000_102870.dat')
 
     def perspective_params(self):
         """C.perspective_params() -> (d0, d)"""
