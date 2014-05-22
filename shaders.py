@@ -471,7 +471,9 @@ class TriangleList(object):
         Draws the triangle list on screen.
         """
 
-        gl.glDrawArrays(gl.GL_TRIANGLES, 0, self.__count)
+        gl.glDrawArrays(
+                gl.GL_TRIANGLES, 0,
+                self.__count * VERTICES_PER_TRIANGLE)
 
     def __exit__(self, type, value, traceback):
 
