@@ -8,17 +8,9 @@ from pyglet import gl
 import shaders
 from constants import *
 from axes import Axes
+from glass import Glass
 from camera import Camera
 from config import Config
-
-
-class Glass(object):
-    """The glass (or it's visible part)"""
-
-    def __init__(self, config, cam):
-
-        self.__config = config
-        self.__cam = cam
 
 
 class Particles(object):
