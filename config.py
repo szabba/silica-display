@@ -53,6 +53,15 @@ class Config(object):
                 'SYM0',
                 'data50x50x50t9000_102870.dat')
 
+    def limits(self):
+        """C.limits() -> x_min, x_max, y_min, y_max, z_min, z_max
+
+        Limits of what part of the glass is visible. Integers or NoneS (for no
+        limit).
+        """
+
+        return 1, 7, 3, 5, 7, 9
+
     def perspective_params(self):
         """C.perspective_params() -> (d0, d)"""
 
