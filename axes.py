@@ -176,8 +176,8 @@ class Axes(object):
 
         with self.__triangles as triangles:
 
-            if not self.__camera.filled():
-                self.__camera.add(*self.__cam.gl_matrix())
+            self.__camera.clear()
+            self.__camera.add(*self.__cam.gl_matrix())
             self.__camera.set()
 
             if not self.__sun.filled():
