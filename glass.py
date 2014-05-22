@@ -15,7 +15,7 @@ def guess_size(filename):
 
     match = re.match(
             r'data(?P<w>\d+)x(?P<h>\d+)x(?P<d>\d+)t\d+_\d+.dat',
-            filename)
+            os.path.basename(filename))
 
     if match is None:
         raise ValueError(
