@@ -3,6 +3,7 @@
 __all__ = ['Glass']
 
 
+import os.path
 import re
 
 
@@ -24,6 +25,18 @@ def guess_size(filename):
             int(match.groupdict()['w']),
             int(match.groupdict()['h']),
             int(match.groupdict()['d']))
+
+
+def grid_lines(filename):
+    """grid_lines(filename) -> iter
+
+    Returns an iterator ranging over the lines of a grid file.
+    """
+
+    with open(filename) as grid_file:
+        for line in grid_file:
+
+            yield tuple(map(int, line.split(' ')))
 
 
 class Glass(object):
