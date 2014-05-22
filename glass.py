@@ -6,6 +6,8 @@ __all__ = ['Glass']
 import os.path
 import re
 
+import numpy
+
 
 def guess_size(filename):
     """guess_size(filename) -> widht, height, depth
@@ -46,3 +48,21 @@ class Glass(object):
 
         self.__config = config
         self.__cam = cam
+
+    def __load_grid(self):
+        """G.__load_grid() -> numpy array of type int
+
+        Loads the glass grid from a file specified by the configuration.
+        """
+
+        filename = self.__config.grid_file()
+
+        w, h, d = guess_size(filename)
+
+        grid = numpy.zeros((w, h, d), dtype=numpy.int)
+
+        for x, y, z, solid in grid_lines(filename):
+
+            grid[x, y, z] = solid
+
+        return grid
