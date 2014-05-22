@@ -338,7 +338,7 @@ class Attribute(object):
         Set the given attribute's value using the source for data.
         """
 
-        if 0 < self.__gl_id <= _MAX_VERTEX_ATTRIB:
+        if 0 <= self.__gl_id <= _MAX_VERTEX_ATTRIB:
 
             gl.glEnableVertexAttribArray(self.__gl_id)
             gl.glVertexAttribPointer(
