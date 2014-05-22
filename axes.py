@@ -151,24 +151,6 @@ class Axes(object):
 
         return colors
 
-    def __uniform_location(self, name):
-        """A.__uniform_location(name) -> location
-
-        The OpenGL location of a uniform value.
-        """
-
-        return gl.glGetUniformLocation(
-                self.__program, name)
-
-    def __attritbute_location(self, name):
-        """A.__attritbute_location(name) -> location
-
-        The OpenGL location of an attribute.
-        """
-
-        return gl.glGetAttribLocation(
-                self.__program, name)
-
     def on_draw(self):
 
         gl.glClearColor(1, 1, 1, 1)
