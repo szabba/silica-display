@@ -1,0 +1,6 @@
+GLSL
+    filter remove_matches ^\s*//
+    filter remove_inline //.*$
+    filter call_regexp_common C
+    extension glsl
+    3rd_gen_scale 1
