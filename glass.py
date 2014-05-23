@@ -11,6 +11,10 @@ import numpy
 from constants import *
 
 
+TRIANGLES_PER_SQUARE = 2
+SQUARES_PER_CUBE = 6
+
+
 def guess_size(filename):
     """guess_size(filename) -> widht, height, depth
 
@@ -50,8 +54,8 @@ def cube_faces():
     """
 
     faces = numpy.zeros((
-        Glass.SQUARES_PER_CUBE,
-        Glass.TRIANGLES_PER_SQUARE,
+        SQUARES_PER_CUBE,
+        TRIANGLES_PER_SQUARE,
         VERTICES_PER_TRIANGLE,
         COORDINATES_PER_VERTEX))
 
@@ -71,14 +75,12 @@ def cube_faces():
     return faces
 
 
+CUBE_FACES = cube_faces()
+CUBE_NORMALS = None
+
+
 class Glass(object):
     """The glass (or it's visible part)"""
-
-    TRIANGLES_PER_SQUARE = 2
-
-    SQUARES_PER_CUBE = 6
-
-    CUBE_FACES = cube_faces()
 
     def __init__(self, config, cam):
 
@@ -149,12 +151,12 @@ class Glass(object):
 
         triangs = numpy.zeros((
             w, h, d,
-            Glass.SQUARES_PER_CUBE,
-            Glass.TRIANGLES_PER_SQUARE,
+            SQUARES_PER_CUBE,
+            TRIANGLES_PER_SQUARE,
             VERTICES_PER_TRIANGLE,
             COORDINATES_PER_VERTEX))
 
-        triangs[:, :, :] = Glass.CUBE_FACES
+        triangs[:, :, :] = CUBE_FACES
         for i in range(w):
             for j in range(h):
                 for k in range(d):
