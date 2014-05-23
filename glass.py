@@ -216,6 +216,22 @@ class Glass(object):
 
         return triangs
 
+    def __triangle_normals(self, grid):
+        """G.__triangle_normals(grid) -> numpy array of normals"""
+
+        w, h, d = grid.shape
+
+        normals = numpy.zeros((
+            w, h, d,
+            SQUARES_PER_CUBE,
+            TRIANGLES_PER_SQUARE,
+            VERTICES_PER_TRIANGLE,
+            COORDINATES_PER_NORMAL))
+
+        normals[:, :, :] = CUBE_NORMALS
+
+        return normals
+
     def on_draw(self):
         """G.on_draw()
 
