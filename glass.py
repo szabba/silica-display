@@ -192,3 +192,16 @@ class Glass(object):
         triangs[visible == 0] = 0
 
         return triangs
+
+    def on_draw(self):
+        """G.on_draw()
+
+        Renders the glass piece."""
+
+        with self.__triangles as triangles:
+
+            self.__camera.clear()
+            self.__camera.add(*self.__cam.gl_matrix())
+            self.__camera.set()
+
+            triangles.draw()
