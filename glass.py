@@ -66,3 +66,21 @@ class Glass(object):
             grid[x, y, z] = solid
 
         return grid
+
+    def __limits(self, grid_shape):
+        """G.__limits() -> x_min, x_max, y_min, y_max, z_min, z_max
+
+        Limits -- all as integers. The grid shape is used to calculate the
+        maximal values when values are None.
+        """
+
+        x_min, x_max, y_min, y_max, z_min, z_max = self.__config.limits()
+
+        w, h, d = grid_shape
+
+        x_min, y_min, z_min = max(x_min, 0), max(y_min, 0), max(z_min, 0)
+        x_max = w if x_max is None else x_max
+        y_max = h if y_max is None else y_max
+        z_max = d if z_max is None else z_max
+
+        return x_min, x_max, y_min, y_max, z_min, z_max
