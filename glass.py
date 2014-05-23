@@ -77,8 +77,31 @@ def cube_faces():
     return faces
 
 
+def cube_normals():
+    """cube_normals() -> numpy array
+
+    The normals of a single cube.
+    """
+
+    normals = numpy.zeros((
+        SQUARES_PER_CUBE,
+        TRIANGLES_PER_SQUARE,
+        VERTICES_PER_TRIANGLE,
+        COORDINATES_PER_NORMAL))
+
+    normals[0, :, :] = (-1, 0, 0)
+    normals[1, :, :] = (0, -1, 0)
+    normals[2, :, :] = (0, 0, -1)
+
+    normals[3] -= normals[0]
+    normals[4] -= normals[1]
+    normals[5] -= normals[2]
+
+    return normals
+
+
 CUBE_FACES = cube_faces()
-CUBE_NORMALS = None
+CUBE_NORMALS = cube_normals()
 
 
 class Glass(object):
