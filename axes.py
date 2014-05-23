@@ -16,7 +16,6 @@ import shaders
 class Axes(object):
     """The glass (or it's visible part)"""
 
-    AXIS_COUNT = 3
     TRIANGLES_PER_AXIS = 8
 
     def __init__(self, config, cam):
@@ -55,7 +54,7 @@ class Axes(object):
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
         self.__triangles = self.__program.triangle_list(
-                Axes.AXIS_COUNT * Axes.TRIANGLES_PER_AXIS)
+                AXIS_COUNT * Axes.TRIANGLES_PER_AXIS)
 
         pos_arr = self.__positions()
 
@@ -71,7 +70,7 @@ class Axes(object):
         """
 
         positions = numpy.zeros((
-            Axes.AXIS_COUNT,
+            AXIS_COUNT,
             Axes.TRIANGLES_PER_AXIS,
             VERTICES_PER_TRIANGLE,
             COORDINATES_PER_VERTEX))
@@ -96,7 +95,7 @@ class Axes(object):
             [0, 0, 1],
             [1, 0, 0]])
 
-        for axis in range(1, Axes.AXIS_COUNT):
+        for axis in range(1, AXIS_COUNT):
             for t_ix in range(Axes.TRIANGLES_PER_AXIS):
                 for v_ix in range(VERTICES_PER_TRIANGLE):
 
@@ -141,10 +140,10 @@ class Axes(object):
 
         colors = numpy.zeros(positions.size)
 
-        colors = colors.reshape((Axes.AXIS_COUNT, -1, RGB_COMPONENTS))
+        colors = colors.reshape((AXIS_COUNT, -1, RGB_COMPONENTS))
 
         color = [1, 0, 0]
-        for i in range(Axes.AXIS_COUNT):
+        for i in range(AXIS_COUNT):
 
             colors[i, :] = color
             color.append(color.pop(0))
