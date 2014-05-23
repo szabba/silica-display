@@ -118,8 +118,16 @@ class Glass(object):
                 'camera',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Matrix(4)))
 
+        self.__sun = self.__program.uniform(
+                'sun',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
         self.__program.attribute(
                 'position',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        self.__program.attribute(
+                'normal',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
         grid = self.__load_grid()
@@ -130,8 +138,11 @@ class Glass(object):
                 TRIANGLES_PER_SQUARE)
 
         positions = self.__triangle_positions(grid)
+        normals = self.__triangle_normals(grid)
 
-        self.__triangles.from_arrays(dict(position=positions))
+        self.__triangles.from_arrays(dict(
+            position=positions,
+            normal=normals))
 
 
     def __load_grid(self):
@@ -242,5 +253,9 @@ class Glass(object):
             self.__camera.clear()
             self.__camera.add(*self.__cam.gl_matrix())
             self.__camera.set()
+
+            if not self.__sun.filled():
+                self.__sun.add(*self.__config.sun_direction())
+            self.__sun.set()
 
             triangles.draw()
