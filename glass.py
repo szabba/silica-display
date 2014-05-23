@@ -141,3 +141,28 @@ class Glass(object):
                         mask[i, j, k] = 0
 
         return grid * mask
+
+    def __triangle_positions(self, grid):
+        """G.__triangle_positions(grid) -> numpy array of triangle coordinates"""
+
+        w, h, d = grid.shape
+
+        triangs = numpy.zeros((
+            w, h, d,
+            Glass.SQUARES_PER_CUBE,
+            Glass.TRIANGLES_PER_SQUARE,
+            VERTICES_PER_TRIANGLE,
+            COORDINATES_PER_VERTEX))
+
+        triangs[:, :, :] = Glass.CUBE_FACES
+        for i in range(w):
+            for j in range(h):
+                for k in range(d):
+                    triangs[i, j, k] += (i, j, k)
+
+        visible = self.__only_visible(grid)
+
+        #triangs *= visible[..., None, None, None, None]
+        triangs[visible == 0] = 0
+
+        return triangs
