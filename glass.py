@@ -84,3 +84,24 @@ class Glass(object):
         z_max = d if z_max is None else z_max
 
         return x_min, x_max, y_min, y_max, z_min, z_max
+
+    def __only_visible(self, grid):
+        """G.__only_visible(self, grid) -> grid'"""
+
+        x_min, x_max, y_min, y_max, z_min, z_max = self.__limits(grid.shape)
+
+        w, h, d = grid.shape
+
+        mask = numpy.zeros(grid.shape, dtype=numpy.int)
+        mask[:, :, :] = 1
+        for i in range(w):
+            for j in range(h):
+                for k in range(d):
+
+                    if (i < x_min or i > x_max or
+                            j < y_min or j > y_max or
+                            k < z_min or k > z_max):
+
+                        mask[i, j, k] = 0
+
+        return grid * mask
