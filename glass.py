@@ -8,6 +8,8 @@ import re
 
 import numpy
 
+from constants import *
+
 
 def guess_size(filename):
     """guess_size(filename) -> widht, height, depth
@@ -41,8 +43,42 @@ def grid_lines(filename):
             yield tuple(map(int, line.split(' ')))
 
 
+def cube_faces():
+    """cube_faces() -> numpy array
+
+    The coordinates of triangles forming a single cube.
+    """
+
+    faces = numpy.zeros((
+        Glass.SQUARES_PER_CUBE,
+        Glass.TRIANGLES_PER_SQUARE,
+        VERTICES_PER_TRIANGLE,
+        COORDINATES_PER_VERTEX))
+
+    faces[0, 0] = [(0, 0, 0), (0, 1, 0), (0, 1, 1)]
+    faces[0, 1] = [(0, 0, 0), (0, 1, 1), (0, 0, 1)]
+
+    faces[1, 0] = [(0, 0, 0), (0, 0, 1), (1, 0, 1)]
+    faces[1, 1] = [(0, 0, 0), (1, 0, 1), (1, 0, 0)]
+
+    faces[2, 0] = [(0, 0, 0), (0, 1, 0), (1, 1, 0)]
+    faces[2, 1] = [(0, 0, 0), (1, 1, 0), (1, 0, 0)]
+
+    faces[3] = faces[0] + (1, 0, 0)
+    faces[4] = faces[1] + (0, 1, 0)
+    faces[5] = faces[2] + (0, 0, 1)
+
+    return faces
+
+
 class Glass(object):
     """The glass (or it's visible part)"""
+
+    TRIANGLES_PER_SQUARE = 2
+
+    SQUARES_PER_CUBE = 6
+
+    CUBE_FACES = cube_faces()
 
     def __init__(self, config, cam):
 
