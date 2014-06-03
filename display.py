@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import time
 import math
 
 import pyglet
@@ -42,8 +43,10 @@ class DisplayApp(object):
 
         cam = Camera(config)
 
+        s = time.time()
         glass = Glass(config, cam)
 
+        print 'time: ', time.time() - s, 'DisplayApp.__init__'
         self.__window.push_handlers(glass)
 
         self.__window.push_handlers(

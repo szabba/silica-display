@@ -2,7 +2,7 @@
 
 __all__ = ['Glass']
 
-
+import time
 import os.path
 import re
 
@@ -140,9 +140,12 @@ class Glass(object):
         positions = self.__triangle_positions(grid)
         normals = self.__triangle_normals(grid)
 
+        s = time.time()
         self.__triangles.from_arrays(dict(
             position=positions,
             normal=normals))
+        print 'time: ', time.time() - s, 'Glass.__init__'
+
 
 
     def __load_grid(self):
@@ -157,9 +160,11 @@ class Glass(object):
 
         grid = numpy.zeros((w, h, d), dtype=numpy.int)
 
+        s = time.time()
         for x, y, z, solid in grid_lines(filename):
 
             grid[x, y, z] = solid
+        print 'time: ', time.time() - s, '__load_grid'
 
         return grid
 
@@ -207,6 +212,8 @@ class Glass(object):
 
         w, h, d = grid.shape
 
+        print 'SQUARES: ', w * h * d * SQUARES_PER_CUBE
+
         triangs = numpy.zeros((
             w, h, d,
             SQUARES_PER_CUBE,
@@ -215,10 +222,12 @@ class Glass(object):
             COORDINATES_PER_VERTEX))
 
         triangs[:, :, :] = CUBE_FACES
+        s = time.time()
         for i in range(w):
             for j in range(h):
                 for k in range(d):
                     triangs[i, j, k] += (i, j, k)
+        print 'time: ', time.time() - s, '__triangle_positions'
 
         visible = self.__only_visible(grid)
 
