@@ -243,6 +243,80 @@ class Glass(object):
 
         return overlaps
 
+    def __nonoverlap_mask(self, grid, cubes):
+        """G.__nonoverlap_mask(grid, cubes) -> array
+
+        A prefix-shaped mask for raw_triangles and raw_normals, to eliminate
+        hidden triangles.
+        """
+
+        W, H, D = grid.shape
+        CUBES = cubes.shape[0]
+
+        visible = self.__only_visible(grid)
+        overlaps_grid = self.__overlaps_grid(visible)
+
+        nonoverlap_mask = numpy.zeros(
+                (CUBES, SQUARES_PER_CUBE)
+
+        code = """
+printf("W: %d\\n", W);
+printf("H: %d\\n", H);
+printf("D: %d\\n", D);
+printf("CUBES: %d\\n", CUBES);
+printf("SQUARES_PER_CUBE: %d\\n", SQUARES_PER_CUBE);
+printf("\\n");
+
+// First position on the grid.
+int i = 0, j = 0, k = 0;
+
+#define pos (i * H * D + j * D + k)
+#define side_pos (side * W * H * D + pos)
+
+// For each cube
+for (int cube = 0; cube < CUBES; cube++) {
+
+    // Find it's coordinates
+    bool first = true;
+    while (first || !visible[pos]) {
+
+        k++;
+        if (k == D) {
+            k = 0; j++;
+        }
+        if (j == H) {
+            j = 0; i++;
+        }
+
+        first = false;
+    }
+
+    // Write each side's overlaps
+    for (int side = 0; side < SQUARES_PER_CUBE; side++) {
+
+        nonoverlap_mask[cube * SQUARES_PER_CUBE + side] =
+            1 - overlaps_grid[side_pos];
+    }
+}
+
+#undef pos
+#undef side_pos
+"""
+        weave.inline(
+            code,
+            [
+                'visible', 'overlaps_grid',
+                'nonoverlap_mask',
+                'CUBES', 'SQUARES_PER_CUBE',
+                'W', 'H', 'D',
+            ],
+            headers=[
+                '<stdio.h>',
+            ],
+        )
+
+        return nonoverlap_mask
+
     def __triangle_positions(self, grid):
         """G.__triangle_positions(grid) -> numpy array of triangle coordinates"""
 
