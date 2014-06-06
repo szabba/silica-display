@@ -2,7 +2,6 @@
 
 __all__ = ['Glass']
 
-import time
 import os.path
 import re
 
@@ -130,7 +129,7 @@ class Glass(object):
                 'normal',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
-        grid = self.__load_grid()
+        grid, cubes = self.__grid_n_cubes()
 
         self.__triangles = self.__program.triangle_list(
                 reduce(lambda a, b: a * b, grid.shape) *
@@ -140,33 +139,35 @@ class Glass(object):
         positions = self.__triangle_positions(grid)
         normals = self.__triangle_normals(grid)
 
-        s = time.time()
         self.__triangles.from_arrays(dict(
             position=positions,
             normal=normals))
-        print 'time: ', time.time() - s, 'Glass.__init__'
 
+    def __grid_n_cubes(self):
+        """G.__grid_n_cubes() -> grid, cubes
 
-
-    def __load_grid(self):
-        """G.__load_grid() -> numpy array of type int
-
-        Loads the glass grid from a file specified by the configuration.
+        Loads the glass grid and cube coordinates from the file specified by
+        the configuration.
         """
 
         filename = self.__config.grid_file()
 
         w, h, d = guess_size(filename)
 
-        grid = numpy.zeros((w, h, d), dtype=numpy.int)
+        grid, cubes = numpy.zeros((w, h, d)), []
 
-        s = time.time()
         for x, y, z, solid in grid_lines(filename):
 
-            grid[x, y, z] = solid
-        print 'time: ', time.time() - s, '__load_grid'
+            # Assuming solid is always either 1 or 0...
+            if solid:
 
-        return grid
+                cubes.append((x, y, z))
+
+            grid[x, y, z] = solid
+
+        cubes = numpy.array(cubes)
+
+        return grid, cubes
 
     def __limits(self, grid_shape):
         """G.__limits() -> x_min, x_max, y_min, y_max, z_min, z_max
@@ -222,16 +223,13 @@ class Glass(object):
             COORDINATES_PER_VERTEX))
 
         triangs[:, :, :] = CUBE_FACES
-        s = time.time()
         for i in range(w):
             for j in range(h):
                 for k in range(d):
                     triangs[i, j, k] += (i, j, k)
-        print 'time: ', time.time() - s, '__triangle_positions'
 
         visible = self.__only_visible(grid)
 
-        #triangs *= visible[..., None, None, None, None]
         triangs[visible == 0] = 0
 
         return triangs
