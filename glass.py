@@ -188,7 +188,7 @@ class Glass(object):
         return x_min, x_max, y_min, y_max, z_min, z_max
 
     def __only_visible(self, grid):
-        """G.__only_visible(self, grid) -> grid'"""
+        """G.__only_visible(grid) -> grid'"""
 
         x_min, x_max, y_min, y_max, z_min, z_max = self.__limits(grid.shape)
 
