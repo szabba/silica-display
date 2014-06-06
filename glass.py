@@ -208,6 +208,41 @@ class Glass(object):
 
         return grid * mask
 
+    def __overlaps_grid(self, visible):
+        """G.__overlaps_grid(visible) -> overlaps grid
+
+        Contains information about all the overlapping cube faces.
+
+        The shape is (SQUARES_PER_CUBE, ) + grid.shape. The extra dimmension
+        represent all six direction in which a cube's side can be facing.
+
+        The value is 1 wherever the chosen side of the cube at specified
+        coordinates is touching with the side of a neighbouring cube. All other
+        values are 0.
+        """
+
+        W, H, D = visible.shape
+        xyzs = numpy.mgrid[:W, :H, :D]
+
+        overlaps = numpy.zeros((SQUARES_PER_CUBE, ) + visible.shape)
+
+        for i in range(SQUARES_PER_CUBE / 2):
+
+            safely_wrapped = numpy.roll(visible, -1, i) *
+                (xyzs[i] == 0))
+
+            overlaps[i] = visible != (
+                numpy.roll(visible, -1, i) * (xyzs[i, :, :, :] == 0))
+
+        for i in range(SQUARES_PER_CUBE / 2, SQUARES_PER_CUBE):
+
+            safely_wrapped = numpy.roll(visible, 1, i % 3) *
+                (xyzs[i % 3] == visible.shape[i % 3])
+
+            overlaps[i] = visible != safely_wrapped
+
+        return overlaps
+
     def __triangle_positions(self, grid):
         """G.__triangle_positions(grid) -> numpy array of triangle coordinates"""
 
