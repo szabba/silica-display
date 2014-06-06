@@ -317,47 +317,6 @@ for (int cube = 0; cube < CUBES; cube++) {
 
         return nonoverlap_mask
 
-    def __triangle_positions(self, grid):
-        """G.__triangle_positions(grid) -> numpy array of triangle coordinates"""
-
-        w, h, d = grid.shape
-
-        print 'SQUARES: ', w * h * d * SQUARES_PER_CUBE
-
-        triangs = numpy.zeros((
-            w, h, d,
-            SQUARES_PER_CUBE,
-            TRIANGLES_PER_SQUARE,
-            VERTICES_PER_TRIANGLE,
-            COORDINATES_PER_VERTEX))
-
-        triangs[:, :, :] = CUBE_FACES
-        for i in range(w):
-            for j in range(h):
-                for k in range(d):
-                    triangs[i, j, k] += (i, j, k)
-
-        visible = self.__only_visible(grid)
-
-        triangs[visible == 0] = 0
-
-        return triangs
-
-    def __triangle_normals(self, grid):
-        """G.__triangle_normals(grid) -> numpy array of normals"""
-
-        w, h, d = grid.shape
-
-        normals = numpy.zeros((
-            w, h, d,
-            SQUARES_PER_CUBE,
-            TRIANGLES_PER_SQUARE,
-            VERTICES_PER_TRIANGLE,
-            COORDINATES_PER_NORMAL))
-
-        normals[:, :, :] = CUBE_NORMALS
-
-        return normals
 
     def on_draw(self):
         """G.on_draw()
