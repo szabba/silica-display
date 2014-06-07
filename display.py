@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import time
 import math
 
 import pyglet
@@ -43,17 +42,14 @@ class DisplayApp(object):
 
         cam = Camera(config)
 
-        s = time.time()
-        glass = Glass(config, cam)
-
-        print 'time: ', time.time() - s, 'DisplayApp.__init__'
-        self.__window.push_handlers(glass)
+        self.__window.push_handlers(
+                Glass(config, cam))
 
         self.__window.push_handlers(
                 Particles(config, cam))
 
         self.__window.push_handlers(
-                Fog(glass, cam))
+                Fog(config, cam))
 
         self.__window.push_handlers(
                 Axes(config, cam))
