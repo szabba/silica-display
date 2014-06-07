@@ -340,7 +340,11 @@ if (CUBES == cube) {
         # Normals and vertex positions for actually visible triangles
         nonoverlap_mask = self.__nonoverlap_mask(grid, cubes)
 
-        return raw_triangles[nonoverlap_mask], raw_normals[nonoverlap_mask]
+        print 'visible sides number:', nonoverlap_mask.sum()
+
+        return (
+                raw_triangles[nonoverlap_mask.nonzero()],
+                raw_normals[nonoverlap_mask.nonzero()])
 
     def on_draw(self):
         """G.on_draw()
