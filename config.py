@@ -60,7 +60,7 @@ class Config(object):
         limit).
         """
 
-        return 1, 7, 3, 5, 7, 9
+        return None, None, None, None, None, None
 
     def perspective_params(self):
         """C.perspective_params() -> (d0, d)"""
