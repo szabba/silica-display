@@ -6,6 +6,7 @@ import os.path
 import re
 
 import numpy
+from scipy import weave
 from pyglet import gl
 
 import shaders
