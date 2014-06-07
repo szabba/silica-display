@@ -256,51 +256,42 @@ class Glass(object):
         overlaps_grid = self.__overlaps_grid(visible)
 
         nonoverlap_mask = numpy.zeros(
-                (CUBES, SQUARES_PER_CUBE)
+                (CUBES, SQUARES_PER_CUBE),
+                dtype=numpy.int)
 
         code = """
-printf("W: %d\\n", W);
-printf("H: %d\\n", H);
-printf("D: %d\\n", D);
-printf("CUBES: %d\\n", CUBES);
-printf("SQUARES_PER_CUBE: %d\\n", SQUARES_PER_CUBE);
-printf("\\n");
+int cube = 0;
 
-// First position on the grid.
-int i = 0, j = 0, k = 0;
+for (int i = 0; i < W; i++) {
+    for (int j = 0; j < H; j++) {
+        for (int k = 0; k < D; k++) {
 
-#define pos (i * H * D + j * D + k)
-#define side_pos (side * W * H * D + pos)
+            int pos = i * H * D + j * D + k;
 
-// For each cube
-for (int cube = 0; cube < CUBES; cube++) {
+            if (visible[pos]) {
 
-    // Find it's coordinates
-    bool first = true;
-    while (first || !visible[pos]) {
+                for (int side = 0; side < SQUARES_PER_CUBE; side++) {
 
-        k++;
-        if (k == D) {
-            k = 0; j++;
+                    int side_ix = cube * SQUARES_PER_CUBE + side;
+
+                    nonoverlap_mask[side_ix] =
+                        overlaps_grid[side * W * H * D + pos];
+                }
+
+                cube++;
+            }
         }
-        if (j == H) {
-            j = 0; i++;
-        }
-
-        first = false;
-    }
-
-    // Write each side's overlaps
-    for (int side = 0; side < SQUARES_PER_CUBE; side++) {
-
-        nonoverlap_mask[cube * SQUARES_PER_CUBE + side] =
-            1 - overlaps_grid[side_pos];
     }
 }
 
-#undef pos
-#undef side_pos
+printf("CUBES == %d: ", cube);
+if (CUBES == cube) {
+    printf("true\\n");
+} else {
+    printf("false\\n");
+}
 """
+
         weave.inline(
             code,
             [
