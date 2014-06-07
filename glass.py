@@ -226,15 +226,15 @@ class Glass(object):
 
         for i in range(SQUARES_PER_CUBE / 2):
 
-            safely_wrapped = numpy.roll(visible, -1, i) *
-                (xyzs[i] == 0))
+            safely_wrapped = numpy.roll(visible, -1, i) *\
+                (xyzs[i] == 0)
 
             overlaps[i] = visible != (
                 numpy.roll(visible, -1, i) * (xyzs[i, :, :, :] == 0))
 
         for i in range(SQUARES_PER_CUBE / 2, SQUARES_PER_CUBE):
 
-            safely_wrapped = numpy.roll(visible, 1, i % 3) *
+            safely_wrapped = numpy.roll(visible, 1, i % 3) *\
                 (xyzs[i % 3] == visible.shape[i % 3])
 
             overlaps[i] = visible != safely_wrapped
