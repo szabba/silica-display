@@ -130,14 +130,12 @@ class Glass(object):
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
         grid, cubes = self.__grid_n_cubes()
+        positions, normals = self.__positions_and_normals(grid, cubes)
 
-        self.__triangles = self.__program.triangle_list(
-                reduce(lambda a, b: a * b, grid.shape) *
-                SQUARES_PER_CUBE *
-                TRIANGLES_PER_SQUARE)
+        SIDES = positions.shape[0]
+        TRIANGLES = SIDES * TRIANGLES_PER_SQUARE
 
-        positions = self.__triangle_positions(grid)
-        normals = self.__triangle_normals(grid)
+        self.__triangles = self.__program.triangle_list(TRIANGLES)
 
         self.__triangles.from_arrays(dict(
             position=positions,
