@@ -4,6 +4,7 @@ __all__ = ['Config']
 
 import os.path
 import math
+import argparse
 
 import pyglet
 from pyglet import gl
@@ -17,6 +18,10 @@ class Config(object):
     """The shared configuration of a display app."""
 
     def __init__(self):
+
+        parser = argparse.ArgumentParser()
+
+        self.__args = parser.parse_args()
 
         self.__sun = (gl.GLfloat * COORDINATES_PER_RAY)(
                 *[0.5, 1, 1.5])
