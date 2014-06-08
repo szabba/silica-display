@@ -11,7 +11,7 @@ varying vec3 f_normal;
 void main(void) {
 
 	float diffuse_product = dot(normalize(sun), f_normal);
-	diffuse_product *= float(diffuse_product > 0);
+	diffuse_product *= - float(diffuse_product < 0);
 
 	float intensity =
 		ambient +
