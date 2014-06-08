@@ -177,12 +177,25 @@ class Glass(object):
 
         x_min, x_max, y_min, y_max, z_min, z_max = self.__config.limits()
 
+        if x_min is None:
+            x_min = 0
+
+        if y_min is None:
+            y_min = 0
+
+        if z_min is None:
+            z_min = 0
+
         w, h, d = grid_shape
 
-        x_min, y_min, z_min = max(x_min, 0), max(y_min, 0), max(z_min, 0)
-        x_max = w if x_max is None else x_max
-        y_max = h if y_max is None else y_max
-        z_max = d if z_max is None else z_max
+        if x_max is None:
+            x_max = w
+
+        if y_max is None:
+            y_max = h
+
+        if z_max is None:
+            z_max = d
 
         return x_min, x_max, y_min, y_max, z_min, z_max
 
