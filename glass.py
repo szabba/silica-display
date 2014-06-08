@@ -225,17 +225,19 @@ class Glass(object):
 
         overlaps = numpy.zeros((SQUARES_PER_CUBE, ) + visible.shape)
 
+        # Normals antiparallel to axes
         for i in range(SQUARES_PER_CUBE / 2):
 
-            safely_wrapped = numpy.roll(visible, -1, i) *\
-                (xyzs[i] == 0)
+            safely_wrapped = numpy.roll(visible, 1, i) *\
+                (xyzs[i] == visible.shape[i])
 
             overlaps[i] = visible != safely_wrapped
 
+        # Normals parallel to axes
         for i in range(SQUARES_PER_CUBE / 2, SQUARES_PER_CUBE):
 
-            safely_wrapped = numpy.roll(visible, 1, i % 3) *\
-                (xyzs[i % 3] == visible.shape[i % 3])
+            safely_wrapped = numpy.roll(visible, -1, i % 3) *\
+                (xyzs[i % 3] == 0)
 
             overlaps[i] = visible != safely_wrapped
 
