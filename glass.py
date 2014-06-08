@@ -104,6 +104,14 @@ CUBE_FACES = cube_faces()
 CUBE_NORMALS = cube_normals()
 
 
+INLINE_PATH = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        'glass_inline.c')
+
+with open(INLINE_PATH) as glass_inline_c:
+    INLINE_CODE = glass_inline_c.read()
+
+
 class Glass(object):
     """The glass (or it's visible part)"""
 
@@ -264,45 +272,8 @@ class Glass(object):
                 (CUBES, SQUARES_PER_CUBE),
                 dtype=numpy.int)
 
-        code = """
-int cube = 0;
-
-for (int i = 0; i < W; i++) {
-    for (int j = 0; j < H; j++) {
-        for (int k = 0; k < D; k++) {
-
-            int pos = i * H * D + j * D + k;
-
-            if (visible[pos]) {
-
-                for (int side = 0; side < SQUARES_PER_CUBE; side++) {
-
-                    int side_ix = cube * SQUARES_PER_CUBE + side;
-
-                    nonoverlap_mask[side_ix] =
-                        overlaps_grid[side * W * H * D + pos];
-                }
-
-            }
-
-            if (grid[pos]) {
-                cube++;
-            }
-        }
-    }
-}
-
-printf("CUBES == %d: ", cube);
-if (CUBES == cube) {
-    printf("true\\n");
-} else {
-    printf("false\\n");
-}
-printf("CUBES == %d\\n", CUBES);
-"""
-
         weave.inline(
-            code,
+            INLINE_CODE,
             [
                 'grid', 'visible', 'overlaps_grid',
                 'nonoverlap_mask',
