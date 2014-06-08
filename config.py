@@ -19,7 +19,9 @@ def parse_args():
 
     parser = argparse.ArgumentParser()
 
-    parser
+    parser.add_argument(
+            'GLASS_FILE',
+            help='name of the glass file')
 
     return parser.parse_args()
 
@@ -61,10 +63,7 @@ class Config(object):
         Filename of the grid file.
         """
 
-        return os.path.join(
-                os.path.dirname(os.path.dirname(os.path.abspath(__name__))),
-                'SYM0',
-                'data50x50x50t9000_102870.dat')
+        return self.__args.GLASS_FILE
 
     def limits(self):
         """C.limits() -> x_min, x_max, y_min, y_max, z_min, z_max
