@@ -189,13 +189,13 @@ class Glass(object):
         w, h, d = grid_shape
 
         if x_max is None:
-            x_max = w
+            x_max = w - 1
 
         if y_max is None:
-            y_max = h
+            y_max = h - 1
 
         if z_max is None:
-            z_max = d
+            z_max = d - 1
 
         return x_min, x_max, y_min, y_max, z_min, z_max
 
