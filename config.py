@@ -19,7 +19,7 @@ class Config(object):
     def __init__(self):
 
         self.__sun = (gl.GLfloat * COORDINATES_PER_RAY)(
-                *[1, 1, 1])
+                *[0.5, 1, 1.5])
 
     def create_window(self):
         """C.create_window() -> a window
