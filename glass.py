@@ -283,6 +283,9 @@ for (int i = 0; i < W; i++) {
                         overlaps_grid[side * W * H * D + pos];
                 }
 
+            }
+
+            if (grid[pos]) {
                 cube++;
             }
         }
@@ -295,12 +298,13 @@ if (CUBES == cube) {
 } else {
     printf("false\\n");
 }
+printf("CUBES == %d\\n", CUBES);
 """
 
         weave.inline(
             code,
             [
-                'visible', 'overlaps_grid',
+                'grid', 'visible', 'overlaps_grid',
                 'nonoverlap_mask',
                 'CUBES', 'SQUARES_PER_CUBE',
                 'W', 'H', 'D',
