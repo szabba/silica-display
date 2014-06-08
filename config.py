@@ -23,6 +23,14 @@ def parse_args():
             'GLASS_FILE',
             help='name of the glass file')
 
+    parser.add_argument(
+            '-s', '--slice',
+            help=''.join([
+                'slice of glass to display; described by enclosed cube ',
+                'index ranges along all the axes']),
+            nargs=6, type=int,
+            default=(None, ) * 6)
+
     return parser.parse_args()
 
 
@@ -72,7 +80,7 @@ class Config(object):
         limit).
         """
 
-        return None, None, None, None, None, None
+        return self.__args.slice
 
     def perspective_params(self):
         """C.perspective_params() -> (d0, d)"""
