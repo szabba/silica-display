@@ -194,16 +194,7 @@ class Glass(object):
         w, h, d = grid.shape
 
         mask = numpy.zeros(grid.shape, dtype=numpy.int)
-        mask[:, :, :] = 1
-        for i in range(w):
-            for j in range(h):
-                for k in range(d):
-
-                    if (i < x_min or i > x_max or
-                            j < y_min or j > y_max or
-                            k < z_min or k > z_max):
-
-                        mask[i, j, k] = 0
+        mask[x_min:x_max+1, y_min:y_max+1, z_min:z_max+1] = 1
 
         return grid * mask
 
