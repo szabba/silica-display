@@ -14,14 +14,22 @@ import numpy
 from constants import *
 
 
+def parse_args():
+    """parse_args() -> the result of argparse's work"""
+
+    parser = argparse.ArgumentParser()
+
+    parser
+
+    return parser.parse_args()
+
+
 class Config(object):
     """The shared configuration of a display app."""
 
     def __init__(self):
 
-        parser = argparse.ArgumentParser()
-
-        self.__args = parser.parse_args()
+        self.__args = parse_args()
 
         self.__sun = (gl.GLfloat * COORDINATES_PER_RAY)(
                 *[0.5, 1, 1.5])
