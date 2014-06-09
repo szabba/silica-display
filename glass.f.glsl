@@ -10,7 +10,10 @@ varying vec3 f_normal;
 
 void main(void) {
 
-	float diffuse_product = dot(normalize(sun), f_normal);
+	vec3 act_normal = normalize(f_normal);
+
+	float diffuse_product = dot(normalize(sun), act_normal);
+
 	diffuse_product *= - float(diffuse_product < 0);
 
 	float intensity =
