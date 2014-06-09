@@ -172,6 +172,9 @@ class Glass(object):
 
             grid[x, y, z] = solid
 
+        # The sort ensures that the application of limits later on will not
+        # depend upon the order in which the cubes were specified in a file.
+        cubes.sort()
         cubes = numpy.array(cubes)
 
         return grid, cubes
