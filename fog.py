@@ -35,3 +35,12 @@ class Fog(object):
         They should all be drawn in order."""
 
         return []
+	 
+    def __fog_layer(self, i):
+        """F.__fog_layer(i) -> TriangleList or None
+
+        Returns the i-th layer TriangleList or None when one of the dimmesions
+        would be 0.
+        """
+
+        return None
