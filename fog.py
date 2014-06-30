@@ -2,6 +2,10 @@
 
 __all__ = ['Fog']
 
+from pyglet import gl
+
+import shaders
+
 
 class Fog(object):
     """Semi-transparent fog approximating ambient occlusion in the glass."""
@@ -10,6 +14,20 @@ class Fog(object):
 
         self.__config = config
         self.__cam = cam
+
+        self.__program = shaders.Program('fog')
+
+        self.__camera = self.__program.uniform(
+                'camera',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Matrix(4)))
+
+        self.__color = self.__program.uniform(
+                'color',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(4)))
+
+        self.__program.attribute(
+                'position',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
     def __fog_layers(self):
         """F.__fog_layers() -> list of TriangleListS
