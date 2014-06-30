@@ -144,3 +144,8 @@ class Config(object):
         """C.axis_diffuse() -> gl.GLfloat"""
 
         return gl.GLfloat(0.6)
+
+    def fog_color(self):
+        """C.fog_color() -> the RGBA fog color"""
+
+        return 0, 0, 1, 0.5
