@@ -9,6 +9,7 @@ import shaders
 from constants import *
 from axes import Axes
 from glass import Glass
+from fog import Fog
 from camera import Camera
 from config import Config
 
@@ -19,15 +20,6 @@ class Particles(object):
     def __init__(self, config, cam):
 
         self.__config = config
-        self.__cam = cam
-
-
-class Fog(object):
-    """The glass (or it's visible part)"""
-
-    def __init__(self, glass, cam):
-
-        self.__glass = glass
         self.__cam = cam
 
 
