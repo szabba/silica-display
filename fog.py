@@ -4,7 +4,7 @@ __all__ = ['Fog']
 
 
 class Fog(object):
-    """The glass (or it's visible part)"""
+    """Semi-transparent fog approximating ambient occlusion in the glass."""
 
     def __init__(self, config, cam):
 
