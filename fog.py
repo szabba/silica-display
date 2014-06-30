@@ -10,3 +10,10 @@ class Fog(object):
 
         self.__config = config
         self.__cam = cam
+
+    def __fog_layers(self):
+        """F.__fog_layers() -> list of TriangleListS
+
+        They should all be drawn in order."""
+
+        return []
