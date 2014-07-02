@@ -30,6 +30,8 @@ class Fog(object):
                 'position',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
+        self.__layers = self.__fog_layers()
+
     def __fog_layers(self):
         """F.__fog_layers() -> list of TriangleListS
 
