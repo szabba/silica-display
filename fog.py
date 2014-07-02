@@ -5,6 +5,7 @@ __all__ = ['Fog']
 from pyglet import gl
 
 import shaders
+import cube
 
 
 class Fog(object):
@@ -43,4 +44,33 @@ class Fog(object):
         would be 0.
         """
 
-        return None
+        x_min, x_max, y_min, y_max, z_min, z_max = self.__config.limits()
+
+        w = x_max - x_min - i
+        h = y_max - y_min - i
+        d = z_max - z_min - i
+
+        if w == 0 or h == 0 or d == 0:
+            return None
+
+        x = x_min + (i + 1) * 0.5
+        y = y_min + (i + 1) * 0.5
+        z = z_min + (i + 1) * 0.5
+
+        positions = cube.CUBE_FACES.copy()
+
+        positions[:, :, 0] *= w
+        positions[:, :, 1] *= h
+        positions[:, :, 2] *= d
+
+        positions[:, :, 0] += x
+        positions[:, :, 1] += y
+        positions[:, :, 2] += z
+
+        t_list = self.__program.triangle_list(
+                cube.SQUARES_PER_CUBE *
+                cube.TRIANGLES_PER_SQUARE)
+
+        t_list.from_arrays(dict(position=positions))
+
+        return t_list
