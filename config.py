@@ -3,6 +3,7 @@
 __all__ = ['Config']
 
 import os.path
+import re
 import math
 import argparse
 
@@ -12,6 +13,26 @@ from pyglet import gl
 import numpy
 
 from constants import *
+
+
+def guess_size(filename):
+    """guess_size(filename) -> widht, height, depth
+
+    Guess the size of a grid based on the name of the file that describes it.
+    """
+
+    match = re.match(
+            r'data(?P<w>\d+)x(?P<h>\d+)x(?P<d>\d+)t\d+_\d+.dat',
+            os.path.basename(filename))
+
+    if match is None:
+        raise ValueError(
+                'Size of grid in \'%s\' cannot be guessed.' % filename)
+
+    return (
+            int(match.groupdict()['w']),
+            int(match.groupdict()['h']),
+            int(match.groupdict()['d']))
 
 
 def parse_args():
@@ -44,6 +65,8 @@ class Config(object):
         self.__sun = (gl.GLfloat * COORDINATES_PER_RAY)(
                 *[0.5, 1, 1.5])
 
+        self.__grid_size = None
+
     def create_window(self):
         """C.create_window() -> a window
 
@@ -73,6 +96,18 @@ class Config(object):
 
         return self.__args.GLASS_FILE
 
+    def grid_size(self):
+        """C.grid_size() -> (width, height, depth)
+
+        Dimmensions of the glass grid, guessed from the filename.
+        """
+
+        if self.__grid_size is None:
+
+            self.__grid_size = guess_size(self.grid_file())
+
+        return self.__grid_size
+
     def limits(self):
         """C.limits() -> x_min, x_max, y_min, y_max, z_min, z_max
 
@@ -80,7 +115,29 @@ class Config(object):
         limit).
         """
 
-        return self.__args.slice
+        w, h, d = self.grid_size()
+
+        x_min, x_max, y_min, y_max, z_min, z_max = self.__args.slice
+
+        if x_min is None:
+            x_min = 0
+
+        if y_min is None:
+            y_min = 0
+
+        if z_min is None:
+            z_min = 0
+
+        if x_max is None:
+            x_max = w - 1
+
+        if y_max is None:
+            y_max = h - 1
+
+        if z_max is None:
+            z_max = d - 1
+
+        return x_min, x_max, y_min, y_max, z_min, z_max
 
     def perspective_params(self):
         """C.perspective_params() -> (d0, d)"""

@@ -3,7 +3,6 @@
 __all__ = ['Glass']
 
 import os.path
-import re
 
 import numpy
 from scipy import weave
@@ -12,26 +11,6 @@ from pyglet import gl
 import shaders
 from constants import *
 from cube import *
-
-
-def guess_size(filename):
-    """guess_size(filename) -> widht, height, depth
-
-    Guess the size of a grid based on the name of the file that describes it.
-    """
-
-    match = re.match(
-            r'data(?P<w>\d+)x(?P<h>\d+)x(?P<d>\d+)t\d+_\d+.dat',
-            os.path.basename(filename))
-
-    if match is None:
-        raise ValueError(
-                'Size of grid in \'%s\' cannot be guessed.' % filename)
-
-    return (
-            int(match.groupdict()['w']),
-            int(match.groupdict()['h']),
-            int(match.groupdict()['d']))
 
 
 def grid_lines(filename):
@@ -101,7 +80,7 @@ class Glass(object):
 
         filename = self.__config.grid_file()
 
-        w, h, d = guess_size(filename)
+        w, h, d = self.__config.grid_size()
 
         grid, cubes = numpy.zeros((w, h, d)), []
 
@@ -121,41 +100,10 @@ class Glass(object):
 
         return grid, cubes
 
-    def __limits(self, grid_shape):
-        """G.__limits() -> x_min, x_max, y_min, y_max, z_min, z_max
-
-        Limits -- all as integers. The grid shape is used to calculate the
-        maximal values when values are None.
-        """
-
-        x_min, x_max, y_min, y_max, z_min, z_max = self.__config.limits()
-
-        if x_min is None:
-            x_min = 0
-
-        if y_min is None:
-            y_min = 0
-
-        if z_min is None:
-            z_min = 0
-
-        w, h, d = grid_shape
-
-        if x_max is None:
-            x_max = w - 1
-
-        if y_max is None:
-            y_max = h - 1
-
-        if z_max is None:
-            z_max = d - 1
-
-        return x_min, x_max, y_min, y_max, z_min, z_max
-
     def __only_visible(self, grid):
         """G.__only_visible(grid) -> grid'"""
 
-        x_min, x_max, y_min, y_max, z_min, z_max = self.__limits(grid.shape)
+        x_min, x_max, y_min, y_max, z_min, z_max = self.__config.limits()
 
         w, h, d = grid.shape
 
