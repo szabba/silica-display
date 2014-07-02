@@ -52,6 +52,12 @@ def parse_args():
             nargs=6, type=int,
             default=(None, ) * 6)
 
+    parser.add_argument(
+            '-f', '--fog-color',
+            help='RGBA color of the fog',
+            nargs=4, type=float,
+            default=(0, 1, 1, 0.125))
+
     return parser.parse_args()
 
 
@@ -205,4 +211,4 @@ class Config(object):
     def fog_color(self):
         """C.fog_color() -> the RGBA fog color"""
 
-        return 0, 0, 1, 0.125
+        return self.__args.fog_color
