@@ -205,4 +205,4 @@ class Config(object):
     def fog_color(self):
         """C.fog_color() -> the RGBA fog color"""
 
-        return 0, 0, 1, 0.5
+        return 0, 0, 1, 0.125
