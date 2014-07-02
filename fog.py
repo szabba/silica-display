@@ -92,3 +92,27 @@ class Fog(object):
         t_list.from_arrays(dict(position=positions))
 
         return t_list
+
+    def on_draw(self):
+        """F.on_draw()
+
+        Renders the fog."""
+
+        gl.glEnable(gl.GL_BLEND)
+        gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
+
+        for layer in self.__layers:
+
+            with layer:
+
+                self.__camera.clear()
+                self.__camera.add(*self.__cam.gl_matrix())
+                self.__camera.set()
+
+                if not self.__color.filled():
+                    self.__color.add(*self.__config.fog_color())
+                self.__color.set()
+
+                layer.draw()
+
+        gl.glDisable(gl.GL_BLEND)
