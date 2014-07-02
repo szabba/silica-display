@@ -33,10 +33,26 @@ class Fog(object):
     def __fog_layers(self):
         """F.__fog_layers() -> list of TriangleListS
 
-        They should all be drawn in order."""
+        They should all be drawn in order.
+        """
 
-        return []
-	 
+        i, done, layers = 0, False, []
+
+        while not done:
+
+            last = self.__fog_layer(i)
+
+            if last is None:
+                done = True
+            else:
+                layers.append(last)
+
+            i += 1
+
+        layers.reverse()
+
+        return layers
+
     def __fog_layer(self, i):
         """F.__fog_layer(i) -> TriangleList or None
 
