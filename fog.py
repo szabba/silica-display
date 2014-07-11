@@ -101,6 +101,8 @@ class Fog(object):
         gl.glEnable(gl.GL_BLEND)
         gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
+        gl.glDepthMask(gl.GL_FALSE)
+
         for layer in self.__layers:
 
             with layer:
@@ -115,4 +117,5 @@ class Fog(object):
 
                 layer.draw()
 
+        gl.glDepthMask(gl.GL_TRUE)
         gl.glDisable(gl.GL_BLEND)

@@ -35,10 +35,10 @@ class DisplayApp(object):
         cam = Camera(config)
 
         self.__window.push_handlers(
-                Particles(config, cam))
+                Fog(config, cam))
 
         self.__window.push_handlers(
-                Fog(config, cam))
+                Particles(config, cam))
 
         self.__window.push_handlers(
                 Glass(config, cam))
