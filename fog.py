@@ -77,13 +77,13 @@ class Fog(object):
 
         positions = cube.CUBE_FACES.copy()
 
-        positions[:, :, 0] *= w
-        positions[:, :, 1] *= h
-        positions[:, :, 2] *= d
+        positions[:, :, :, 0] *= w
+        positions[:, :, :, 1] *= h
+        positions[:, :, :, 2] *= d
 
-        positions[:, :, 0] += x
-        positions[:, :, 1] += y
-        positions[:, :, 2] += z
+        positions[:, :, :, 0] += x
+        positions[:, :, :, 1] += y
+        positions[:, :, :, 2] += z
 
         t_list = self.__program.triangle_list(
                 cube.SQUARES_PER_CUBE *
