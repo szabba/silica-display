@@ -64,16 +64,16 @@ class Fog(object):
 
         x_min, x_max, y_min, y_max, z_min, z_max = self.__config.limits()
 
-        w = x_max - x_min - i
-        h = y_max - y_min - i
-        d = z_max - z_min - i
+        w = x_max - x_min - 2 * i
+        h = y_max - y_min - 2 * i
+        d = z_max - z_min - 2 * i
 
-        if w == 0 or h == 0 or d == 0:
+        if w <= 0 or h <= 0 or d <= 0:
             return None
 
-        x = x_min + (i + 1) * 0.5
-        y = y_min + (i + 1) * 0.5
-        z = z_min + (i + 1) * 0.5
+        x = x_min + i + 0.5
+        y = y_min + i + 0.5
+        z = z_min + i + 0.5
 
         positions = cube.CUBE_FACES.copy()
 
