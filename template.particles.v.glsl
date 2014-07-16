@@ -29,10 +29,11 @@ void main(void) {
 	float rho = orientation.x;
 	float theta = orientation.y;
 
-	normal = normals[ix];
+	mat4 rotation = rotation_for(rho, theta);
+
+	normal = (rotation * vec4(normals[ix], 1)).xyz;
 	colour = colours[ix];
 
-	gl_Position = camera * rotation_for(rho, theta) * vec4(
-			positions[ix] + position,
-			1);
+	vec3 local_position = (rotation * vec4(positions[ix], 1)).xyz;
+	gl_Position = camera * vec4(local_position + position, 1);
 }
