@@ -17,6 +17,8 @@ class Particles(object):
 
         self.__model = self.__prepare_model()
 
+        self.__generate_shaders(self.__model)
+
     def __prepare_model(self):
         """P.__prepare_model() -> (poses, normals, colors, vertex_count)"""
 
@@ -38,6 +40,20 @@ class Particles(object):
         vertex_count = 3
 
         return poses, normals, colors, vertex_count
+
+    def __generate_shaders(self, model):
+        """P.__generate_shaders(model)
+
+        Generate tha shader sources.
+        """
+
+        vertex_count = model[-1]
+
+        data = {
+                'vertex_count': vertex_count}
+
+        for letter in ('v', 'f'):
+            self.__generate_shader('particles', letter, data)
 
     def __generate_shader(self, shader_name, letter, data):
         """P.__generate_shader(self, shader_name, letter, data)
