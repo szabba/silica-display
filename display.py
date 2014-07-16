@@ -13,15 +13,7 @@ from glass import Glass
 from fog import Fog
 from camera import Cameraman, cam_transforms
 from config import Config
-
-
-class Particles(object):
-    """The glass (or it's visible part)"""
-
-    def __init__(self, config, cam):
-
-        self.__config = config
-        self.__cam = cam
+from particles import Particles
 
 
 def projection(transforms, cam_geometry, window):
