@@ -6,6 +6,8 @@ import string
 
 import numpy
 
+import shaders
+
 
 class Particles(object):
     """The glass (or it's visible part)"""
@@ -18,6 +20,8 @@ class Particles(object):
         self.__model = self.__prepare_model()
 
         self.__generate_shaders(self.__model)
+
+        self.__program = shaders.Program('particles')
 
     def __prepare_model(self):
         """P.__prepare_model() -> (poses, normals, colors, vertex_count)"""
