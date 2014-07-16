@@ -2,6 +2,8 @@
 
 __all__ = ['Particles']
 
+import string
+
 import numpy
 
 
@@ -36,3 +38,20 @@ class Particles(object):
         vertex_count = 3
 
         return poses, normals, colors, vertex_count
+
+    def __generate_shader(self, shader_name, letter, data):
+        """P.__generate_shader(self, shader_name, letter, data)
+
+        Generate the appropriate shader source file.
+        """
+
+        shader_filename = "%s.%s.glsl" % (shader_name, letter)
+        template_filename = "template.%s" % shader_filename
+
+        with open(template_filename) as input:
+            template = string.Template(input.read())
+
+        shader_code = template.substitute(data)
+
+        with open(shader_filename, 'w') as output:
+            output.write(shader_code)
