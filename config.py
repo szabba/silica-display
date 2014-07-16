@@ -47,6 +47,11 @@ def parse_args(args):
             help='name of the glass file')
 
     parser.add_argument(
+            '-p', '--particles',
+            help='name of a file describing particle positions and orientations',
+            default=None)
+
+    parser.add_argument(
             '-s', '--slice',
             help=''.join([
                 'slice of glass to display; described by enclosed cube ',
