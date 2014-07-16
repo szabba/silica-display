@@ -275,3 +275,8 @@ class Config(object):
         """C.fog_color() -> the RGBA fog color"""
 
         return self.__args.fog_color
+
+    def particle_file(self):
+        """C.particle_file() -> name of the particle file or None"""
+
+        return None
