@@ -6,8 +6,8 @@ __all__ = ['Camera']
 import math
 
 import numpy
-import pyglet
 from pyglet import gl
+from pyglet import clock
 from pyglet.window import mouse
 
 
@@ -19,7 +19,7 @@ class Camera(object):
         self.__config = config
         self.__keys = keys
 
-        pyglet.clock.schedule(self.tick)
+        clock.schedule(self.tick)
 
         self.__width, self.__height = 1, 1
 
