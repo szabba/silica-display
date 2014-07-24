@@ -31,8 +31,9 @@ class DisplayApp(object):
         pyglet.window.Window.register_event_type('on_tick')
 
         self.__window = config.create_window()
+        keys = pyglet.window.key.KeyStateHandler()
 
-        cam = Camera(config)
+        cam = Camera(config, keys)
 
         self.__window.push_handlers(
                 Fog(config, cam))
@@ -48,6 +49,9 @@ class DisplayApp(object):
 
         self.__window.push_handlers(
                 cam)
+
+        self.__window.push_handlers(
+                keys)
 
         pyglet.clock.set_fps_limit(config.max_fps())
 

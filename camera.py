@@ -13,9 +13,11 @@ from pyglet.window import mouse
 class Camera(object):
     '''A camera'''
 
-    def __init__(self, config):
+    def __init__(self, config, keys):
 
         self.__config = config
+        self.__keys = keys
+
 
         self.__width, self.__height = 1, 1
 
