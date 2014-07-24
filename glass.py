@@ -51,6 +51,10 @@ class Glass(object):
                 'sun',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
+        self.__copy_shift = self.__program.uniform(
+                'copy_shift',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
         self.__program.attribute(
                 'position',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
@@ -224,6 +228,9 @@ class Glass(object):
 
         Renders the glass piece."""
 
+        x_rep, y_rep, z_rep = self.__config.glass_repetitions()
+        w, h, d = self.__config.grid_size()
+
         with self.__triangles as triangles:
 
             self.__camera.clear()
@@ -234,4 +241,17 @@ class Glass(object):
                 self.__sun.add(*self.__config.sun_direction())
             self.__sun.set()
 
-            triangles.draw()
+            for x_copy in range(x_rep):
+                for y_copy in range(y_rep):
+                    for z_copy in range(z_rep):
+
+                        shift = (
+                                w * x_copy,
+                                h * y_copy,
+                                d * z_copy)
+
+                        self.__copy_shift.clear()
+                        self.__copy_shift.add(*shift)
+                        self.__copy_shift.set()
+
+                        triangles.draw()
