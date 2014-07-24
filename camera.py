@@ -6,6 +6,7 @@ __all__ = ['Camera']
 import math
 
 import numpy
+import pyglet
 from pyglet import gl
 from pyglet.window import mouse
 
@@ -18,6 +19,7 @@ class Camera(object):
         self.__config = config
         self.__keys = keys
 
+        pyglet.clock.schedule(self.tick)
 
         self.__width, self.__height = 1, 1
 
@@ -30,6 +32,10 @@ class Camera(object):
 
         self.__matrix = None
         self.__gl_matrix = None
+
+    def tick(self, dt):
+
+        pass
 
     def foreshorten(self):
         """Camera.foreshorten() -> numpy array"""
