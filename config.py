@@ -159,7 +159,7 @@ class Config(object):
     def perspective_params(self):
         """C.perspective_params() -> (d0, d)"""
 
-        return 50.0, 140.0
+        return 50.0, 14000.0
 
     def sun_direction(self):
         """C.sun_direction() -> a ctypes array of gl.GLfloats
@@ -172,7 +172,7 @@ class Config(object):
     def init_scale(self):
         """C.init_scale() -> initial scaling factor"""
 
-        return 10.0
+        return 1000.0
 
     def init_phi(self):
         """C.init_phi() -> initial rotation about the z axis"""
@@ -197,7 +197,7 @@ class Config(object):
     def rot_z_speed(self):
         """C.rot_z_speed() -> speed of rotation about the z axis"""
 
-        return 0.05
+        return 0.005
 
     def trans_speed(self):
         """C.translation_speed() -> speed of translation"""
