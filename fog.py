@@ -26,6 +26,10 @@ class Fog(object):
                 'color',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(4)))
 
+        self.__copy_shift = self.__program.uniform(
+                'copy_shift',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
         self.__program.attribute(
                 'position',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
@@ -103,6 +107,9 @@ class Fog(object):
 
         gl.glDepthMask(gl.GL_FALSE)
 
+        x_rep, y_rep, z_rep = self.__config.glass_repetitions()
+        w, h, d = self.__config.grid_size()
+
         for layer in self.__layers:
 
             with layer:
@@ -115,7 +122,20 @@ class Fog(object):
                     self.__color.add(*self.__config.fog_color())
                 self.__color.set()
 
-                layer.draw()
+                for x_copy in range(x_rep):
+                    for y_copy in range(y_rep):
+                        for z_copy in range(z_rep):
+
+                            shift = (
+                                    w * x_copy,
+                                    h * y_copy,
+                                    d * z_copy)
+
+                            self.__copy_shift.clear()
+                            self.__copy_shift.add(*shift)
+                            self.__copy_shift.set()
+
+                        layer.draw()
 
         gl.glDepthMask(gl.GL_TRUE)
         gl.glDisable(gl.GL_BLEND)
