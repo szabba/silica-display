@@ -53,6 +53,12 @@ def parse_args():
             default=(None, ) * 6)
 
     parser.add_argument(
+            '-r', '--repeat',
+            help=''.join('number of repetitions along each axis (x, y, z)'),
+            nargs=3, type=int,
+            default=(1, 1, 1))
+
+    parser.add_argument(
             '-f', '--fog-color',
             help='RGBA color of the fog',
             nargs=4, type=float,
@@ -117,7 +123,7 @@ class Config(object):
     def glass_repetitions(self):
         """C.glass_repetitions() -> (x_rep, y_rep, z_rep)"""
 
-        return (10, 10, 1)
+        return self.__args.repeat
 
     def limits(self):
         """C.limits() -> x_min, x_max, y_min, y_max, z_min, z_max
