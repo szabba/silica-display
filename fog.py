@@ -135,7 +135,7 @@ class Fog(object):
                             self.__copy_shift.add(*shift)
                             self.__copy_shift.set()
 
-                        layer.draw()
+                            layer.draw()
 
         gl.glDepthMask(gl.GL_TRUE)
         gl.glDisable(gl.GL_BLEND)
