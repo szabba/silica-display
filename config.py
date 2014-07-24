@@ -114,6 +114,11 @@ class Config(object):
 
         return self.__grid_size
 
+    def glass_repetitions(self):
+        """C.glass_repetitions() -> (x_rep, y_rep, z_rep)"""
+
+        return (10, 10, 1)
+
     def limits(self):
         """C.limits() -> x_min, x_max, y_min, y_max, z_min, z_max
 
