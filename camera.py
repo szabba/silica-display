@@ -339,10 +339,7 @@ class Camera(object):
                     self.aspect_ratio(),
                     Camera.flip_handedness(),
                     self.look_at_middle(),
-                    self.scale(),
-                    self.rot_y(),
-                    self.rot_z(),
-                    self.rot_x(),
+                    self.sr_matrix(),
                     self.translate(),
                     ])
 
