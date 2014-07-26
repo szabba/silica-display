@@ -58,6 +58,15 @@ class Camera(object):
 
         self.move_along_sight_line(dt)
 
+        if self.__keys[key.C]:
+
+            self.__trans = self.init_translation()
+            self.__scale = self.__config.init_scale()
+            self.__phi = self.__config.init_phi()
+            self.__theta = self.__config.init_theta()
+
+            self.dirty()
+
     def move_along_sight_line(self, dt):
         """C.move_along_sight_line(dt)
 
