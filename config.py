@@ -187,7 +187,7 @@ class Config(object):
     def init_translation(self):
         """C.init_translation() -> initial translation vector's coordinates"""
 
-        return numpy.array([[0], [0], [0], [1]])
+        return numpy.array([[0], [0], [0], [1]], dtype=numpy.float)
 
     def zoom_speed(self):
         """C.zoom_speed() -> zoom speed factor"""
