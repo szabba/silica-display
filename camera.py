@@ -320,7 +320,11 @@ class Camera(object):
         return matrix
 
     def sr_matrix(self):
-        """C.sr_matrix() -> transform matrix"""
+        """C.sr_matrix() -> transform matrix
+
+        A matrix that performs the same rotation and scaling as the camera.
+        Useful in converting window coordinates to object coordinates.
+        """
 
         if self.__sr_matrix is None:
 
