@@ -34,6 +34,14 @@ class Camera(object):
         self.__matrix = None
         self.__gl_matrix = None
 
+    def center_point(self):
+        """C.center_point() -> (x, y, z)
+
+        Coordinates of the center of the repeated glass pieces.
+        """
+
+        return 0, 0, 0
+
     def tick(self, dt):
         """C.tick(dt)
 
