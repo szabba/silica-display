@@ -197,7 +197,7 @@ class Config(object):
     def speed_along_sight_line(self):
         """C.speed_along_sight_line() -> speed of movement along the sight line"""
 
-        return 1.0
+        return 3.0
 
     def rot_z_speed(self):
         """C.rot_z_speed() -> speed of rotation about the z axis"""
