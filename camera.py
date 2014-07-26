@@ -35,7 +35,10 @@ class Camera(object):
         self.__gl_matrix = None
 
     def init_translation(self):
-        """C.init_translation() -> numpy array"""
+        """C.init_translation() -> numpy array
+
+        Initial translation vector, in homogeneous coordinates, as a column matrix.
+        """
 
         return numpy.array(self.center_point() + (1,)).reshape((4, 1))
 
