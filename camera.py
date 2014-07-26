@@ -40,7 +40,7 @@ class Camera(object):
         Initial translation vector, in homogeneous coordinates, as a column matrix.
         """
 
-        return numpy.array(
+        return -numpy.array(
                 self.center_point() + (1,),
                 dtype=numpy.float
                 ).reshape((4, 1))
@@ -51,7 +51,10 @@ class Camera(object):
         Coordinates of the center of the repeated glass pieces.
         """
 
-        return 0, 0, 0
+        dimmensions = self.__config.grid_size()
+        repetitions = self.__config.glass_repetitions()
+
+        return tuple((dim * rep) / 2.0 for dim, rep in zip(dimmensions, repetitions))
 
     def tick(self, dt):
         """C.tick(dt)
