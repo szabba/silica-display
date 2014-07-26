@@ -35,8 +35,12 @@ class Camera(object):
         self.__gl_matrix = None
 
     def tick(self, dt):
+        """C.tick(dt)
 
-        pass
+        Perform operations in need of being done at short time intervals.
+        """
+
+        self.move_along_sight_line(dt)
 
     def move_along_sight_line(self, dt):
         """C.move_along_sight_line(dt)
