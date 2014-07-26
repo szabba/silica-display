@@ -316,17 +316,8 @@ class Camera(object):
 
             self.__theta += dx * self.__config.rot_z_speed()
 
-            if self.__phi < -math.pi / 2:
-                self.__phi = -math.pi / 2
-
-            elif self.__phi > math.pi / 2:
-                self.__phi = math.pi / 2
-
-            while self.__theta < 0:
-                self.__theta += 2 * math.pi
-
-            while self.__theta >= 2 * math.pi:
-                self.__theta -= 2 * math.pi
+            self.__phi = limit_angle(self.__phi, (-math.pi / 2, math.pi / 2), CUT_OFF)
+            self.__theta = limit_angle(self.__theta, (0, 2 * math.pi), WRAP)
 
         elif buttons == mouse.RIGHT:
 
