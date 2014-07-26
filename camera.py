@@ -16,6 +16,17 @@ CUT_OFF, WRAP = range(2)
 
 
 def limit_angle(angle, interval, mode):
+    """limit_angle(angle, (mini, maxi), mode) -> limited angle
+
+    Ensures that the angle is between mini and maxi (inclusive). Mode is either
+    CUT_OFF or WRAP.
+
+    CUT_OFF means that the values outside of the interval are simply capped.
+
+    WRAP means that adding n * (maxi - mini) to the angle (where n is an
+    integer) won't affect the result.
+    """
+
     mini, maxi = interval
 
     if mode is CUT_OFF:
