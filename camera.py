@@ -57,6 +57,13 @@ class Camera(object):
         """
 
         self.move_along_sight_line(dt)
+        self.center()
+
+    def center(self):
+        """C.center()
+
+        Center the camera on the glass.
+        """
 
         if self.__keys[key.C]:
 
