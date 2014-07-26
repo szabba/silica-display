@@ -59,7 +59,12 @@ class Camera(object):
 
             k = numpy.array([[0, 0, 1, 1]]).T
 
-            move = numpy.eye(4)
+            SR = self.__dot([
+                    self.scale(),
+                    self.rot_y(),
+                    self.rot_z()])
+
+            move = numpy.linalg.inv(SR)
 
             self.__trans[:3] = self.__trans[:3] + displacement * move.dot(k)[:3]
 
