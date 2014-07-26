@@ -213,6 +213,25 @@ class Camera(object):
 
         return rot_y
 
+    def rot_x(self):
+
+        angle = math.pi / 2
+
+        cos = math.cos(angle)
+        sin = math.sin(angle)
+
+        rot_x = numpy.array([
+            [1,   0,    0, 0],
+            [0, cos, -sin, 0],
+            [0, sin,  cos, 0],
+            [0,   0,    0, 1]])
+
+        print "rot_x"
+        print rot_x
+        print
+
+        return rot_x
+
     def translate(self):
 
         translate = numpy.eye(4)
