@@ -12,6 +12,24 @@ from pyglet.window import mouse
 from pyglet.window import key
 
 
+CUT_OFF, WRAP = range(2)
+
+
+def limit_angle(angle, interval, mode):
+    mini, maxi = interval
+
+    if mode is CUT_OFF:
+        pass
+
+    elif mode is WRAP:
+        pass
+
+    else:
+        raise ValueError('mode must be either CUT_OFF or WRAP')
+
+    return angle
+
+
 class Camera(object):
     '''A camera'''
 
