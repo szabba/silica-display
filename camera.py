@@ -30,10 +30,22 @@ def limit_angle(angle, interval, mode):
     mini, maxi = interval
 
     if mode is CUT_OFF:
-        pass
+
+        if angle < mini:
+            angle = mini
+
+        elif angle > maxi:
+            angle = maxi
 
     elif mode is WRAP:
-        pass
+
+        period = maxi - mini
+
+        while angle < mini:
+            angle += period
+
+        while angle >= maxi:
+            angle -= period
 
     else:
         raise ValueError('mode must be either CUT_OFF or WRAP')
