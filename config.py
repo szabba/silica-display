@@ -189,8 +189,8 @@ class Config(object):
 
         return numpy.array([[0], [0], [0], [1]], dtype=numpy.float)
 
-    def zoom_speed(self):
-        """C.zoom_speed() -> zoom speed factor"""
+    def speed_along_sight_line(self):
+        """C.speed_along_sight_line() -> speed of movement along the sight line"""
 
         return 1.0
 

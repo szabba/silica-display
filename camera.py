@@ -51,7 +51,7 @@ class Camera(object):
 
         if self.__keys[key.UP] or self.__keys[key.DOWN]:
 
-            speed = self.__scale * self.__config.zoom_speed()
+            speed = self.__scale * self.__config.speed_along_sight_line()
 
             displacement = speed * (
                     self.__keys.get(key.UP, 0) - self.__keys.get(key.DOWN, 0)
