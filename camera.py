@@ -97,11 +97,7 @@ class Camera(object):
 
             k = numpy.array([[0, 0, 1, 1]]).T
 
-            SR = self.__dot([
-                    self.scale(),
-                    self.rot_y(),
-                    self.rot_z(),
-                    self.rot_x()])
+            SR = self.sr_matrix()
 
             move = numpy.linalg.inv(SR)
 
@@ -293,11 +289,7 @@ class Camera(object):
 
         elif buttons == mouse.RIGHT:
 
-            SR = self.__dot([
-                    self.scale(),
-                    self.rot_y(),
-                    self.rot_z(),
-                    self.rot_x()])
+            SR = self.sr_matrix()
 
             u = numpy.array([
                 [dx * self.__config.trans_speed()],
