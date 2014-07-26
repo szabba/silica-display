@@ -9,6 +9,7 @@ import numpy
 from pyglet import gl
 from pyglet import clock
 from pyglet.window import mouse
+from pyglet.window import key
 
 
 class Camera(object):
@@ -36,6 +37,29 @@ class Camera(object):
     def tick(self, dt):
 
         pass
+
+    def move_along_sight_line(self, dt):
+        """C.move_along_sight_line(dt)
+
+        Move the camera along the sight line if the UP or DOWN arrow key is
+        pressed.
+        """
+
+        if self.__keys[key.UP] or self.__keys[key.DOWN]:
+
+            speed = self.__scale * self.__config.zoom_speed()
+
+            displacement = speed * (
+                    self.__keys.get(key.UP, 0) - self.__keys.get(key.DOWN, 0)
+                    ) * dt
+
+            k = numpy.array([[0, 0, 1, 1]]).T
+
+            move = numpy.eye(4)
+
+            self.__trans[:3] = self.__trans[:3] + displacement * move.dot(k)[:3]
+
+            self.dirty()
 
     def foreshorten(self):
         """Camera.foreshorten() -> numpy array"""
