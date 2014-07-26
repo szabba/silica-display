@@ -192,7 +192,7 @@ class Config(object):
     def zoom_speed(self):
         """C.zoom_speed() -> zoom speed factor"""
 
-        return 0.05
+        return 1.0
 
     def rot_z_speed(self):
         """C.rot_z_speed() -> speed of rotation about the z axis"""
