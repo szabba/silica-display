@@ -100,7 +100,8 @@ class Camera(object):
             SR = self.__dot([
                     self.scale(),
                     self.rot_y(),
-                    self.rot_z()])
+                    self.rot_z(),
+                    self.rot_x()])
 
             move = numpy.linalg.inv(SR)
 
@@ -215,7 +216,7 @@ class Camera(object):
 
     def rot_x(self):
 
-        angle = math.pi / 2
+        angle = -math.pi / 2
 
         cos = math.cos(angle)
         sin = math.sin(angle)
@@ -294,7 +295,8 @@ class Camera(object):
             SR = self.__dot([
                     self.scale(),
                     self.rot_y(),
-                    self.rot_z()])
+                    self.rot_z(),
+                    self.rot_x()])
 
             u = numpy.array([
                 [dx * self.__config.trans_speed()],
@@ -329,6 +331,7 @@ class Camera(object):
                     self.scale(),
                     self.rot_y(),
                     self.rot_z(),
+                    self.rot_x(),
                     self.translate(),
                     ])
 
