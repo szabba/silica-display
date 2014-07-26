@@ -40,7 +40,10 @@ class Camera(object):
         Initial translation vector, in homogeneous coordinates, as a column matrix.
         """
 
-        return numpy.array(self.center_point() + (1,)).reshape((4, 1))
+        return numpy.array(
+                self.center_point() + (1,),
+                dtype=numpy.float
+                ).reshape((4, 1))
 
     def center_point(self):
         """C.center_point() -> (x, y, z)
