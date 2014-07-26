@@ -29,10 +29,15 @@ class Camera(object):
         self.__phi = config.init_phi()
         self.__theta = config.init_theta()
 
-        self.__trans = config.init_translation()
+        self.__trans = self.init_translation()
 
         self.__matrix = None
         self.__gl_matrix = None
+
+    def init_translation(self):
+        """C.init_translation() -> numpy array"""
+
+        return numpy.array(self.center_point() + (1,)).reshape((4, 1))
 
     def center_point(self):
         """C.center_point() -> (x, y, z)
