@@ -252,6 +252,7 @@ class Camera(object):
         '''
 
         self.__matrix = None
+        self.__sr_matrix = None
         self.__gl_matrix = None
 
     def on_resize(self, width, height):
@@ -318,8 +319,22 @@ class Camera(object):
 
         return matrix
 
+    def sr_matrix(self):
+        """C.sr_matrix() -> transform matrix"""
+
+        if self.__sr_matrix is None:
+
+            self.__sr_matrix = self.__dot([
+                    self.scale(),
+                    self.rot_y(),
+                    self.rot_z(),
+                    self.rot_x(),
+                    ])
+
+        return self.__sr_matrix
+
     def matrix(self):
-        """C.matrix -> camera matrix"""
+        """C.matrix() -> camera matrix"""
 
         if self.__matrix is None:
 
