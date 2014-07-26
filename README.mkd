@@ -1,0 +1,82 @@
+# Visualisation for SILICA
+
+The program visualises a piece of porous silicate glass and magnetic
+nanoparticles under it's influence. Both the glass piece and particle movements
+are described by input files (of which only the glass file is necessary.
+
+## Usage
+
+```
+> python display.py [OPTIONS] GLASS_FILE
+```
+
+## Glass file
+
+The glass file must be named `dataWIDTHxHEIGHTxDEPTHtNUMBER_NUMBER.dat` for the
+program to properly guess the glass piece's size. The glass is shown as built
+from cubes of unit size with integer coordinates.
+
+The file can contain any number of lines, each containing 4 numbers separated
+by single spaces. The first three are the (x, y, z) coordinates of a glass
+cube. The last one is 1 when a cube is present at the coordinates, and 0 when
+it's not.
+
+The same spatial coordinates must not appear in multiple lines of a glass file.
+The program behaviour when they do is left unspecified.
+
+Line ordering doesn't matter. Lines ending in 0s can be safely omitted.
+
+An example follows.
+
+```
+0 0 0 1
+1 1 1 1
+2 2 2 1
+```
+
+Yes, it is not a very imaginative example.
+
+# Dependencies
+
+To run the program you will need:
+
+* Python 2.7
+* Pyglet 1.1
+* Numpy 1.8
+* Scipy 0.14
+* GCC 4.9
+
+The versions specified are the ones the program has been extensively run
+against. It might work just fine with other ones.
+
+# Language usage statistic
+
+The program is written in a combination of three different languages and
+uses several not-so-simple libraries and APIs.
+
+```
+> cloc --read-lang-def custom.cloc .                                    25 text
+files.
+      25 unique files.
+     481 files ignored.
+
+http://cloc.sourceforge.net v 1.60  T=0.06 s (315.3 files/s, 32892.3 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Python                          10            636            191            946
+GLSL                             8             58              3            114
+C                                1              9              0             25
+-------------------------------------------------------------------------------
+SUM:                            19            703            194           1085
+-------------------------------------------------------------------------------
+```
+
+That gives a total of
+
+* 1773 lines of Python
+* 175 lines of the OpenGL Shading Language
+* 34 lines of C
+
+`custom.cloc` contains the language specification for GLSL (so that `cloc` can
+count shader sources).
