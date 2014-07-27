@@ -11,6 +11,7 @@ from pyglet import gl
 from constants import *
 from utils import *
 import shaders
+import cube
 
 
 class Axes(object):
@@ -62,6 +63,29 @@ class Axes(object):
             color=self.__colors(pos_arr),
             normal=self.__normals(pos_arr),
             position=pos_arr))
+
+    def __positions_and_normals(self):
+        """A.__positions_and_normals() -> positions, normals"""
+
+        positions = cube.CUBE_FACES.repeat(
+                AXIS_COUNT
+        ).reshape(
+                cube.CUBE_FACES.shape + (AXIS_COUNT, )
+        )
+        positions = numpy.rollaxis(positions, -1)
+
+        positions[0, :, :, :, 0] *= 8
+        positions[1, :, :, :, 1] *= 8
+        positions[2, :, :, :, 2] *= 8
+
+        normals = cube.CUBE_NORMALS.repeat(
+                AXIS_COUNT
+        ).reshape(
+                cube.CUBE_NORMALS.shape + (AXIS_COUNT, )
+        )
+        normals = numpy.rollaxis(normals, -1)
+
+        return positions, normals
 
     def __positions(self):
         """A.__positions() -> ctypes array of gl.GLfloat
