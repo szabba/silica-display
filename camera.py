@@ -74,7 +74,9 @@ class Camera(transform.Transform):
 
         self.__rot_y = transform.BasicAxisRotation(config.init_phi(), 1)
         self.__rot_y.add_user(self)
-        self.__theta = config.init_theta()
+
+        self.__rot_z = transform.BasicAxisRotation(config.init_theta(), 2)
+        self.__rot_z.add_user(self)
 
         self.__trans = self.init_translation()
 
@@ -120,7 +122,7 @@ class Camera(transform.Transform):
             self.__trans = self.init_translation()
             self.__scale.set_scale(self.__config.init_scale())
             self.__rot_y.set_angle(self.__config.init_phi())
-            self.__theta = self.__config.init_theta()
+            self.__rot_z.set_angle(self.__config.init_theta())
 
             self.dirty()
 
@@ -192,19 +194,6 @@ class Camera(transform.Transform):
 
         return look_at
 
-    def rot_z(self):
-
-        cos = math.cos(self.__theta)
-        sin = math.sin(self.__theta)
-
-        rot_z = numpy.array([
-            [cos, -sin, 0, 0],
-            [sin,  cos, 0, 0],
-            [  0,    0, 1, 0],
-            [  0,    0, 0, 1]])
-
-        return rot_z
-
     def rot_x(self):
 
         angle = -math.pi / 2
@@ -262,13 +251,16 @@ class Camera(transform.Transform):
             phi = self.__rot_y.angle()
             phi += dx * self.__config.rot_z_speed()
 
-            self.__theta += dy * self.__config.rot_z_speed()
+            theta = self.__rot_z.angle()
+            theta += dy * self.__config.rot_z_speed()
 
             self.__rot_y.set_angle(
                     limit_angle(
                         phi, (0, 2 * math.pi), WRAP))
 
-            self.__theta = limit_angle(self.__theta, (-math.pi / 2, math.pi / 2), CUT_OFF)
+            self.__rot_z.set_angle(
+                    limit_angle(
+                        theta, (-math.pi / 2, math.pi / 2), CUT_OFF))
 
         elif buttons == mouse.RIGHT:
 
@@ -306,7 +298,7 @@ class Camera(transform.Transform):
             self.__sr_matrix = self.__dot([
                     self.__scale.matrix(),
                     self.__rot_y.matrix(),
-                    self.rot_z(),
+                    self.__rot_z.matrix(),
                     self.rot_x(),
                     ])
 
