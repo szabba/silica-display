@@ -19,7 +19,9 @@ class Axes(object):
 
     TRIANGLES_PER_AXIS = 8
 
-    def __init__(self, config, cam):
+    def __init__(self, config, cam, window):
+
+        self.__width, self.__height = window.get_size()
 
         self.__config = config
         self.__cam = cam
@@ -180,6 +182,11 @@ class Axes(object):
             color.insert(0, color.pop(-1))
 
         return colors
+
+    def on_resize(self, width, height):
+
+        self.__width = width
+        self.__height = height
 
     def on_draw(self):
 

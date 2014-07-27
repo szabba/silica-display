@@ -36,7 +36,7 @@ class DisplayApp(object):
         cam = Camera(config, keys)
 
         self.__window.push_handlers(
-                Axes(config, cam))
+                Axes(config, cam, self.__window))
 
         self.__window.push_handlers(
                 Fog(config, cam))
