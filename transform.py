@@ -185,3 +185,10 @@ class Scale(Transform):
         """S.scale() -> scale"""
 
         return self.__scale
+
+    def calculate(self):
+
+        matrix = numpy.eye(4)
+        matrix[:3, :3] *= self.__scale
+
+        self.set_matrix(matrix)
