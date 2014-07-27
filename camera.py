@@ -14,47 +14,6 @@ from pyglet.window import key
 import transform
 
 
-CUT_OFF, WRAP = range(2)
-
-
-def limit_angle(angle, interval, mode):
-    """limit_angle(angle, (mini, maxi), mode) -> limited angle
-
-    Ensures that the angle is between mini and maxi (inclusive). Mode is either
-    CUT_OFF or WRAP.
-
-    CUT_OFF means that the values outside of the interval are simply capped.
-
-    WRAP means that adding n * (maxi - mini) to the angle (where n is an
-    integer) won't affect the result.
-    """
-
-    mini, maxi = interval
-
-    if mode is CUT_OFF:
-
-        if angle < mini:
-            angle = mini
-
-        elif angle > maxi:
-            angle = maxi
-
-    elif mode is WRAP:
-
-        period = maxi - mini
-
-        while angle < mini:
-            angle += period
-
-        while angle >= maxi:
-            angle -= period
-
-    else:
-        raise ValueError('mode must be either CUT_OFF or WRAP')
-
-    return angle
-
-
 class Camera(transform.Transform):
     '''A camera'''
 
@@ -283,3 +242,44 @@ class Camera(transform.Transform):
 
         gl.glClearColor(1, 1, 1, 1)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+
+
+CUT_OFF, WRAP = range(2)
+
+
+def limit_angle(angle, interval, mode):
+    """limit_angle(angle, (mini, maxi), mode) -> limited angle
+
+    Ensures that the angle is between mini and maxi (inclusive). Mode is either
+    CUT_OFF or WRAP.
+
+    CUT_OFF means that the values outside of the interval are simply capped.
+
+    WRAP means that adding n * (maxi - mini) to the angle (where n is an
+    integer) won't affect the result.
+    """
+
+    mini, maxi = interval
+
+    if mode is CUT_OFF:
+
+        if angle < mini:
+            angle = mini
+
+        elif angle > maxi:
+            angle = maxi
+
+    elif mode is WRAP:
+
+        period = maxi - mini
+
+        while angle < mini:
+            angle += period
+
+        while angle >= maxi:
+            angle -= period
+
+    else:
+        raise ValueError('mode must be either CUT_OFF or WRAP')
+
+    return angle
