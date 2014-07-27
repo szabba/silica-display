@@ -91,3 +91,16 @@ class Product(Transform):
 
         factor.add_user(self)
         self.__factors.append(factor)
+
+    def calculate(self):
+        """P.calculate()
+
+        Multiplies the factor matrices first to last and stores as the result
+        transform matrix.
+        """
+
+        mat = numpy.eye(4)
+        for factor in self.__factors:
+            mat = mat.dot(factor.matrix())
+
+        self.set_matrix(mat)
