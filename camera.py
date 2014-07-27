@@ -84,7 +84,8 @@ class Camera(transform.Transform):
         self.__rot_x = transform.BasicAxisRotation(-math.pi / 2, 0)
         self.__sr.add_factor(self.__rot_x)
 
-        self.__trans = self.init_translation()
+        self.__t = transform.Translate(*self.center_point())
+        self.__t.add_user(self)
 
     def init_translation(self):
         """C.init_translation() -> numpy array
@@ -125,7 +126,7 @@ class Camera(transform.Transform):
 
         if self.__keys[key.C]:
 
-            self.__trans = self.init_translation()
+            self.__t.set_r(*self.center_point())
             self.__scale.set_scale(self.__config.init_scale())
             self.__rot_y.set_angle(self.__config.init_phi())
             self.__rot_z.set_angle(self.__config.init_theta())
@@ -153,9 +154,13 @@ class Camera(transform.Transform):
 
             move = numpy.linalg.inv(SR)
 
-            self.__trans[:3] = self.__trans[:3] + displacement * move.dot(k)[:3]
+            trans = numpy.array([self.__t.r()]).T
 
-            self.dirty()
+            trans += displacement * move.dot(k)[:3]
+
+            r_x, r_y, r_z = trans[0, 0], trans[1, 0], trans[2, 0]
+
+            self.__t.set_r(r_x, r_y, r_z)
 
     def foreshorten(self):
         """Camera.foreshorten() -> numpy array"""
@@ -200,14 +205,6 @@ class Camera(transform.Transform):
 
         return look_at
 
-    def translate(self):
-
-        translate = numpy.eye(4)
-
-        translate[:, 3] = self.__trans.reshape((4,))
-
-        return translate
-
     def on_resize(self, width, height):
 
         self.__width = width
@@ -248,15 +245,18 @@ class Camera(transform.Transform):
 
             SR = self.__sr.matrix()
 
-            u = numpy.array([
-                [dx * self.__config.trans_speed()],
-                [dy * self.__config.trans_speed()],
-                [0],
-                [0]])
+            u = numpy.array([[
+                dx * self.__config.trans_speed(),
+                dy * self.__config.trans_speed(),
+                0, 0]]).T
 
-            self.__trans = self.__trans + numpy.linalg.inv(SR).dot(u)
+            r = numpy.array([self.__t.r()]).T
+            print 'r.shape', r.shape
+            print 'inv(SR).shape', numpy.linalg.inv(SR).shape
+            print 'u.shape', u.shape
+            r += numpy.linalg.inv(SR).dot(u)[:3]
 
-        self.dirty()
+            self.__t.set_r(r[0, 0], r[1, 0], r[2, 0])
 
     def __dot(self, matrices, vect=numpy.array([[0], [0], [5], [1]])):
 
@@ -276,7 +276,7 @@ class Camera(transform.Transform):
             Camera.flip_handedness(),
             self.look_at_middle(),
             self.__sr.matrix(),
-            self.translate(),
+            self.__t.matrix(),
             ]))
 
     def on_draw(self):
