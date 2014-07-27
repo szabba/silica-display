@@ -2,7 +2,8 @@
 
 __all__ = [
         'CUBE_FACES', 'CUBE_NORMALS',
-        'SQUARES_PER_CUBE', 'TRIANGLES_PER_SQUARE']
+        'SQUARES_PER_CUBE', 'TRIANGLES_PER_SQUARE',
+        'TRIANGLES_PER_CUBE']
 
 import numpy
 
@@ -11,6 +12,7 @@ from constants import *
 
 TRIANGLES_PER_SQUARE = 2
 SQUARES_PER_CUBE = 6
+TRIANGLES_PER_CUBE = TRIANGLES_PER_SQUARE * SQUARES_PER_CUBE
 
 
 def cube_faces():
