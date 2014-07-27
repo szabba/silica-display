@@ -4,21 +4,20 @@ uniform vec3 sun;
 uniform float ambient;
 uniform float diffuse;
 
-varying vec3 local_normal;
-varying vec3 local_color;
+varying vec3 f_normal;
+varying vec3 f_color;
 
 void main(void) {
 
-	float I_0 = length(sun);
+	vec3 act_normal = normalize(f_normal);
 
-	vec3 sun_dir = normalize(sun);
+	float diffuse_product = dot(normalize(sun), act_normal);
 
-	float I = ambient;
+	diffuse_product *= - float(diffuse_product < 0);
 
-	//if (dot(sun_dir, local_normal) > 0) {
-	//	I += dot(sun_dir, local_normal) * diffuse;
-	//}
-	gl_FragColor.a = 1;
+	float intensity =
+		ambient +
+		diffuse * diffuse_product;
 
-	gl_FragColor.rgb = I * local_color;
+	gl_FragColor = vec4(f_color * intensity, 1);
 }
