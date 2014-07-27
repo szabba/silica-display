@@ -2,6 +2,8 @@
 
 __all__ = ['Transform']
 
+from pyglet import gl
+
 
 class Transform(object):
     '''A linear transform of homogeneous coordinates.'''
@@ -48,3 +50,16 @@ class Transform(object):
             self.calculate()
 
         return self.__matrix
+
+    def gl_matrix(self):
+        """T.gl_matrix() -> the matrix as a ctypes array ready for OpenGL"""
+
+        if self.__gl_matrix is None:
+
+            self.__gl_matrix = (gl.GLfloat * 16)()
+
+            for i, elem in enumerate(self.matrix().flat):
+
+                self.__gl_matrix[i] = elem
+
+        return self.__gl_matrix
