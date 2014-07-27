@@ -208,14 +208,6 @@ class Camera(transform.Transform):
 
         return translate
 
-    def dirty(self):
-        '''C.dirty()
-
-        Forces the matrices to be recalculated the next time they are requested.
-        '''
-
-        super(Camera, self).dirty()
-
     def on_resize(self, width, height):
 
         self.__width = width
