@@ -29,6 +29,9 @@ class Camera(transform.Transform):
 
         self.__width, self.__height = window.get_size()
 
+        self.__flip_hand = transform.FlipHandedness(Z_AXIS)
+        self.__flip_hand.add_user(self)
+
         self.__sr = transform.Product()
         self.__sr.add_user(self)
 
@@ -144,15 +147,6 @@ class Camera(transform.Transform):
 
         return aspect
 
-    @staticmethod
-    def flip_handedness():
-        '''Camera.flip_handedness() -> numpy array'''
-
-        fliper = numpy.eye(4)
-        fliper[2, 2] = -1
-
-        return fliper
-
     def look_at_middle(self):
 
         _, d = self.__config.perspective_params()
@@ -233,7 +227,7 @@ class Camera(transform.Transform):
         self.set_matrix(self.__dot([
             self.foreshorten(),
             self.aspect_ratio(),
-            Camera.flip_handedness(),
+            self.__flip_hand.matrix(),
             self.look_at_middle(),
             self.__sr.matrix(),
             self.__t.matrix(),
