@@ -34,6 +34,14 @@ class Transform(object):
 
         self.__used_by.add(user)
 
+    def set_matrix(self, matrix):
+        """T.set_matrix(matrix)
+
+        Sets the internal matrix. To be used by subclasses.
+        """
+
+        self.__matrix = matrix
+
     def calculate(self):
         """T.calculate()
 
