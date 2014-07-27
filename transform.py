@@ -225,3 +225,13 @@ class Translate(Transform):
         t[:3, 3] = self.__r
 
         self.set_matrix(t)
+
+
+class FlipHandedness(Transform):
+    '''Flips handedness of the coordinate system by changing the sign of the
+    given axis' coordinate.
+    '''
+
+    def __init__(self, axis):
+
+        self.__axis = axis
