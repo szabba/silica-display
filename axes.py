@@ -183,8 +183,7 @@ class Axes(object):
 
     def on_draw(self):
 
-        gl.glClearColor(1, 1, 1, 1)
-        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+        gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
 
         with self.__triangles as triangles:
 
