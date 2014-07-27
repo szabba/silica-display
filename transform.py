@@ -5,6 +5,8 @@ __all__ = ['Transform', 'Product', 'BasicAxisRotation']
 
 from pyglet import gl
 
+from constants import AXIS_COUNT
+
 
 class Transform(object):
     '''A linear transform of homogeneous coordinates.'''
@@ -123,3 +125,19 @@ class BasicAxisRotation(Transform):
 
         self.__angle = angle
         self.dirty()
+
+    def __trig_indices(self):
+        """BAR.__trig_indices() -> up_left, up_right, down_left, down_right
+
+        The indices at which the trig functions of the angle should be
+        inserted.
+        """
+
+        ixes = [axis for axis in range(AXIS_COUNT) if axis != self.__axis]
+
+        out = []
+        for i in ixes:
+            for j in ixes:
+                out.append((i, j))
+
+        return out
