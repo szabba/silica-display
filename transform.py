@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['Transform', 'Product']
+__all__ = ['Transform', 'Product', 'BasicAxisRotation']
+
 
 from pyglet import gl
 
@@ -104,3 +105,12 @@ class Product(Transform):
             mat = mat.dot(factor.matrix())
 
         self.set_matrix(mat)
+
+
+class BasicAxisRotation(Transform):
+    """Rotation around one of the basic axes."""
+
+    def __init__(self, angle, axis):
+
+        super(BasicAxisRotation, self).__init__()
+        self.__angle, self.__axis = angle, axis
