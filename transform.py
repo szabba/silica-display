@@ -3,6 +3,9 @@
 __all__ = ['Transform', 'Product', 'BasicAxisRotation']
 
 
+import math
+
+import numpy
 from pyglet import gl
 
 from constants import AXIS_COUNT
@@ -141,3 +144,16 @@ class BasicAxisRotation(Transform):
                 out.append((i, j))
 
         return out
+
+    def calculate(self):
+
+        cos, sin = math.cos(self.__angle), math.sin(self.__angle)
+
+        matrix = numpy.eye(4)
+        for ix, value in zip(
+                self.__trig_indices(),
+                [cos, -sin, sin, cos]):
+
+            matrix[ix] = value
+
+        self.set_matrix(matrix)
