@@ -192,3 +192,12 @@ class Scale(Transform):
         matrix[:3, :3] *= self.__scale
 
         self.set_matrix(matrix)
+
+
+class Translate(Transform):
+    '''A translation by a 3D vector'''
+
+    def __init__(self, x, y, z):
+
+        super(Translate, self).__init__()
+        self.__r = (x, y, z)
