@@ -129,6 +129,11 @@ class BasicAxisRotation(Transform):
         self.__angle = angle
         self.dirty()
 
+    def angle(self):
+        """BAR.angle() -> angle"""
+
+        return self.__angle
+
     def __trig_indices(self):
         """BAR.__trig_indices() -> up_left, up_right, down_left, down_right
 
