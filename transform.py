@@ -81,3 +81,13 @@ class Product(Transform):
         super(Product, self).__init__()
 
         self.__factors = []
+
+    def add_factor(self, factor):
+        """P.add_factor(factor)
+
+        Add a new factor to the product transform. The last one added ends up
+        applied to the homogeneous coordinates first.
+        """
+
+        factor.add_user(self)
+        self.__factors.append(factor)
