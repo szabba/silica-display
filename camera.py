@@ -11,6 +11,8 @@ from pyglet import clock
 from pyglet.window import mouse
 from pyglet.window import key
 
+import transform
+
 
 CUT_OFF, WRAP = range(2)
 
@@ -53,10 +55,12 @@ def limit_angle(angle, interval, mode):
     return angle
 
 
-class Camera(object):
+class Camera(transform.Transform):
     '''A camera'''
 
     def __init__(self, config, keys):
+
+        super(Camera, self).__init__()
 
         self.__config = config
         self.__keys = keys
@@ -71,9 +75,6 @@ class Camera(object):
         self.__theta = config.init_theta()
 
         self.__trans = self.init_translation()
-
-        self.__matrix = None
-        self.__gl_matrix = None
 
     def init_translation(self):
         """C.init_translation() -> numpy array
@@ -288,9 +289,8 @@ class Camera(object):
         Forces the matrices to be recalculated the next time they are requested.
         '''
 
-        self.__matrix = None
         self.__sr_matrix = None
-        self.__gl_matrix = None
+        super(Camera, self).dirty()
 
     def on_resize(self, width, height):
 
@@ -361,37 +361,16 @@ class Camera(object):
 
         return self.__sr_matrix
 
-    def matrix(self):
-        """C.matrix() -> camera matrix"""
+    def calculate(self):
 
-        if self.__matrix is None:
-
-            self.__matrix = self.__dot([
-                    self.foreshorten(),
-                    self.aspect_ratio(),
-                    Camera.flip_handedness(),
-                    self.look_at_middle(),
-                    self.sr_matrix(),
-                    self.translate(),
-                    ])
-
-        print self.__matrix
-        print
-
-        return self.__matrix
-
-    def gl_matrix(self):
-        """C.gl_matrix() -> OpenGL camera matrix as ctypes array"""
-
-        if self.__gl_matrix is None:
-
-            self.__gl_matrix = (gl.GLfloat * 16)()
-
-            for i, elem in enumerate(self.matrix().flat):
-
-                self.__gl_matrix[i] = elem
-
-        return self.__gl_matrix
+        self.set_matrix(self.__dot([
+            self.foreshorten(),
+            self.aspect_ratio(),
+            Camera.flip_handedness(),
+            self.look_at_middle(),
+            self.sr_matrix(),
+            self.translate(),
+            ]))
 
     def on_draw(self):
 
