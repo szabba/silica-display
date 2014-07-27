@@ -217,3 +217,10 @@ class Translate(Transform):
         """
 
         return self.__r
+
+    def calculate(self):
+
+        t = numpy.eye(4)
+        t[:3, 3] = self.__r
+
+        self.set_matrix(t)
