@@ -65,6 +65,12 @@ def parse_args(args):
             nargs=4, type=float,
             default=(0, 1, 1, 0.125))
 
+    parser.add_argument(
+            '-g', '--glass-color',
+            help='RGB color of the fog',
+            nargs=3, type=float,
+            default=(.7, .7, .7))
+
     return parser.parse_args(args)
 
 
@@ -125,6 +131,11 @@ class Config(object):
         """C.glass_repetitions() -> (x_rep, y_rep, z_rep)"""
 
         return self.__args.repeat
+
+    def glass_color(self):
+        """C.glass_color() -> the RGB glass color"""
+
+        return self.__args.glass_color
 
     def limits(self):
         """C.limits() -> x_min, x_max, y_min, y_max, z_min, z_max

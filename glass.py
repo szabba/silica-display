@@ -51,6 +51,10 @@ class Glass(object):
                 'sun',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
+        self.__color = self.__program.uniform(
+                'color',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
         self.__copy_shift = self.__program.uniform(
                 'copy_shift',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
@@ -236,6 +240,10 @@ class Glass(object):
             self.__camera.clear()
             self.__camera.add(*self.__cam.gl_matrix())
             self.__camera.set()
+
+            if not self.__color.filled():
+                self.__color.add(*self.__config.glass_color())
+            self.__color.set()
 
             if not self.__sun.filled():
                 self.__sun.add(*self.__config.sun_direction())
