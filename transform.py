@@ -40,3 +40,11 @@ class Transform(object):
 
         raise NotImplementedError(
             'A transform.Transform subtype must implement a calculate method')
+
+    def matrix(self):
+        """T.matrix() -> the transform matrix as a numpy array"""
+
+        if self.__matrix is None:
+            self.calculate()
+
+        return self.__matrix
