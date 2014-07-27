@@ -31,3 +31,12 @@ class Transform(object):
         """
 
         self.__used_by.add(user)
+
+    def calculate(self):
+        """T.calculate()
+
+        Calculate the internal numpy matrix.
+        """
+
+        raise NotImplementedError(
+            'A transform.Transform subtype must implement a calculate method')
