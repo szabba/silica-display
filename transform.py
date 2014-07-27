@@ -209,6 +209,7 @@ class Translate(Transform):
         """
 
         self.__r = (x, y, z)
+        self.dirty()
 
     def r(self):
         """T.r() -> (x, y, z)
