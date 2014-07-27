@@ -158,10 +158,6 @@ class Camera(transform.Transform):
             [0., 0., 1./d0 + 2./d, -1.],
             [0., 0.,        1./d0,  1.]])
 
-        print "foreshort"
-        print foreshort
-        print
-
         return foreshort
 
     def aspect_ratio(self):
@@ -171,10 +167,6 @@ class Camera(transform.Transform):
         aspect[0, 0] = 2 / float(self.__width)
         aspect[1, 1] = 2 / float(self.__height)
 
-        print "aspect"
-        print aspect
-        print
-
         return aspect
 
     @staticmethod
@@ -183,10 +175,6 @@ class Camera(transform.Transform):
 
         fliper = numpy.eye(4)
         fliper[2, 2] = -1
-
-        print "fliper"
-        print fliper
-        print
 
         return fliper
 
@@ -200,10 +188,6 @@ class Camera(transform.Transform):
         look_at[2, 2] = 1 / s
         look_at[2, 3] = -d / 2
 
-        print "look_at"
-        print look_at
-        print
-
         return look_at
 
     def scale(self):
@@ -211,10 +195,6 @@ class Camera(transform.Transform):
         scale = numpy.eye(4)
 
         scale[:3, :3] *= self.__scale
-
-        print "scale"
-        print scale
-        print
 
         return scale
 
@@ -229,10 +209,6 @@ class Camera(transform.Transform):
             [  0,    0, 1, 0],
             [  0,    0, 0, 1]])
 
-        print "rot_z"
-        print rot_z
-        print
-
         return rot_z
 
     def rot_y(self):
@@ -245,10 +221,6 @@ class Camera(transform.Transform):
             [  0, 1,    0, 0],
             [sin, 0,  cos, 0],
             [  0, 0,    0, 1]])
-
-        print "rot_y"
-        print rot_y
-        print
 
         return rot_y
 
@@ -265,10 +237,6 @@ class Camera(transform.Transform):
             [0, sin,  cos, 0],
             [0,   0,    0, 1]])
 
-        print "rot_x"
-        print rot_x
-        print
-
         return rot_x
 
     def translate(self):
@@ -276,10 +244,6 @@ class Camera(transform.Transform):
         translate = numpy.eye(4)
 
         translate[:, 3] = self.__trans.reshape((4,))
-
-        print "translate"
-        print translate
-        print
 
         return translate
 
