@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['Transform', 'Product', 'BasicAxisRotation']
+__all__ = ['Transform', 'Product', 'BasicAxisRotation', 'Scale']
 
 
 import math
@@ -162,3 +162,12 @@ class BasicAxisRotation(Transform):
             matrix[ix] = value
 
         self.set_matrix(matrix)
+
+
+class Scale(Transform):
+    """A scaling transform"""
+
+    def __init__(self, scale):
+
+        super(Scale, self).__init__()
+        self.__scale = scale
