@@ -78,6 +78,9 @@ class Camera(transform.Transform):
         self.__rot_z = transform.BasicAxisRotation(config.init_theta(), 2)
         self.__rot_z.add_user(self)
 
+        self.__rot_x = transform.BasicAxisRotation(-math.pi / 2, 0)
+        self.__rot_x.add_user(self)
+
         self.__trans = self.init_translation()
 
     def init_translation(self):
@@ -194,21 +197,6 @@ class Camera(transform.Transform):
 
         return look_at
 
-    def rot_x(self):
-
-        angle = -math.pi / 2
-
-        cos = math.cos(angle)
-        sin = math.sin(angle)
-
-        rot_x = numpy.array([
-            [1,   0,    0, 0],
-            [0, cos, -sin, 0],
-            [0, sin,  cos, 0],
-            [0,   0,    0, 1]])
-
-        return rot_x
-
     def translate(self):
 
         translate = numpy.eye(4)
@@ -299,7 +287,7 @@ class Camera(transform.Transform):
                     self.__scale.matrix(),
                     self.__rot_y.matrix(),
                     self.__rot_z.matrix(),
-                    self.rot_x(),
+                    self.__rot_x.matrix(),
                     ])
 
         return self.__sr_matrix
