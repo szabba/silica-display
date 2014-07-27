@@ -234,6 +234,7 @@ class FlipHandedness(Transform):
 
     def __init__(self, axis):
 
+        super(FlipHandedness, self).__init__()
         self.__axis = axis
 
     def calculate(self):
