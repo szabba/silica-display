@@ -74,7 +74,15 @@ class Axes(object):
         positions = numpy.rollaxis(positions, -1)
 
         positions[0, :, :, :, 0] *= 8
+        positions[0, :, :, :, 1] -= 1
+        positions[0, :, :, :, 2] -= 1
+
+        positions[1, :, :, :, 0] -= 1
         positions[1, :, :, :, 1] *= 8
+        positions[1, :, :, :, 2] -= 1
+
+        positions[2, :, :, :, 0] -= 1
+        positions[2, :, :, :, 1] -= 1
         positions[2, :, :, :, 2] *= 8
 
         normals = cube.CUBE_NORMALS.repeat(
