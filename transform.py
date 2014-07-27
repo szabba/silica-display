@@ -171,3 +171,12 @@ class Scale(Transform):
 
         super(Scale, self).__init__()
         self.__scale = scale
+
+    def set_scale(self, scale):
+        """S.set_scale(scale)
+
+        Set the scaling factor.
+        """
+
+        self.__scale = scale
+        self.dirty()
