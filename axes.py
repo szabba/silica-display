@@ -177,7 +177,7 @@ class Axes(object):
         for i in range(AXIS_COUNT):
 
             colors[i, :] = color
-            color.append(color.pop(0))
+            color.insert(0, color.pop(-1))
 
         return colors
 
