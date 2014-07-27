@@ -235,3 +235,10 @@ class FlipHandedness(Transform):
     def __init__(self, axis):
 
         self.__axis = axis
+
+    def calculate(self):
+
+        flipH = numpy.eye(4)
+        flipH[self.__axis, self.__axis] = -1
+
+        self.set_matrix(flipH)
