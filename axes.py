@@ -55,14 +55,13 @@ class Axes(object):
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
         self.__triangles = self.__program.triangle_list(
-                AXIS_COUNT * Axes.TRIANGLES_PER_AXIS)
+                AXIS_COUNT * cube.TRIANGLES_PER_CUBE)
 
-        pos_arr = self.__positions()
+        ps, ns = self.__positions_and_normals()
 
         self.__triangles.from_arrays(dict(
-            color=self.__colors(pos_arr),
-            normal=self.__normals(pos_arr),
-            position=pos_arr))
+            color=self.__colors(ps),
+            normal=ns, position=ps))
 
     def __positions_and_normals(self):
         """A.__positions_and_normals() -> positions, normals"""
