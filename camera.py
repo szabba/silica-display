@@ -72,7 +72,8 @@ class Camera(transform.Transform):
         self.__scale = transform.Scale(config.init_scale())
         self.__scale.add_user(self)
 
-        self.__phi = config.init_phi()
+        self.__rot_y = transform.BasicAxisRotation(config.init_phi(), 1)
+        self.__rot_y.add_user(self)
         self.__theta = config.init_theta()
 
         self.__trans = self.init_translation()
@@ -118,7 +119,7 @@ class Camera(transform.Transform):
 
             self.__trans = self.init_translation()
             self.__scale.set_scale(self.__config.init_scale())
-            self.__phi = self.__config.init_phi()
+            self.__rot_y.set_angle(self.__config.init_phi())
             self.__theta = self.__config.init_theta()
 
             self.dirty()
@@ -193,8 +194,8 @@ class Camera(transform.Transform):
 
     def rot_z(self):
 
-        cos = math.cos(self.__phi)
-        sin = math.sin(self.__phi)
+        cos = math.cos(self.__theta)
+        sin = math.sin(self.__theta)
 
         rot_z = numpy.array([
             [cos, -sin, 0, 0],
@@ -203,19 +204,6 @@ class Camera(transform.Transform):
             [  0,    0, 0, 1]])
 
         return rot_z
-
-    def rot_y(self):
-
-        cos = math.cos(self.__theta)
-        sin = math.sin(self.__theta)
-
-        rot_y = numpy.array([
-            [cos, 0, -sin, 0],
-            [  0, 1,    0, 0],
-            [sin, 0,  cos, 0],
-            [  0, 0,    0, 1]])
-
-        return rot_y
 
     def rot_x(self):
 
@@ -271,12 +259,16 @@ class Camera(transform.Transform):
 
         if buttons == mouse.LEFT:
 
-            self.__phi += dy * self.__config.rot_z_speed()
+            phi = self.__rot_y.angle()
+            phi += dx * self.__config.rot_z_speed()
 
-            self.__theta += dx * self.__config.rot_z_speed()
+            self.__theta += dy * self.__config.rot_z_speed()
 
-            self.__phi = limit_angle(self.__phi, (-math.pi / 2, math.pi / 2), CUT_OFF)
-            self.__theta = limit_angle(self.__theta, (0, 2 * math.pi), WRAP)
+            self.__rot_y.set_angle(
+                    limit_angle(
+                        phi, (0, 2 * math.pi), WRAP))
+
+            self.__theta = limit_angle(self.__theta, (-math.pi / 2, math.pi / 2), CUT_OFF)
 
         elif buttons == mouse.RIGHT:
 
@@ -313,7 +305,7 @@ class Camera(transform.Transform):
 
             self.__sr_matrix = self.__dot([
                     self.__scale.matrix(),
-                    self.rot_y(),
+                    self.__rot_y.matrix(),
                     self.rot_z(),
                     self.rot_x(),
                     ])
