@@ -3,6 +3,7 @@
 __all__ = ['Config']
 
 import os.path
+import sys
 import re
 import math
 import argparse
@@ -35,8 +36,8 @@ def guess_size(filename):
             int(match.groupdict()['d']))
 
 
-def parse_args():
-    """parse_args() -> the result of argparse's work"""
+def parse_args(args):
+    """parse_args(args) -> the result of argparse's work"""
 
     parser = argparse.ArgumentParser()
 
@@ -64,15 +65,15 @@ def parse_args():
             nargs=4, type=float,
             default=(0, 1, 1, 0.125))
 
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 class Config(object):
     """The shared configuration of a display app."""
 
-    def __init__(self):
+    def __init__(self, args=sys.argv[1:]):
 
-        self.__args = parse_args()
+        self.__args = parse_args(args)
 
         self.__sun = (gl.GLfloat * COORDINATES_PER_RAY)(
                 *[0.5, 1, 1.5])
