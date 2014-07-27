@@ -69,17 +69,20 @@ class Camera(transform.Transform):
 
         self.__width, self.__height = 1, 1
 
+        self.__sr = transform.Product()
+        self.__sr.add_user(self)
+
         self.__scale = transform.Scale(config.init_scale())
-        self.__scale.add_user(self)
+        self.__sr.add_factor(self.__scale)
 
         self.__rot_y = transform.BasicAxisRotation(config.init_phi(), 1)
-        self.__rot_y.add_user(self)
+        self.__sr.add_factor(self.__rot_y)
 
         self.__rot_z = transform.BasicAxisRotation(config.init_theta(), 2)
-        self.__rot_z.add_user(self)
+        self.__sr.add_factor(self.__rot_z)
 
         self.__rot_x = transform.BasicAxisRotation(-math.pi / 2, 0)
-        self.__rot_x.add_user(self)
+        self.__sr.add_factor(self.__rot_x)
 
         self.__trans = self.init_translation()
 
@@ -146,7 +149,7 @@ class Camera(transform.Transform):
 
             k = numpy.array([[0, 0, 1, 1]]).T
 
-            SR = self.sr_matrix()
+            SR = self.__sr.matrix()
 
             move = numpy.linalg.inv(SR)
 
@@ -211,7 +214,6 @@ class Camera(transform.Transform):
         Forces the matrices to be recalculated the next time they are requested.
         '''
 
-        self.__sr_matrix = None
         super(Camera, self).dirty()
 
     def on_resize(self, width, height):
@@ -252,7 +254,7 @@ class Camera(transform.Transform):
 
         elif buttons == mouse.RIGHT:
 
-            SR = self.sr_matrix()
+            SR = self.__sr.matrix()
 
             u = numpy.array([
                 [dx * self.__config.trans_speed()],
@@ -274,24 +276,6 @@ class Camera(transform.Transform):
 
         return matrix
 
-    def sr_matrix(self):
-        """C.sr_matrix() -> transform matrix
-
-        A matrix that performs the same rotation and scaling as the camera.
-        Useful in converting window coordinates to object coordinates.
-        """
-
-        if self.__sr_matrix is None:
-
-            self.__sr_matrix = self.__dot([
-                    self.__scale.matrix(),
-                    self.__rot_y.matrix(),
-                    self.__rot_z.matrix(),
-                    self.__rot_x.matrix(),
-                    ])
-
-        return self.__sr_matrix
-
     def calculate(self):
 
         self.set_matrix(self.__dot([
@@ -299,7 +283,7 @@ class Camera(transform.Transform):
             self.aspect_ratio(),
             Camera.flip_handedness(),
             self.look_at_middle(),
-            self.sr_matrix(),
+            self.__sr.matrix(),
             self.translate(),
             ]))
 
