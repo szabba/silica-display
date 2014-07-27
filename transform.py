@@ -23,3 +23,11 @@ class Transform(object):
 
         for user in self.__used_by:
             user.dirty()
+
+    def add_user(self, user):
+        """T.add_user(user)
+
+        Add a transform that will cascadingly be made dirty when this one does.
+        """
+
+        self.__used_by.add(user)
