@@ -209,3 +209,11 @@ class Translate(Transform):
         """
 
         self.__r = (x, y, z)
+
+    def r(self):
+        """T.r() -> (x, y, z)
+
+        The translation vector coordinates.
+        """
+
+        return self.__r
