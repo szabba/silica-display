@@ -69,7 +69,8 @@ class Camera(transform.Transform):
 
         self.__width, self.__height = 1, 1
 
-        self.__scale = config.init_scale()
+        self.__scale = transform.Scale(config.init_scale())
+        self.__scale.add_user(self)
 
         self.__phi = config.init_phi()
         self.__theta = config.init_theta()
@@ -116,7 +117,7 @@ class Camera(transform.Transform):
         if self.__keys[key.C]:
 
             self.__trans = self.init_translation()
-            self.__scale = self.__config.init_scale()
+            self.__scale.set_scale(self.__config.init_scale())
             self.__phi = self.__config.init_phi()
             self.__theta = self.__config.init_theta()
 
@@ -131,7 +132,7 @@ class Camera(transform.Transform):
 
         if self.__keys[key.UP] or self.__keys[key.DOWN]:
 
-            speed = self.__scale * self.__config.speed_along_sight_line()
+            speed = self.__scale.scale() * self.__config.speed_along_sight_line()
 
             displacement = speed * (
                     self.__keys.get(key.UP, 0) - self.__keys.get(key.DOWN, 0)
@@ -181,7 +182,7 @@ class Camera(transform.Transform):
     def look_at_middle(self):
 
         _, d = self.__config.perspective_params()
-        s = self.__scale
+        s = self.__scale.scale()
 
         look_at = numpy.eye(4)
 
@@ -189,14 +190,6 @@ class Camera(transform.Transform):
         look_at[2, 3] = -d / 2
 
         return look_at
-
-    def scale(self):
-
-        scale = numpy.eye(4)
-
-        scale[:3, :3] *= self.__scale
-
-        return scale
 
     def rot_z(self):
 
@@ -265,12 +258,14 @@ class Camera(transform.Transform):
 
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
 
-        if scroll_y < 0:
-            self.__scale *= (1 - self.__config.zoom_speed()) * abs(scroll_y)
-        else:
-            self.__scale *= (1 + self.__config.zoom_speed()) * abs(scroll_y)
+        scale = self.__scale.scale()
 
-        self.dirty()
+        if scroll_y < 0:
+            scale *= (1 - self.__config.zoom_speed()) * abs(scroll_y)
+        else:
+            scale *= (1 + self.__config.zoom_speed()) * abs(scroll_y)
+
+        self.__scale.set_scale(scale)
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
 
@@ -317,7 +312,7 @@ class Camera(transform.Transform):
         if self.__sr_matrix is None:
 
             self.__sr_matrix = self.__dot([
-                    self.scale(),
+                    self.__scale.matrix(),
                     self.rot_y(),
                     self.rot_z(),
                     self.rot_x(),
