@@ -33,7 +33,7 @@ class DisplayApp(object):
         self.__window = config.create_window()
         keys = pyglet.window.key.KeyStateHandler()
 
-        cam = Camera(config, keys)
+        cam = Camera(config, keys, self.__window)
 
         self.__window.push_handlers(
                 Axes(config, cam, self.__window))

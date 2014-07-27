@@ -18,7 +18,7 @@ from constants import X_AXIS, Y_AXIS, Z_AXIS
 class Camera(transform.Transform):
     '''A camera'''
 
-    def __init__(self, config, keys):
+    def __init__(self, config, keys, window):
 
         super(Camera, self).__init__()
 
@@ -27,7 +27,7 @@ class Camera(transform.Transform):
 
         clock.schedule(self.tick)
 
-        self.__width, self.__height = 1, 1
+        self.__width, self.__height = window.get_size()
 
         self.__sr = transform.Product()
         self.__sr.add_user(self)
