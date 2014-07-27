@@ -201,3 +201,11 @@ class Translate(Transform):
 
         super(Translate, self).__init__()
         self.__r = (x, y, z)
+
+    def set_r(self, x, y, z):
+        """T.set_r(x, y, z)
+
+        Set the translation vector.
+        """
+
+        self.__r = (x, y, z)
