@@ -114,3 +114,12 @@ class BasicAxisRotation(Transform):
 
         super(BasicAxisRotation, self).__init__()
         self.__angle, self.__axis = angle, axis
+
+    def set_angle(self, angle):
+        """BAR.set_angle(angle)
+
+        Set the angle value.
+        """
+
+        self.__angle = angle
+        self.dirty()
