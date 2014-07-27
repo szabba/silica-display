@@ -180,3 +180,8 @@ class Scale(Transform):
 
         self.__scale = scale
         self.dirty()
+
+    def scale(self):
+        """S.scale() -> scale"""
+
+        return self.__scale
