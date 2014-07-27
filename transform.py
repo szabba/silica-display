@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['Transform']
+__all__ = ['Transform', 'Product']
 
 from pyglet import gl
 
@@ -71,3 +71,13 @@ class Transform(object):
                 self.__gl_matrix[i] = elem
 
         return self.__gl_matrix
+
+
+class Product(Transform):
+    """A transform resulting from matrix multiplication of it's factors."""
+
+    def __init__(self):
+
+        super(Product, self).__init__()
+
+        self.__factors = []
