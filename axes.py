@@ -14,6 +14,10 @@ import shaders
 import cube
 
 
+AXIS_HEIGHT = 8
+AXIS_WIDTH = 1
+
+
 class Axes(object):
     """The glass (or it's visible part)"""
 
@@ -75,17 +79,17 @@ class Axes(object):
         )
         positions = numpy.rollaxis(positions, -1)
 
-        positions[0, :, :, :, 0] *= 8
-        positions[0, :, :, :, 1] -= 1
-        positions[0, :, :, :, 2] -= 1
+        positions[0, :, :, :, 0] *= AXIS_HEIGHT
+        positions[0, :, :, :, 1] -= AXIS_WIDTH
+        positions[0, :, :, :, 2] -= AXIS_WIDTH
 
-        positions[1, :, :, :, 0] -= 1
-        positions[1, :, :, :, 1] *= 8
-        positions[1, :, :, :, 2] -= 1
+        positions[1, :, :, :, 0] -= AXIS_WIDTH
+        positions[1, :, :, :, 1] *= AXIS_HEIGHT
+        positions[1, :, :, :, 2] -= AXIS_WIDTH
 
-        positions[2, :, :, :, 0] -= 1
-        positions[2, :, :, :, 1] -= 1
-        positions[2, :, :, :, 2] *= 8
+        positions[2, :, :, :, 0] -= AXIS_WIDTH
+        positions[2, :, :, :, 1] -= AXIS_WIDTH
+        positions[2, :, :, :, 2] *= AXIS_HEIGHT
 
         normals = cube.CUBE_NORMALS.repeat(
                 AXIS_COUNT
