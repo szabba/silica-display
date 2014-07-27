@@ -12,6 +12,7 @@ from pyglet.window import mouse
 from pyglet.window import key
 
 import transform
+from constants import X_AXIS, Y_AXIS, Z_AXIS
 
 
 class Camera(transform.Transform):
@@ -34,13 +35,13 @@ class Camera(transform.Transform):
         self.__scale = transform.Scale(config.init_scale())
         self.__sr.add_factor(self.__scale)
 
-        self.__rot_y = transform.BasicAxisRotation(config.init_phi(), 1)
+        self.__rot_y = transform.BasicAxisRotation(config.init_phi(), Y_AXIS)
         self.__sr.add_factor(self.__rot_y)
 
-        self.__rot_z = transform.BasicAxisRotation(config.init_theta(), 2)
+        self.__rot_z = transform.BasicAxisRotation(config.init_theta(), Z_AXIS)
         self.__sr.add_factor(self.__rot_z)
 
-        self.__rot_x = transform.BasicAxisRotation(-math.pi / 2, 0)
+        self.__rot_x = transform.BasicAxisRotation(-math.pi / 2, X_AXIS)
         self.__sr.add_factor(self.__rot_x)
 
         self.__t = transform.Translate(*self.center_point())
