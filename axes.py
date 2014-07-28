@@ -23,12 +23,12 @@ class Axes(object):
 
     TRIANGLES_PER_AXIS = 8
 
-    def __init__(self, config, cam, window):
+    def __init__(self, config, transforms, window):
 
         self.__width, self.__height = window.get_size()
 
         self.__config = config
-        self.__cam = cam
+        self.__cam = transforms['camera']
 
         self.__program = shaders.Program('axes')
 
