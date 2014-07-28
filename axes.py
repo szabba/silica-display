@@ -23,9 +23,7 @@ class Axes(object):
 
     TRIANGLES_PER_AXIS = 8
 
-    def __init__(self, config, transforms, window):
-
-        self.__width, self.__height = window.get_size()
+    def __init__(self, config, transforms):
 
         self.__config = config
         self.__cam = transforms['camera']
@@ -117,11 +115,6 @@ class Axes(object):
             color.insert(0, color.pop(-1))
 
         return colors
-
-    def on_resize(self, width, height):
-
-        self.__width = width
-        self.__height = height
 
     def on_draw(self):
 
