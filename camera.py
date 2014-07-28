@@ -50,17 +50,6 @@ class Camera(transform.Transform):
         self.__t = transform.Translate(*self.center_point())
         self.__t.add_user(self)
 
-    def init_translation(self):
-        """C.init_translation() -> numpy array
-
-        Initial translation vector, in homogeneous coordinates, as a column matrix.
-        """
-
-        return numpy.array(
-                self.center_point() + (1,),
-                dtype=numpy.float
-                ).reshape((4, 1))
-
     def center_point(self):
         """C.center_point() -> (x, y, z)
 
