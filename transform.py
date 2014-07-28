@@ -306,3 +306,11 @@ class AspectRatio(Transform):
 
         self.__w, self.__h = width, height
         self.dirty()
+
+    def size(self):
+        """AR.size() -> width, height
+
+        Window size in pixels.
+        """
+
+        return self.__w, self.__h
