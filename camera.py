@@ -33,7 +33,8 @@ class Camera(transform.Transform):
         self.__foreshort = transform.Foreshortening(cam_geometry)
         self.__foreshort.add_user(self)
 
-        self.__width, self.__height = window.get_size()
+        self.__aspect = transform.AspectRatio(*window.get_size())
+        self.__aspect.add_user(self)
 
         self.__flip_hand = transform.FlipHandedness(Z_AXIS)
         self.__flip_hand.add_user(self)
@@ -120,15 +121,6 @@ class Camera(transform.Transform):
 
             self.__t.set_r(r_x, r_y, r_z)
 
-    def aspect_ratio(self):
-        '''C.aspect_ratio(width, height) -> numpy array'''
-
-        aspect = numpy.eye(4)
-        aspect[0, 0] = 2 / float(self.__width)
-        aspect[1, 1] = 2 / float(self.__height)
-
-        return aspect
-
     def look_at_middle(self):
 
         _, d = self.__config.perspective_params()
@@ -143,10 +135,7 @@ class Camera(transform.Transform):
 
     def on_resize(self, width, height):
 
-        self.__width = width
-        self.__height = height
-
-        self.dirty()
+        self.__aspect.set_size(width, height)
 
     def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
 
@@ -208,7 +197,7 @@ class Camera(transform.Transform):
 
         self.set_matrix(self.__dot([
             self.__foreshort.matrix(),
-            self.aspect_ratio(),
+            self.__aspect.matrix(),
             self.__flip_hand.matrix(),
             self.look_at_middle(),
             self.__sr.matrix(),
