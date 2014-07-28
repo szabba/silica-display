@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['Transform', 'Product', 'BasicAxisRotation', 'Scale']
+__all__ = [
+    'Transform', 'Product', 'BasicAxisRotation', 'Scale',
+    'Translate', 'FlipHandedness', 'CameraGeometry']
 
 
 import math
@@ -243,3 +245,12 @@ class FlipHandedness(Transform):
         flipH[self.__axis, self.__axis] = -1
 
         self.set_matrix(flipH)
+
+
+class CameraGeometry(object):
+    '''The geometry of a camera.'''
+
+    def __init__(self, d0, d):
+
+        self.__d0 = d0
+        self.__d = d
