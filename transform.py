@@ -274,3 +274,16 @@ class Foreshortening(Transform):
 
         super(Foreshortening, self).__init__()
         self.__geometry = geometry
+
+    def calculate(self):
+
+        d0 = self.__geometry.eye_distance_from_screen()
+        d = self.__geometry.sight_range_from_screen()
+
+        foreshort = numpy.eye(4)
+
+        foreshort[2, 2] = 1./d0 + 2./d
+        foreshort[2, 3] = -1
+        foreshort[3, 2] = 1./d0
+
+        self.set_matrix(foreshort)
