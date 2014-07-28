@@ -254,3 +254,8 @@ class CameraGeometry(object):
 
         self.__d0 = d0
         self.__d = d
+
+    def eye_distance_from_screen(self):
+        """CG.eye_distance_from_screen() -> the distance of the eye point from the screen"""
+
+        return self.__d0
