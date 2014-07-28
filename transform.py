@@ -335,3 +335,15 @@ class LookAt(Transform):
         self.__geometry = geometry
         self.__scale = scale
         self.__scale.add_user(self)
+
+    def calculate(self):
+
+        d = self.__geometry.sight_range_from_screen()
+        s = self.__scale.scale()
+
+        look_at = numpy.eye(4)
+
+        look_at[2, 2] = 1 / s
+        look_at[2, 3] = -d / 2
+
+        self.set_matrix(look_at)

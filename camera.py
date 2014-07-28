@@ -39,10 +39,15 @@ class Camera(transform.Transform):
         self.__flip_hand = transform.FlipHandedness(Z_AXIS)
         self.__flip_hand.add_user(self)
 
+        scale = transform.Scale(config.init_scale())
+
+        self.__look_at = transform.LookAt(cam_geometry, scale)
+        self.__look_at.add_user(self)
+
         self.__sr = transform.Product()
         self.__sr.add_user(self)
 
-        self.__scale = transform.Scale(config.init_scale())
+        self.__scale = scale
         self.__sr.add_factor(self.__scale)
 
         self.__rot_y = transform.BasicAxisRotation(config.init_phi(), Y_AXIS)
@@ -121,18 +126,6 @@ class Camera(transform.Transform):
 
             self.__t.set_r(r_x, r_y, r_z)
 
-    def look_at_middle(self):
-
-        _, d = self.__config.perspective_params()
-        s = self.__scale.scale()
-
-        look_at = numpy.eye(4)
-
-        look_at[2, 2] = 1 / s
-        look_at[2, 3] = -d / 2
-
-        return look_at
-
     def on_resize(self, width, height):
 
         self.__aspect.set_size(width, height)
@@ -199,7 +192,7 @@ class Camera(transform.Transform):
             self.__foreshort.matrix(),
             self.__aspect.matrix(),
             self.__flip_hand.matrix(),
-            self.look_at_middle(),
+            self.__look_at.matrix(),
             self.__sr.matrix(),
             self.__t.matrix(),
             ]))
