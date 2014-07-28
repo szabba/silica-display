@@ -11,7 +11,7 @@ from constants import *
 from axes import Axes
 from glass import Glass
 from fog import Fog
-from camera import Camera
+from camera import Cameraman
 from config import Config
 
 
@@ -49,6 +49,8 @@ class DisplayApp(object):
         self.__window.push_handlers(
                 Glass(config, cam))
 
+        self.__window.push_handlers(
+                Cameraman(config, keys, transforms))
 
         self.__window.push_handlers(
                 keys)
