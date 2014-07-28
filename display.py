@@ -11,7 +11,7 @@ from constants import *
 from axes import Axes
 from glass import Glass
 from fog import Fog
-from camera import Cameraman
+from camera import Cameraman, cam_transforms
 from config import Config
 
 
@@ -72,26 +72,6 @@ def common_transforms(transforms, config, window):
     projection(transforms, cam_geometry, window)
     rotation(transforms, config)
 
-    transforms['scale'] = scale = transform.Scale(config.init_scale())
-
-    transforms['look_at'] = look_at = transform.LookAt(
-            cam_geometry, scale)
-
-    transforms['sr'] = sr = transform.Product()
-    sr.add_factor(scale)
-    sr.add_factor(transforms['rot'])
-
-    transforms['cam_shift'] = cam_shift = transform.Translate(
-            *config.center_point())
-
-    transforms['camera'] = camera = transform.Product()
-    camera.add_factor(transforms['project'])
-    camera.add_factor(look_at)
-    camera.add_factor(sr)
-    camera.add_factor(cam_shift)
-
-    return transforms
-
 
 class DisplayApp(object):
     """Main object"""
@@ -105,6 +85,7 @@ class DisplayApp(object):
         transforms = {}
 
         common_transforms(transforms, config, self.__window)
+        cam_transforms(transforms, config)
 
         cam = transforms['camera']
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['Cameraman']
+__all__ = ['Cameraman', 'cam_transforms']
 
 
 import math
@@ -13,6 +13,36 @@ from pyglet.window import key
 
 import transform
 from constants import X_AXIS, Y_AXIS, Z_AXIS
+
+
+def cam_transforms(transforms, config):
+    """cam_transforms(transforms, config)
+
+    Puts 'scale', 'sr', 'cam_shift' and 'camera' into the transform dict. These
+    are the transforms and subtransforms expected by the Cameraman and not
+    created by display.common_transforms.
+    """
+
+    cam_geometry = transform.CameraGeometry(
+            *config.perspective_params())
+
+    transforms['scale'] = scale = transform.Scale(config.init_scale())
+
+    transforms['look_at'] = look_at = transform.LookAt(
+            cam_geometry, scale)
+
+    transforms['sr'] = sr = transform.Product()
+    sr.add_factor(scale)
+    sr.add_factor(transforms['rot'])
+
+    transforms['cam_shift'] = cam_shift = transform.Translate(
+            *config.center_point())
+
+    transforms['camera'] = camera = transform.Product()
+    camera.add_factor(transforms['project'])
+    camera.add_factor(look_at)
+    camera.add_factor(sr)
+    camera.add_factor(cam_shift)
 
 
 class Cameraman(object):
