@@ -3,7 +3,7 @@
 __all__ = [
     'Transform', 'Product', 'BasicAxisRotation', 'Scale',
     'Translate', 'FlipHandedness', 'CameraGeometry',
-    'Foreshortening']
+    'Foreshortening', 'AspectRatio']
 
 
 import math
@@ -287,3 +287,13 @@ class Foreshortening(Transform):
         foreshort[3, 2] = 1./d0
 
         self.set_matrix(foreshort)
+
+
+class AspectRatio(Transform):
+    '''Adjust x:y proportions to avoid distortion.'''
+
+    def __init__(self, width, height):
+
+        super(AspectRatio, self).__init__()
+
+        self.__w, self.__h = width, height
