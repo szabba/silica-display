@@ -314,3 +314,11 @@ class AspectRatio(Transform):
         """
 
         return self.__w, self.__h
+
+    def calculate(self):
+
+        aspect = numpy.eye(4)
+        aspect[0, 0] = 2. / self.__w
+        aspect[1, 1] = 2. / self.__h
+
+        self.set_matrix(aspect)
