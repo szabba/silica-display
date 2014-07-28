@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['Camera']
+__all__ = ['Cameraman']
 
 
 import math
@@ -15,63 +15,28 @@ import transform
 from constants import X_AXIS, Y_AXIS, Z_AXIS
 
 
-class Camera(transform.Transform):
-    '''A camera'''
+class Cameraman(object):
+    '''Adjusts the camera parameters in reaction to external events.'''
 
-    def __init__(self, config, keys, window):
+    def __init__(self, config, keys, transforms):
 
-        super(Camera, self).__init__()
+        super(Cameraman, self).__init__()
 
         self.__config = config
         self.__keys = keys
 
         clock.schedule(self.tick)
 
-        cam_geometry = transform.CameraGeometry(
-                *self.__config.perspective_params())
+        self.__aspect = transforms['aspect']
+        self.__look_at = transforms['look_at']
 
-        self.__foreshort = transform.Foreshortening(cam_geometry)
-        self.__foreshort.add_user(self)
+        self.__sr = transforms['sr']
+        self.__scale = transforms['scale']
 
-        self.__aspect = transform.AspectRatio(*window.get_size())
-        self.__aspect.add_user(self)
+        self.__rot_y = transforms['rot_y']
+        self.__rot_z = transforms['rot_z']
 
-        self.__flip_hand = transform.FlipHandedness(Z_AXIS)
-        self.__flip_hand.add_user(self)
-
-        scale = transform.Scale(config.init_scale())
-
-        self.__look_at = transform.LookAt(cam_geometry, scale)
-        self.__look_at.add_user(self)
-
-        self.__sr = transform.Product()
-        self.__sr.add_user(self)
-
-        self.__scale = scale
-        self.__sr.add_factor(self.__scale)
-
-        self.__rot_y = transform.BasicAxisRotation(config.init_phi(), Y_AXIS)
-        self.__sr.add_factor(self.__rot_y)
-
-        self.__rot_z = transform.BasicAxisRotation(config.init_theta(), Z_AXIS)
-        self.__sr.add_factor(self.__rot_z)
-
-        self.__rot_x = transform.BasicAxisRotation(-math.pi / 2, X_AXIS)
-        self.__sr.add_factor(self.__rot_x)
-
-        self.__t = transform.Translate(*self.center_point())
-        self.__t.add_user(self)
-
-    def center_point(self):
-        """C.center_point() -> (x, y, z)
-
-        Coordinates of the center of the repeated glass pieces.
-        """
-
-        dimmensions = self.__config.grid_size()
-        repetitions = self.__config.glass_repetitions()
-
-        return tuple(-(dim * rep) / 2.0 for dim, rep in zip(dimmensions, repetitions))
+        self.__shift = transforms['cam_shift']
 
     def tick(self, dt):
         """C.tick(dt)
@@ -90,7 +55,7 @@ class Camera(transform.Transform):
 
         if self.__keys[key.C]:
 
-            self.__t.set_r(*self.center_point())
+            self.__shift.set_r(*self.__config.center_point())
             self.__scale.set_scale(self.__config.init_scale())
             self.__rot_y.set_angle(self.__config.init_phi())
             self.__rot_z.set_angle(self.__config.init_theta())
@@ -118,13 +83,13 @@ class Camera(transform.Transform):
 
             move = numpy.linalg.inv(SR)
 
-            trans = numpy.array([self.__t.r()]).T
+            trans = numpy.array([self.__shift.r()]).T
 
             trans += displacement * move.dot(k)[:3]
 
             r_x, r_y, r_z = trans[0, 0], trans[1, 0], trans[2, 0]
 
-            self.__t.set_r(r_x, r_y, r_z)
+            self.__shift.set_r(r_x, r_y, r_z)
 
     def on_resize(self, width, height):
 
@@ -168,13 +133,13 @@ class Camera(transform.Transform):
                 dy * self.__config.trans_speed(),
                 0, 0]]).T
 
-            r = numpy.array([self.__t.r()]).T
+            r = numpy.array([self.__shift.r()]).T
             print 'r.shape', r.shape
             print 'inv(SR).shape', numpy.linalg.inv(SR).shape
             print 'u.shape', u.shape
             r += numpy.linalg.inv(SR).dot(u)[:3]
 
-            self.__t.set_r(r[0, 0], r[1, 0], r[2, 0])
+            self.__shift.set_r(r[0, 0], r[1, 0], r[2, 0])
 
     def __dot(self, matrices, vect=numpy.array([[0], [0], [5], [1]])):
 
@@ -194,7 +159,7 @@ class Camera(transform.Transform):
             self.__flip_hand.matrix(),
             self.__look_at.matrix(),
             self.__sr.matrix(),
-            self.__t.matrix(),
+            self.__shift.matrix(),
             ]))
 
     def on_draw(self):
