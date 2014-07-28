@@ -24,6 +24,24 @@ class Particles(object):
         self.__cam = cam
 
 
+def projection(transforms, cam_geometry, window):
+    """projection(transforms, cam_geometry, window)
+
+    Adds 'aspect' and 'project' to the transforms dict.
+    """
+
+    foreshort = transform.Foreshortening(cam_geometry)
+
+    transforms['aspect'] = aspect = transform.AspectRatio(*window.get_size())
+
+    flip_hand = transform.FlipHandedness(Z_AXIS)
+
+    transforms['project'] = project = transform.Product()
+    project.add_factor(foreshort)
+    project.add_factor(aspect)
+    project.add_factor(flip_hand)
+
+
 def common_transforms(transforms, config, window):
     """common_transforms(transforms, config, window)
 
@@ -33,16 +51,7 @@ def common_transforms(transforms, config, window):
     cam_geometry = transform.CameraGeometry(
             *config.perspective_params())
 
-    foreshort = transform.Foreshortening(cam_geometry)
-
-    transforms['aspect'] = aspect = transform.AspectRatio(*window.get_size())
-
-    flip_hand = transform.FlipHandedness(Z_AXIS)
-
-    project = transform.Product()
-    project.add_factor(foreshort)
-    project.add_factor(aspect)
-    project.add_factor(flip_hand)
+    projection(transforms, cam_geometry, window)
 
     transforms['scale'] = scale = transform.Scale(config.init_scale())
 
@@ -68,7 +77,7 @@ def common_transforms(transforms, config, window):
             *config.center_point())
 
     transforms['camera'] = camera = transform.Product()
-    camera.add_factor(project)
+    camera.add_factor(transforms['project'])
     camera.add_factor(look_at)
     camera.add_factor(sr)
     camera.add_factor(cam_shift)
