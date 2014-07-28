@@ -2,7 +2,8 @@
 
 __all__ = [
     'Transform', 'Product', 'BasicAxisRotation', 'Scale',
-    'Translate', 'FlipHandedness', 'CameraGeometry']
+    'Translate', 'FlipHandedness', 'CameraGeometry',
+    'Foreshortening']
 
 
 import math
@@ -264,3 +265,12 @@ class CameraGeometry(object):
         """CG.sight_range_from_screen() -> how far away from the screen can we see?"""
 
         return self.__d
+
+
+class Foreshortening(Transform):
+    '''A foreshortening (perspective projection) transform'''
+
+    def __init__(self, geometry):
+
+        super(Foreshortening, self).__init__()
+        self.__geometry = geometry
