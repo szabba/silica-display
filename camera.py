@@ -27,6 +27,12 @@ class Camera(transform.Transform):
 
         clock.schedule(self.tick)
 
+        cam_geometry = transform.CameraGeometry(
+                *self.__config.perspective_params())
+
+        self.__foreshort = transform.Foreshortening(cam_geometry)
+        self.__foreshort.add_user(self)
+
         self.__width, self.__height = window.get_size()
 
         self.__flip_hand = transform.FlipHandedness(Z_AXIS)
@@ -113,19 +119,6 @@ class Camera(transform.Transform):
             r_x, r_y, r_z = trans[0, 0], trans[1, 0], trans[2, 0]
 
             self.__t.set_r(r_x, r_y, r_z)
-
-    def foreshorten(self):
-        """Camera.foreshorten() -> numpy array"""
-
-        d0, d = self.__config.perspective_params()
-
-        foreshort = numpy.array([
-            [1., 0.,           0.,  0.],
-            [0., 1.,           0.,  0.],
-            [0., 0., 1./d0 + 2./d, -1.],
-            [0., 0.,        1./d0,  1.]])
-
-        return foreshort
 
     def aspect_ratio(self):
         '''C.aspect_ratio(width, height) -> numpy array'''
@@ -214,7 +207,7 @@ class Camera(transform.Transform):
     def calculate(self):
 
         self.set_matrix(self.__dot([
-            self.foreshorten(),
+            self.__foreshort.matrix(),
             self.aspect_ratio(),
             self.__flip_hand.matrix(),
             self.look_at_middle(),
