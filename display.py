@@ -24,6 +24,58 @@ class Particles(object):
         self.__cam = cam
 
 
+def common_transforms(transforms, config, window):
+    """common_transforms(transforms, config, window)
+
+    Stores the commnon transforms in a dictionary.
+    """
+
+    cam_geometry = transform.CameraGeometry(
+            *config.perspective_params())
+
+    foreshort = transform.Foreshortening(cam_geometry)
+
+    transforms['aspect'] = aspect = transform.AspectRatio(*window.get_size())
+
+    flip_hand = transform.FlipHandedness(Z_AXIS)
+
+    project = transform.Product()
+    project.add_factor(foreshort)
+    project.add_factor(aspect)
+    project.add_factor(flip_hand)
+
+    transforms['scale'] = scale = transform.Scale(config.init_scale())
+
+    transforms['look_at'] = look_at = transform.LookAt(
+            cam_geometry, scale)
+
+    transforms['rot_y'] = rot_y = transform.BasicAxisRotation(
+            config.init_phi(), Y_AXIS)
+    transforms['rot_z'] = rot_z = transform.BasicAxisRotation(
+            config.init_theta(), Z_AXIS)
+    rot_x = transform.BasicAxisRotation(-math.pi / 2, X_AXIS)
+
+    transforms['rot'] = rot = transform.Product()
+    rot.add_factor(rot_y)
+    rot.add_factor(rot_z)
+    rot.add_factor(rot_x)
+
+    transforms['sr'] = sr = transform.Product()
+    sr.add_factor(scale)
+    sr.add_factor(rot)
+
+    transforms['cam_shift'] = cam_shift = transform.Translate(
+            *config.center_point())
+
+    transforms['camera'] = camera = transform.Product()
+    camera.add_factor(project)
+    camera.add_factor(look_at)
+    camera.add_factor(sr)
+    camera.add_factor(cam_shift)
+
+    return transforms
+
+
 class DisplayApp(object):
     """Main object"""
 
@@ -33,8 +85,10 @@ class DisplayApp(object):
 
         self.__window = config.create_window()
         keys = pyglet.window.key.KeyStateHandler()
+        transforms = {}
 
-        transforms = self.__transforms(config)
+        common_transforms(transforms, config, self.__window)
+
         cam = transforms['camera']
 
         self.__window.push_handlers(
@@ -58,58 +112,6 @@ class DisplayApp(object):
         pyglet.clock.set_fps_limit(config.max_fps())
 
         self.__config = config
-
-    def __transforms(self, config):
-        """D.__transforms(config) -> transforms dict"""
-
-        transforms = {}
-
-        window = self.__window
-
-        cam_geometry = transform.CameraGeometry(
-                *config.perspective_params())
-
-        foreshort = transform.Foreshortening(cam_geometry)
-
-        transforms['aspect'] = aspect = transform.AspectRatio(*window.get_size())
-
-        flip_hand = transform.FlipHandedness(Z_AXIS)
-
-        project = transform.Product()
-        project.add_factor(foreshort)
-        project.add_factor(aspect)
-        project.add_factor(flip_hand)
-
-        transforms['scale'] = scale = transform.Scale(config.init_scale())
-
-        transforms['look_at'] = look_at = transform.LookAt(
-                cam_geometry, scale)
-
-        transforms['rot_y'] = rot_y = transform.BasicAxisRotation(
-                config.init_phi(), Y_AXIS)
-        transforms['rot_z'] = rot_z = transform.BasicAxisRotation(
-                config.init_theta(), Z_AXIS)
-        rot_x = transform.BasicAxisRotation(-math.pi / 2, X_AXIS)
-
-        transforms['rot'] = rot = transform.Product()
-        rot.add_factor(rot_y)
-        rot.add_factor(rot_z)
-        rot.add_factor(rot_x)
-
-        transforms['sr'] = sr = transform.Product()
-        sr.add_factor(scale)
-        sr.add_factor(rot)
-
-        transforms['cam_shift'] = cam_shift = transform.Translate(
-                *config.center_point())
-
-        transforms['camera'] = camera = transform.Product()
-        camera.add_factor(project)
-        camera.add_factor(look_at)
-        camera.add_factor(sr)
-        camera.add_factor(cam_shift)
-
-        return transforms
 
     def __tick(self, dt):
         """DA.__tick(dt)
