@@ -297,3 +297,12 @@ class AspectRatio(Transform):
         super(AspectRatio, self).__init__()
 
         self.__w, self.__h = width, height
+
+    def set_size(self, width, height):
+        """AR.set_size(width, height)
+
+        Set the window size.
+        """
+
+        self.__w, self.__h = width, height
+        self.dirty()
