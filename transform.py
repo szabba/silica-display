@@ -3,7 +3,7 @@
 __all__ = [
     'Transform', 'Product', 'BasicAxisRotation', 'Scale',
     'Translate', 'FlipHandedness', 'CameraGeometry',
-    'Foreshortening', 'AspectRatio']
+    'Foreshortening', 'AspectRatio', 'LookAt']
 
 
 import math
@@ -322,3 +322,16 @@ class AspectRatio(Transform):
         aspect[1, 1] = 2. / self.__h
 
         self.set_matrix(aspect)
+
+
+class LookAt(Transform):
+    '''Move the point from the middle of the screen to the middle of the
+    visible area.
+    '''
+
+    def __init__(self, geometry, scale):
+
+        super(LookAt, self).__init__()
+        self.__geometry = geometry
+        self.__scale = scale
+        self.__scale.add_user(self)
