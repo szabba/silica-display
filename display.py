@@ -42,21 +42,11 @@ def projection(transforms, cam_geometry, window):
     project.add_factor(flip_hand)
 
 
-def common_transforms(transforms, config, window):
-    """common_transforms(transforms, config, window)
+def rotation(transforms, config):
+    """rotation(transforms, config)
 
-    Stores the commnon transforms in a dictionary.
+    Adds 'rot_y', 'rot_z' and 'rot' to the transforms dict.
     """
-
-    cam_geometry = transform.CameraGeometry(
-            *config.perspective_params())
-
-    projection(transforms, cam_geometry, window)
-
-    transforms['scale'] = scale = transform.Scale(config.init_scale())
-
-    transforms['look_at'] = look_at = transform.LookAt(
-            cam_geometry, scale)
 
     transforms['rot_y'] = rot_y = transform.BasicAxisRotation(
             config.init_phi(), Y_AXIS)
@@ -69,9 +59,27 @@ def common_transforms(transforms, config, window):
     rot.add_factor(rot_z)
     rot.add_factor(rot_x)
 
+
+def common_transforms(transforms, config, window):
+    """common_transforms(transforms, config, window)
+
+    Stores the commnon transforms in a dictionary.
+    """
+
+    cam_geometry = transform.CameraGeometry(
+            *config.perspective_params())
+
+    projection(transforms, cam_geometry, window)
+    rotation(transforms, config)
+
+    transforms['scale'] = scale = transform.Scale(config.init_scale())
+
+    transforms['look_at'] = look_at = transform.LookAt(
+            cam_geometry, scale)
+
     transforms['sr'] = sr = transform.Product()
     sr.add_factor(scale)
-    sr.add_factor(rot)
+    sr.add_factor(transforms['rot'])
 
     transforms['cam_shift'] = cam_shift = transform.Translate(
             *config.center_point())
