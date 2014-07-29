@@ -24,10 +24,13 @@ class Axes(object):
 
     TRIANGLES_PER_AXIS = 8
 
-    def __init__(self, config, transforms):
+    def __init__(self, config, transforms, window):
 
         self.__config = config
-        self.__cam = transforms['camera']
+
+        self.create_transforms(transforms, window)
+        self.__total_transform = transforms['axis_total']
+        self.__shift = transforms['axis_shift']
 
         self.__program = shaders.Program('axes')
 
@@ -147,6 +150,11 @@ class Axes(object):
 
         return colors
 
+    def on_resize(self, width, height):
+
+        self.__shift.set_r(
+                *self.translation_from_win_size(width, height))
+
     def on_draw(self):
 
         gl.glClear(gl.GL_DEPTH_BUFFER_BIT)
@@ -154,7 +162,7 @@ class Axes(object):
         with self.__triangles as triangles:
 
             self.__camera.clear()
-            self.__camera.add(*self.__cam.gl_matrix())
+            self.__camera.add(*self.__total_transform.gl_matrix())
             self.__camera.set()
 
             if not self.__sun.filled():

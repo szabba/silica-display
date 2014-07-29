@@ -90,7 +90,7 @@ class DisplayApp(object):
         cam = transforms['camera']
 
         self.__window.push_handlers(
-                Axes(config, transforms))
+                Axes(config, transforms, self.__window))
 
         self.__window.push_handlers(
                 Fog(config, cam))
