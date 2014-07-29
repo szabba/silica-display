@@ -110,27 +110,30 @@ class Axes(object):
         positions = numpy.rollaxis(positions, -1)
 
         scale = self.__config.axes_scale()
+        width, height = self.__config.axes_size()
+        width *= scale
+        height *= scale
 
-        positions[0, :, :, :, 0] *= AXIS_HEIGHT * scale
-        positions[0, :, :, :, 1] *= AXIS_WIDTH * scale
-        positions[0, :, :, :, 2] *= AXIS_WIDTH * scale
+        positions[0, :, :, :, 0] *= height
+        positions[0, :, :, :, 1] *= width
+        positions[0, :, :, :, 2] *= width
 
-        positions[0, :, :, :, 1] -= AXIS_WIDTH * scale
-        positions[0, :, :, :, 2] -= AXIS_WIDTH * scale
+        positions[0, :, :, :, 1] -= width
+        positions[0, :, :, :, 2] -= width
 
-        positions[1, :, :, :, 0] *= AXIS_WIDTH * scale
-        positions[1, :, :, :, 1] *= AXIS_HEIGHT * scale
-        positions[1, :, :, :, 2] *= AXIS_WIDTH * scale
+        positions[1, :, :, :, 0] *= width
+        positions[1, :, :, :, 1] *= height
+        positions[1, :, :, :, 2] *= width
 
-        positions[1, :, :, :, 0] -= AXIS_WIDTH * scale
-        positions[1, :, :, :, 2] -= AXIS_WIDTH * scale
+        positions[1, :, :, :, 0] -= width
+        positions[1, :, :, :, 2] -= width
 
-        positions[2, :, :, :, 0] *= AXIS_WIDTH * scale
-        positions[2, :, :, :, 1] *= AXIS_WIDTH * scale
-        positions[2, :, :, :, 2] *= AXIS_HEIGHT * scale
+        positions[2, :, :, :, 0] *= width
+        positions[2, :, :, :, 1] *= width
+        positions[2, :, :, :, 2] *= height
 
-        positions[2, :, :, :, 0] -= AXIS_WIDTH * scale
-        positions[2, :, :, :, 1] -= AXIS_WIDTH * scale
+        positions[2, :, :, :, 0] -= width
+        positions[2, :, :, :, 1] -= width
 
         normals = cube.CUBE_NORMALS.repeat(
                 AXIS_COUNT
