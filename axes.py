@@ -16,7 +16,7 @@ import cube
 
 
 class Axes(object):
-    """The glass (or it's visible part)"""
+    """The axis orientation indicators"""
 
     TRIANGLES_PER_AXIS = 8
 
