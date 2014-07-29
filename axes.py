@@ -11,6 +11,7 @@ from pyglet import gl
 from constants import *
 from utils import *
 import shaders
+import transform
 import cube
 
 
@@ -66,6 +67,22 @@ class Axes(object):
         self.__triangles.from_arrays(dict(
             color=self.__colors(ps),
             normal=ns, position=ps))
+
+    def create_transforms(self, transforms, window):
+        """A.create_transforms(transforms, window)
+
+        Create all the transforms necessary for proper axis rendering.
+        """
+
+        transforms['axis_shift'] = transform.Translate(
+                *self.translation_from_win_size(*window.get_size()))
+        axis_scale = transform.Scale(self.__config.axes_scale())
+
+        transforms['axis_total'] = axis_total = transform.Product()
+        axis_total.add_factor(transforms['axis_shift'])
+        axis_total.add_factor(transforms['project'])
+        axis_total.add_factor(axis_scale)
+        axis_total.add_factor(transforms['rot'])
 
     def translation_from_win_size(self, width, height):
         """A.translation_from_win_size(width, height) -> (dx, dy, dz)
