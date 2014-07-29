@@ -67,6 +67,20 @@ class Axes(object):
             color=self.__colors(ps),
             normal=ns, position=ps))
 
+    def translation_from_win_size(self, width, height):
+        """A.translation_from_win_size(width, height) -> (dx, dy, dz)
+
+        Calculates the proper translation the axes must undergo through the
+        'axis_shift' transform based on the window size in pixels.
+        """
+
+        from_left, from_bottom = self.__config.axes_position()
+
+        dx = (-width + from_left) / width
+        dy = (-height + from_bottom) / height
+
+        return (dx, dy, 0)
+
     def __positions_and_normals(self):
         """A.__positions_and_normals() -> positions, normals"""
 

@@ -247,6 +247,14 @@ class Config(object):
 
         return gl.GLfloat(0.6)
 
+    def axes_position(self):
+        """C.axis_position() -> the position of the central point of the helper
+        axes
+
+        Relative to the lower left corner of the window."""
+
+        return 150., 150.
+
     def fog_color(self):
         """C.fog_color() -> the RGBA fog color"""
 
