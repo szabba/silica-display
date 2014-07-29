@@ -36,6 +36,13 @@ class SquashZ(transform.Transform):
 
         self.__z_scale = 1 / diagonal
 
+    def calculate(self):
+
+        squash = numpy.eye(4)
+        squash[2, 2] = self.__z_scale
+
+        self.set_matrix(squash)
+
 
 class Axes(object):
     """The axis orientation indicators"""
