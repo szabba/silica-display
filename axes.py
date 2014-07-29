@@ -79,12 +79,10 @@ class Axes(object):
 
         transforms['axis_shift'] = transform.Translate(
                 *self.translation_from_win_size(*window.get_size()))
-        axis_scale = transform.Scale(self.__config.axes_scale())
 
         transforms['axis_total'] = axis_total = transform.Product()
         axis_total.add_factor(transforms['axis_shift'])
         axis_total.add_factor(transforms['project'])
-        axis_total.add_factor(axis_scale)
         axis_total.add_factor(transforms['rot'])
 
     def translation_from_win_size(self, width, height):
@@ -111,17 +109,28 @@ class Axes(object):
         )
         positions = numpy.rollaxis(positions, -1)
 
-        positions[0, :, :, :, 0] *= AXIS_HEIGHT
-        positions[0, :, :, :, 1] -= AXIS_WIDTH
-        positions[0, :, :, :, 2] -= AXIS_WIDTH
+        scale = self.__config.axes_scale()
 
-        positions[1, :, :, :, 0] -= AXIS_WIDTH
-        positions[1, :, :, :, 1] *= AXIS_HEIGHT
-        positions[1, :, :, :, 2] -= AXIS_WIDTH
+        positions[0, :, :, :, 0] *= AXIS_HEIGHT * scale
+        positions[0, :, :, :, 1] *= AXIS_WIDTH * scale
+        positions[0, :, :, :, 2] *= AXIS_WIDTH * scale
 
-        positions[2, :, :, :, 0] -= AXIS_WIDTH
-        positions[2, :, :, :, 1] -= AXIS_WIDTH
-        positions[2, :, :, :, 2] *= AXIS_HEIGHT
+        positions[0, :, :, :, 1] -= AXIS_WIDTH * scale
+        positions[0, :, :, :, 2] -= AXIS_WIDTH * scale
+
+        positions[1, :, :, :, 0] *= AXIS_WIDTH * scale
+        positions[1, :, :, :, 1] *= AXIS_HEIGHT * scale
+        positions[1, :, :, :, 2] *= AXIS_WIDTH * scale
+
+        positions[1, :, :, :, 0] -= AXIS_WIDTH * scale
+        positions[1, :, :, :, 2] -= AXIS_WIDTH * scale
+
+        positions[2, :, :, :, 0] *= AXIS_WIDTH * scale
+        positions[2, :, :, :, 1] *= AXIS_WIDTH * scale
+        positions[2, :, :, :, 2] *= AXIS_HEIGHT * scale
+
+        positions[2, :, :, :, 0] -= AXIS_WIDTH * scale
+        positions[2, :, :, :, 1] -= AXIS_WIDTH * scale
 
         normals = cube.CUBE_NORMALS.repeat(
                 AXIS_COUNT
