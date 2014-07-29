@@ -248,9 +248,14 @@ class Config(object):
         return gl.GLfloat(0.6)
 
     def axes_scale(self):
-        """C.axis_scale() -> scaling factor for the axes"""
+        """C.axes_scale() -> scaling factor for the axes"""
 
         return 8.
+
+    def axes_size(self):
+        """C.axes_size() -> width, height"""
+
+        return 1., 8.
 
     def axes_position(self):
         """C.axis_position() -> the position of the central point of the helper
