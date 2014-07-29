@@ -15,10 +15,6 @@ import transform
 import cube
 
 
-AXIS_HEIGHT = 8
-AXIS_WIDTH = 1
-
-
 class Axes(object):
     """The glass (or it's visible part)"""
 
