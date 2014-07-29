@@ -3,6 +3,7 @@
 __all__ = ['Axes']
 
 
+import math
 import ctypes as c
 
 import numpy
@@ -13,6 +14,27 @@ from utils import *
 import shaders
 import transform
 import cube
+
+
+class SquashZ(transform.Transform):
+    '''Adjust the range of z coordinates, so that the axes won't get cut off by
+    the clipping planes.
+    '''
+
+    def __init__(self, config):
+
+        super(SquashZ, self).__init__()
+
+        width, height = config.axes_size()
+        scale = config.axes_scale()
+
+        width *= scale
+        height *= scale
+
+        # The length of the longest diagonal of an axis indicator
+        diagonal = math.sqrt(2 * math.pow(width, 2) + math.pow(height, 2))
+
+        self.__z_scale = 1 / diagonal
 
 
 class Axes(object):
