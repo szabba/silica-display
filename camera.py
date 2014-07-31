@@ -90,8 +90,6 @@ class Cameraman(object):
             self.__rot_y.set_angle(self.__config.init_phi())
             self.__rot_z.set_angle(self.__config.init_theta())
 
-            self.dirty()
-
     def move_along_sight_line(self, dt):
         """C.move_along_sight_line(dt)
 
