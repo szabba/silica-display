@@ -106,9 +106,9 @@ class Axes(object):
                 *self.translation_from_win_size(*window.get_size()))
 
         transforms['axis_total'] = axis_total = transform.Product()
-        axis_total.add_factor(SquashZ(self.__config))
         axis_total.add_factor(transforms['axis_shift'])
-        axis_total.add_factor(transforms['project'])
+        axis_total.add_factor(transforms['ah'])
+        axis_total.add_factor(SquashZ(self.__config))
         axis_total.add_factor(transforms['rot'])
 
     def translation_from_win_size(self, width, height):
