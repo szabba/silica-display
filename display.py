@@ -36,10 +36,13 @@ def projection(transforms, cam_geometry, window):
 
     flip_hand = transform.FlipHandedness(Z_AXIS)
 
+    transforms['ah'] = ah = transform.Product()
+    ah.add_factor(aspect)
+    ah.add_factor(flip_hand)
+
     transforms['project'] = project = transform.Product()
     project.add_factor(foreshort)
-    project.add_factor(aspect)
-    project.add_factor(flip_hand)
+    project.add_factor(ah)
 
 
 def rotation(transforms, config):
