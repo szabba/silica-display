@@ -97,6 +97,11 @@ class ParticlePlayer(object):
 
         return self.__frame
 
+    def particle_count(self):
+        """PP.particle_count() -> the number of particles being displayed"""
+
+        return 1
+
 
 class Particles(object):
     """The glass (or it's visible part)"""
