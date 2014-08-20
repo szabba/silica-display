@@ -18,7 +18,7 @@ ANGLES_PER_ORIENTATION = 2
 class ParticleModel(object):
     """The 3D model for a single particle"""
 
-    def __init__(self):
+    def __init__(self, height, width):
 
         SHAPE = (2, ) + cube.CUBE_FACES.shape
 
@@ -135,7 +135,8 @@ class Particles(object):
         self.__config = config
         self.__cam = cam
 
-        self.__model = ParticleModel()
+        height, width = config.particle_dimmensions()
+        self.__model = ParticleModel(height, width)
 
         self.__generate_shaders(self.__model)
 
