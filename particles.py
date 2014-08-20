@@ -152,3 +152,13 @@ class Particles(object):
 
             with open(shader_filename, 'w') as output:
                 output.write(shader_code)
+
+    def on_draw(self):
+        """P.on_draw()
+
+        Renders the particles.
+        """
+
+        with self.__player.frame() as frame:
+
+            pass
