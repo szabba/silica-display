@@ -8,6 +8,7 @@ import string
 import numpy
 
 import shaders
+from constants import *
 
 
 class ParticleModel(object):
@@ -43,6 +44,11 @@ class ParticleModel(object):
         """PM.vertex_count() -> number of triangle vertices in the model"""
 
         return self.__vertex_count
+
+    def triangle_count(self):
+        """PM.triangle_count() -> number of triangles in the model"""
+
+        return self.vertex_count() / VERTICES_PER_TRIANGLE
 
     def populate(self, positions, normals, colours):
         """PM.populate(position, normals, colours)
