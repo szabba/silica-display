@@ -2,6 +2,7 @@
 
 __all__ = ['Particles']
 
+import math
 import string
 
 import numpy
@@ -42,6 +43,24 @@ class ParticleModel(object):
         """PM.vertex_count() -> number of triangle vertices in the model"""
 
         return self.__vertex_count
+
+
+class ParticlePlayer(object):
+    """Controls triangle list choice for the current frame."""
+
+    def __init__(self, program):
+
+        self.__frame = program.triangle_list(1)
+        self.__frame.from_arrays(dict(
+            ix_float=[0, 1, 2],
+            position=numpy.array([
+                [10, 10, 10],
+                [10, 10, 10],
+                [10, 10, 10]]),
+            orientation=numpy.array([
+                [math.pi / 2, math.pi / 4],
+                [math.pi / 2, math.pi / 4],
+                [math.pi / 2, math.pi / 4]])))
 
 
 class Particles(object):
