@@ -31,6 +31,13 @@ class ParticleModel(object):
 
         self.__vertex_count = 3
 
+    def generate_shader_source(self, template):
+        """PM.generate_shader_source(template) -> shader source"""
+
+        return template.substitute({
+            'vertex_count': self.__vertex_count,
+        })
+
 
 class Particles(object):
     """The glass (or it's visible part)"""
