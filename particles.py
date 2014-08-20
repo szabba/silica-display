@@ -194,3 +194,5 @@ class Particles(object):
                     self.__positions,
                     self.__normals,
                     self.__colours)
+
+            frame.draw()
