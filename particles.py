@@ -56,13 +56,8 @@ class Particles(object):
         Generate tha shader sources.
         """
 
-        vertex_count = model[-1]
-
-        data = {
-                'vertex_count': vertex_count}
-
         for letter in ('v', 'f'):
-            self.__generate_shader('particles', letter, data)
+            self.__generate_shader('particles', letter, model)
 
     def __generate_shader(self, shader_name, letter, data):
         """P.__generate_shader(self, shader_name, letter, data)
