@@ -271,6 +271,14 @@ class Config(object):
 
         return 150., 150.
 
+    def particle_dimmensions(self):
+        """C.particle_dimmensions() -> height, width
+
+        Dimmensions of the magnetic particles in glass grid units.
+        """
+
+        return 1, 0.5
+
     def fog_color(self):
         """C.fog_color() -> the RGBA fog color"""
 
