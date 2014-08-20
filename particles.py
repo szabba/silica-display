@@ -94,21 +94,14 @@ class Particles(object):
         """
 
         for letter in ('v', 'f'):
-            self.__generate_shader('particles', letter, model)
 
-    def __generate_shader(self, shader_name, letter, model):
-        """P.__generate_shader(self, shader_name, letter, model)
+            shader_filename = "particles.%s.glsl" % letter
+            template_filename = "template.%s" % shader_filename
 
-        Generate the appropriate shader source file.
-        """
+            with open(template_filename) as input:
+                template = string.Template(input.read())
 
-        shader_filename = "%s.%s.glsl" % (shader_name, letter)
-        template_filename = "template.%s" % shader_filename
+            shader_code = model.generate_shader_source(template)
 
-        with open(template_filename) as input:
-            template = string.Template(input.read())
-
-        shader_code = model.generate_shader_source(template)
-
-        with open(shader_filename, 'w') as output:
-            output.write(shader_code)
+            with open(shader_filename, 'w') as output:
+                output.write(shader_code)
