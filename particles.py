@@ -38,6 +38,11 @@ class ParticleModel(object):
             'vertex_count': self.__vertex_count,
         })
 
+    def vertex_count(self):
+        """PM.vertex_count() -> number of triangle vertices in the model"""
+
+        return self.__vertex_count
+
 
 class Particles(object):
     """The glass (or it's visible part)"""
