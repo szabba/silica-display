@@ -15,7 +15,7 @@ class ParticleModel(object):
 
     def __init__(self):
 
-        self.__poses = numpy.array([
+        self.__positions = numpy.array([
             [1, 0, 0],
             [0, 1, 0],
             [0, -1, 0]])
@@ -43,6 +43,27 @@ class ParticleModel(object):
         """PM.vertex_count() -> number of triangle vertices in the model"""
 
         return self.__vertex_count
+
+    def populate(self, positions, normals, colours):
+        """PM.populate(position, normals, colours)
+
+        Sets appropriate values for the model-dependant uniforms.
+        """
+
+        if not positions.filled():
+            for position in self.__positions:
+                positions.add(*position.flatten())
+        positions.set()
+
+        if not normals.filled():
+            for normal in self.__normals:
+                normals.add(*normal.flatten())
+        normals.set()
+
+        if not colours.filled():
+            for colour in self.__colours:
+                colours.add(*colour.flatten())
+        colours.set()
 
 
 class ParticlePlayer(object):
