@@ -146,6 +146,14 @@ class ParticlePlayer(object):
 
         return 4
 
+    def next_frame(self):
+        """PP.next_frame()
+
+        Move the animation forward in time by one frame.
+        """
+
+        self.__frames.append(self.__frames.pop(0))
+
 
 class Particles(object):
     """The glass (or it's visible part)"""
