@@ -87,6 +87,24 @@ class Particles(object):
                     shaders.GLSLType.Vector(3)),
                 self.__model.vertex_count())
 
+        self.__ix = self.__program.attribute(
+                'ix_float',
+                shaders.GLSLType(
+                    shaders.GLSLType.FLOAT,
+                    shaders.GLSLType.Scalar()))
+
+        self.__position = self.__program.attribute(
+                'position',
+                shaders.GLSLType(
+                    shaders.GLSLType.FLOAT,
+                    shaders.GLSLType.Vector(3)))
+
+        self.__orientation = self.__program.attribute(
+                'orientation',
+                shaders.GLSLType(
+                    shaders.GLSLType.FLOAT,
+                    shaders.GLSLType.Vector(2)))
+
     def __generate_shaders(self, model):
         """P.__generate_shaders(model)
 
