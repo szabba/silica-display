@@ -24,7 +24,7 @@ class ParticleModel(object):
             [0, 0, 1],
             [0, 0, 1]])
 
-        self.__colors = numpy.array([
+        self.__colours = numpy.array([
             [1, 0, 0],
             [0, 0, 1],
             [0, 0, 1]])
@@ -57,6 +57,35 @@ class Particles(object):
         self.__generate_shaders(self.__model)
 
         self.__program = shaders.Program('particles')
+
+        self.__camera = self.__program.uniform(
+                'camera',
+                shaders.GLSLType(shaders.GLSLType.FLOAT, shaders.GLSLType.Matrix(4)))
+
+        self.__sun = self.__program.uniform(
+                'sun',
+                shaders.GLSLType(shaders.GLSLType.FLOAT, shaders.GLSLType.Vector(3)))
+
+        self.__positions = self.__program.uniform(
+                'positions',
+                shaders.GLSLType(
+                    shaders.GLSLType.FLOAT,
+                    shaders.GLSLType.Vector(3)),
+                self.__model.vertex_count())
+
+        self.__normals = self.__program.uniform(
+                'normals',
+                shaders.GLSLType(
+                    shaders.GLSLType.FLOAT,
+                    shaders.GLSLType.Vector(3)),
+                self.__model.vertex_count())
+
+        self.__colours = self.__program.uniform(
+                'colours',
+                shaders.GLSLType(
+                    shaders.GLSLType.FLOAT,
+                    shaders.GLSLType.Vector(3)),
+                self.__model.vertex_count())
 
     def __generate_shaders(self, model):
         """P.__generate_shaders(model)
