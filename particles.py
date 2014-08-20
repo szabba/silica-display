@@ -7,6 +7,7 @@ import string
 
 import numpy
 
+import cube
 import shaders
 from constants import *
 
@@ -19,22 +20,24 @@ class ParticleModel(object):
 
     def __init__(self):
 
-        self.__positions = numpy.array([
-            [5, 0, 0],
-            [0, 1, 0],
-            [0, -1, 0]])
+        SHAPE = (2, ) + cube.CUBE_FACES.shape
 
-        self.__normals = numpy.array([
-            [0, 0, 1],
-            [0, 0, 1],
-            [0, 0, 1]])
+        self.__positions = numpy.zeros(SHAPE)
+        self.__positions[:] = cube.CUBE_FACES
+        self.__positions[1, ..., 0] += 1
 
-        self.__colours = numpy.array([
-            [1, 0, 0],
-            [0, 0, 1],
-            [0, 0, 1]])
+        self.__normals = numpy.zeros(SHAPE)
+        self.__normals[:] = cube.CUBE_NORMALS
 
-        self.__vertex_count = 3
+        self.__colours = numpy.zeros(SHAPE)
+        self.__colours[0, ..., 0] = 1
+        self.__colours[1, ..., 2] = 1
+
+        self.__positions = self.__positions.reshape((-1, COORDINATES_PER_VERTEX))
+        self.__normals = self.__normals.reshape((-1, COORDINATES_PER_VERTEX))
+        self.__colours = self.__colours.reshape((-1, COORDINATES_PER_VERTEX))
+
+        self.__vertex_count = self.__positions.size / COORDINATES_PER_VERTEX
 
     def generate_shader_source(self, template):
         """PM.generate_shader_source(template) -> shader source"""
