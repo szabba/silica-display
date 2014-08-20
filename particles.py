@@ -182,4 +182,15 @@ class Particles(object):
 
         with self.__player.frame() as frame:
 
-            pass
+            self.__camera.clear()
+            self.__camera.add(*self.__cam.gl_matrix())
+            self.__camera.set()
+
+            if not self.__sun.filled():
+                self.__sun.add(*self.__config.sun_direction())
+            self.__sun.set()
+
+            self.__model.populate(
+                    self.__positions,
+                    self.__normals,
+                    self.__colours)
