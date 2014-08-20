@@ -11,6 +11,9 @@ import shaders
 from constants import *
 
 
+ANGLES_PER_ORIENTATION = 2
+
+
 class ParticleModel(object):
     """The 3D model for a single particle"""
 
