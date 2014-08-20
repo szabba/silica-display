@@ -446,19 +446,12 @@ class TriangleList(object):
 
         for name, array in self.__arrays.items():
 
-
-            s = time.time()
             source = arrays[name]
             if isinstance(source, numpy.ndarray):
                 source = source.flatten()
 
-            print 'time: ', time.time() - s, ('flattening %s' % name)
-
-            s = time.time()
             for i in range(len(array)):
-
                 array[i] = source[i]
-            print 'time: ', time.time() - s, ('copying %s' % name)
 
     def __enter__(self):
 
