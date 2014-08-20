@@ -94,10 +94,16 @@ class ParticlePlayer(object):
             model.vertex_count(),
             COORDINATES_PER_VERTEX))
 
+        for particle_no, particle in enumerate(arrays['position']):
+            particle[:, 0] += 6 * particle_no
+
         arrays['orientation'] = numpy.zeros((
             self.particle_count(),
             model.vertex_count(),
             ANGLES_PER_ORIENTATION))
+
+        for particle_no, particle in enumerate(arrays['orientation']):
+            particle[:, 0] = math.pi / 7 * particle_no
 
         self.__frame.from_arrays(arrays)
 
@@ -112,7 +118,7 @@ class ParticlePlayer(object):
     def particle_count(self):
         """PP.particle_count() -> the number of particles being displayed"""
 
-        return 1
+        return 4
 
 
 class Particles(object):
