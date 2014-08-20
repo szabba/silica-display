@@ -133,6 +133,11 @@ class ParticlePlayer(object):
 
         return self.__frame
 
+    def frame_count(self):
+        """PP.frame_count() -> number of frames"""
+
+        return 1
+
     def particle_count(self):
         """PP.particle_count() -> the number of particles being displayed"""
 
