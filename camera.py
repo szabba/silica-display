@@ -162,9 +162,6 @@ class Cameraman(object):
                 0, 0]]).T
 
             r = numpy.array([self.__shift.r()]).T
-            print 'r.shape', r.shape
-            print 'inv(SR).shape', numpy.linalg.inv(SR).shape
-            print 'u.shape', u.shape
             r += numpy.linalg.inv(SR).dot(u)[:3]
 
             self.__shift.set_r(r[0, 0], r[1, 0], r[2, 0])

@@ -24,11 +24,3 @@ for (int i = 0; i < W; i++) {
         }
     }
 }
-
-printf("CUBES == %d: ", cube);
-if (CUBES == cube) {
-    printf("true\n");
-} else {
-    printf("false\n");
-}
-printf("CUBES == %d\n", CUBES);

@@ -221,8 +221,6 @@ class Glass(object):
         # Normals and vertex positions for actually visible triangles
         nonoverlap_mask = self.__nonoverlap_mask(grid, cubes)
 
-        print 'visible sides number:', nonoverlap_mask.sum()
-
         return (
                 raw_triangles[nonoverlap_mask.nonzero()],
                 raw_normals[nonoverlap_mask.nonzero()])
