@@ -87,8 +87,17 @@ class ParticlePlayer(object):
 
     def __init__(self, program, model):
 
-        self.__frame = program.triangle_list(
+        self.__frame = self.__generate_frame(program, model, 0)
+
+    def __generate_frame(self, program, model, no):
+        """PP.__generate_frame(program, model, no) -> triangle list
+
+        No-th frame.
+        """
+
+        frame = program.triangle_list(
                 self.particle_count() * model.triangle_count())
+
         arrays = {}
 
         arrays['ix_float'] = numpy.zeros((
@@ -112,7 +121,9 @@ class ParticlePlayer(object):
         for particle_no, particle in enumerate(arrays['orientation']):
             particle[:, 0] = math.pi / 7 * particle_no
 
-        self.__frame.from_arrays(arrays)
+        frame.from_arrays(arrays)
+
+        return frame
 
     def frame(self):
         """PP.frame() -> triangle list
