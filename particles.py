@@ -87,7 +87,10 @@ class ParticlePlayer(object):
 
     def __init__(self, program, model):
 
-        self.__frame = self.__generate_frame(program, model, 0)
+        self.__frames = []
+        for i in range(self.frame_count()):
+            self.__frames.append(
+                    self.__generate_frame(program, model, i))
 
     def __generate_frame(self, program, model, no):
         """PP.__generate_frame(program, model, no) -> triangle list
@@ -119,7 +122,7 @@ class ParticlePlayer(object):
             ANGLES_PER_ORIENTATION))
 
         for particle_no, particle in enumerate(arrays['orientation']):
-            particle[:, 0] = math.pi / 7 * particle_no
+            particle[:, 0] = math.pi / self.frame_count() * (particle_no + no)
 
         frame.from_arrays(arrays)
 
@@ -131,12 +134,12 @@ class ParticlePlayer(object):
         Data to render for the current frame.
         """
 
-        return self.__frame
+        return self.__frames[0]
 
     def frame_count(self):
         """PP.frame_count() -> number of frames"""
 
-        return 1
+        return 5
 
     def particle_count(self):
         """PP.particle_count() -> the number of particles being displayed"""
