@@ -24,10 +24,11 @@ class ParticleModel(object):
 
         self.__positions = numpy.zeros(SHAPE)
         self.__positions[:] = cube.CUBE_FACES
-        self.__positions[1, ..., 0] += 1
 
-        self.__positions[..., 0] -= 1
-        self.__positions[..., 1:] -= 0.5
+        self.__positions[..., 0] *= height / 2.
+        self.__positions[0, ..., 0] -= height / 2.
+        self.__positions[..., 1:] *= width
+        self.__positions[..., 1:] -= width / 2.
 
         self.__normals = numpy.zeros(SHAPE)
         self.__normals[:] = cube.CUBE_NORMALS
