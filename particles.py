@@ -62,6 +62,14 @@ class ParticlePlayer(object):
                 [math.pi / 2, math.pi / 4],
                 [math.pi / 2, math.pi / 4]])))
 
+    def frame(self):
+        """PP.frame() -> triangle list
+
+        Data to render for the current frame.
+        """
+
+        return self.__frame
+
 
 class Particles(object):
     """The glass (or it's visible part)"""
