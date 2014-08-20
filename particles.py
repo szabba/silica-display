@@ -124,6 +124,8 @@ class Particles(object):
                     shaders.GLSLType.FLOAT,
                     shaders.GLSLType.Vector(2)))
 
+        self.__player = ParticlePlayer(self.__program)
+
     def __generate_shaders(self, model):
         """P.__generate_shaders(model)
 
