@@ -15,11 +15,21 @@ varying vec3 colour;
 
 mat4 rotation_for(float rho, float theta) {
 
-	return mat4(
-			1, 0, 0, 0,
-			0, 1, 0, 0,
-			0, 0, 1, 0,
-			0, 0, 0, 1);
+	mat4 rot_z, rot_y;
+
+	rot_z = mat4(
+			 cos(rho), sin(rho), 0, 0,
+			-sin(rho), cos(rho), 0, 0,
+			        0,        0, 1, 0,
+			        0,        0, 0, 1);
+
+	rot_y = mat4(
+			 cos(theta), 0, sin(theta), 0,
+			          0, 1,          0, 0,
+			-sin(theta), 0, cos(theta), 0,
+			          0, 0,          0, 1);
+
+	return rot_z * rot_y;
 }
 
 void main(void) {
