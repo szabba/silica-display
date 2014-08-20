@@ -6,6 +6,7 @@ import math
 import string
 
 import numpy
+from pyglet.window import key
 
 import cube
 import shaders
@@ -237,6 +238,12 @@ class Particles(object):
 
             with open(shader_filename, 'w') as output:
                 output.write(shader_code)
+
+    def on_key_press(self, symbol, modifiers):
+
+        if symbol == key.SPACE:
+
+            self.__player.next_frame()
 
     def on_draw(self):
         """P.on_draw()
