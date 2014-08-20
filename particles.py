@@ -24,26 +24,31 @@ class Particles(object):
         self.__program = shaders.Program('particles')
 
     def __prepare_model(self):
-        """P.__prepare_model() -> (poses, normals, colors, vertex_count)"""
+        """P.__prepare_model() -> a dictionary
 
-        poses = numpy.array([
-            [1, 0, 0],
-            [0, 1, 0],
-            [0, -1, 0]])
+        The keys are 'poses', 'normals', 'colors' and 'vertex_count'. The first
+        three hold values that can be passed into the corresponding uniforms.
+        The last one is an integer.
+        """
 
-        normals = numpy.array([
-            [0, 0, 1],
-            [0, 0, 1],
-            [0, 0, 1]])
+        return {
+            'poses': numpy.array([
+                [1, 0, 0],
+                [0, 1, 0],
+                [0, -1, 0]]),
 
-        colors = numpy.array([
-            [1, 0, 0],
-            [0, 0, 1],
-            [0, 0, 1]])
+            'normals': numpy.array([
+                [0, 0, 1],
+                [0, 0, 1],
+                [0, 0, 1]]),
 
-        vertex_count = 3
+            'colors': numpy.array([
+                [1, 0, 0],
+                [0, 0, 1],
+                [0, 0, 1]]),
 
-        return poses, normals, colors, vertex_count
+            'vertex_count': 3,
+        }
 
     def __generate_shaders(self, model):
         """P.__generate_shaders(model)
