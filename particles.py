@@ -78,19 +78,28 @@ class ParticleModel(object):
 class ParticlePlayer(object):
     """Controls triangle list choice for the current frame."""
 
-    def __init__(self, program):
+    def __init__(self, program, model):
 
-        self.__frame = program.triangle_list(1)
-        self.__frame.from_arrays(dict(
-            ix_float=[0, 1, 2],
-            position=numpy.array([
-                [10, 10, 10],
-                [10, 10, 10],
-                [10, 10, 10]]),
-            orientation=numpy.array([
-                [math.pi / 2, math.pi / 4],
-                [math.pi / 2, math.pi / 4],
-                [math.pi / 2, math.pi / 4]])))
+        self.__frame = program.triangle_list(
+                self.particle_count() * model.triangle_count())
+        arrays = {}
+
+        arrays['ix_float'] = numpy.zeros((
+            self.particle_count(),
+            model.vertex_count()))
+        arrays['ix_float'][:] = numpy.arange(model.vertex_count())
+
+        arrays['position'] = numpy.zeros((
+            self.particle_count(),
+            model.vertex_count(),
+            COORDINATES_PER_VERTEX))
+
+        arrays['orientation'] = numpy.zeros((
+            self.particle_count(),
+            model.vertex_count(),
+            ANGLES_PER_ORIENTATION))
+
+        self.__frame.from_arrays(arrays)
 
     def frame(self):
         """PP.frame() -> triangle list
@@ -167,7 +176,7 @@ class Particles(object):
                     shaders.GLSLType.FLOAT,
                     shaders.GLSLType.Vector(2)))
 
-        self.__player = ParticlePlayer(self.__program)
+        self.__player = ParticlePlayer(self.__program, self.__model)
 
     def __generate_shaders(self, model):
         """P.__generate_shaders(model)
