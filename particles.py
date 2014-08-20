@@ -123,7 +123,7 @@ class ParticlePlayer(object):
             ANGLES_PER_ORIENTATION))
 
         for particle_no, particle in enumerate(arrays['orientation']):
-            particle[:, 0] = math.pi / self.frame_count() * (particle_no + no)
+            particle[:, 0] = 2 * math.pi / self.frame_count() * (particle_no + no)
 
         frame.from_arrays(arrays)
 
@@ -140,7 +140,7 @@ class ParticlePlayer(object):
     def frame_count(self):
         """PP.frame_count() -> number of frames"""
 
-        return 5
+        return 16
 
     def particle_count(self):
         """PP.particle_count() -> the number of particles being displayed"""
