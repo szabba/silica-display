@@ -47,7 +47,7 @@ class Particles(object):
         self.__config = config
         self.__cam = cam
 
-        self.__model = self.__prepare_model()
+        self.__model = ParticleModel()
 
         self.__generate_shaders(self.__model)
 
@@ -89,8 +89,8 @@ class Particles(object):
         for letter in ('v', 'f'):
             self.__generate_shader('particles', letter, model)
 
-    def __generate_shader(self, shader_name, letter, data):
-        """P.__generate_shader(self, shader_name, letter, data)
+    def __generate_shader(self, shader_name, letter, model):
+        """P.__generate_shader(self, shader_name, letter, model)
 
         Generate the appropriate shader source file.
         """
@@ -101,7 +101,7 @@ class Particles(object):
         with open(template_filename) as input:
             template = string.Template(input.read())
 
-        shader_code = template.substitute(data)
+        shader_code = model.generate_shader_source(template)
 
         with open(shader_filename, 'w') as output:
             output.write(shader_code)
