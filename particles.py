@@ -305,7 +305,7 @@ class ParticlePlayer(object):
 
         if self.__current_frame >= self.frame_count():
 
-            self.__current_frame = self.__first_frame()
+            self.__current_frame = self.__first_frame() if self.__loop else self.__last_frame()
 
     def previous_frame(self):
         """PP.previous_frame()
@@ -316,7 +316,7 @@ class ParticlePlayer(object):
 
         if self.__current_frame < 0:
 
-            self.__current_frame = self.__last_frame()
+            self.__current_frame = self.__last_frame() if self.__loop else self.__first_frame()
 
 
 class Particles(object):
