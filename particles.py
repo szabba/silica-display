@@ -161,10 +161,11 @@ class AnimationBuilder(object):
         t_lists = []
         for frame_data in self.__frames:
 
-            t_lists.append(self.__program.triangle_list(
-                self.__particle_count * self.__model.triangle_count()))
+            t_list = self.__program.triangle_list(
+                    self.__particle_count * self.__model.triangle_count())
+            t_list.from_arrays(frame_data)
 
-            t_lists[-1].from_arrays(frame_data)
+            t_lists.append(t_list)
 
         return ParticleAnimation(self.__particle_count, t_lists)
 
