@@ -173,12 +173,10 @@ class AnimationBuilder(object):
 class ParticleAnimation(object):
     """A sequence of frames"""
 
-    def __init__(self, program, model):
+    def __init__(self, particle_count, frames):
 
-        self.__frames = []
-        for i in range(self.frame_count()):
-            self.__frames.append(
-                    self.__generate_frame(program, model, i))
+        self.__particle_count = particle_count
+        self.__frames = frames
 
     def __generate_frame(self, program, model, no):
         """PA.__generate_frame(program, model, no) -> triangle list
@@ -227,12 +225,12 @@ class ParticleAnimation(object):
     def frame_count(self):
         """PA.frame_count() -> number of frames"""
 
-        return 16
+        return len(self.__frames)
 
     def particle_count(self):
         """PA.particle_count() -> the number of particles being displayed"""
 
-        return 4
+        return self.__particle_count
 
 
 class ParticlePlayer(object):
