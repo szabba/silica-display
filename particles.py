@@ -86,7 +86,9 @@ class ParticleModel(object):
 class AnimationBuilder(object):
     """A builder object for ParticleAnimations"""
 
-    def __init__(self, particle_count):
+    def __init__(self, program, model, particle_count):
+
+        self.__program, self.__model = program, model
 
         self.__particle_count = particle_count
         self.__in_current_frame = 0
