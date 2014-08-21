@@ -120,6 +120,8 @@ class AnimationBuilder(object):
                 self.__model.vertex_count(),
                 ANGLES_PER_ORIENTATION)),
         })
+        self.__frames[-1]['ix_float'][:] = numpy.arange(
+                self.__model.vertex_count())
 
     @staticmethod
     def vector_to_angles(vector):
