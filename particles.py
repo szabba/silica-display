@@ -253,7 +253,7 @@ class ParticleAnimation(object):
 class ParticlePlayer(object):
     """Controls triangle list choice for the current frame."""
 
-    def __init__(self, program, model, animation):
+    def __init__(self, animation):
 
         self.__animation = animation
         self.__current_frame = 0
@@ -352,7 +352,7 @@ class Particles(object):
                     shaders.GLSLType.Vector(2)))
 
         animation = ParticleAnimation.test_animation(self.__program, self.__model, 4, 16)
-        self.__player = ParticlePlayer(self.__program, self.__model, animation)
+        self.__player = ParticlePlayer(animation)
 
     def __generate_shaders(self, model):
         """P.__generate_shaders(model)
