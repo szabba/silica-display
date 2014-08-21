@@ -386,9 +386,13 @@ class Particles(object):
 
     def on_key_press(self, symbol, modifiers):
 
-        if symbol == key.SPACE:
+        if symbol == key.RIGHT:
 
             self.__player.next_frame()
+
+        if symbol == key.LEFT:
+
+            self.__player.previous_frame()
 
     def on_draw(self):
         """P.on_draw()
