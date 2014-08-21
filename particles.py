@@ -121,6 +121,21 @@ class AnimationBuilder(object):
                 ANGLES_PER_ORIENTATION)),
         })
 
+    @staticmethod
+    def vector_to_angles(vector):
+        """vector_to_angles((x, y, z)) -> rho, theta
+
+        Calculates the angular representation of the direction the vector with
+        the given components is pointing in.
+        """
+
+        x, y, z = vector
+
+        phi = math.atan2(y, x)
+        theta = math.atan2(z, math.sqrt(x**2 + y**2))
+
+        return phi, theta
+
 
 class ParticleAnimation(object):
     """A sequence of frames"""
