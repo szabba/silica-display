@@ -103,28 +103,27 @@ The program is written in a combination of three different languages and
 uses several not-so-simple libraries and APIs.
 
 ```
-> cloc --read-lang-def custom.cloc .                                    25 text
-files.
-      25 unique files.
-     481 files ignored.
+      33 text files.
+      32 unique files.
+      12 files ignored.
 
-http://cloc.sourceforge.net v 1.60  T=0.06 s (315.3 files/s, 32892.3 lines/s)
+http://cloc.sourceforge.net v 1.62  T=0.07 s (342.1 files/s, 45641.8 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-Python                          10            636            191            946
-GLSL                             8             58              3            114
-C                                1              9              0             25
+Python                          13           1004            354           1452
+GLSL                             8             61              0            123
+C                                1              8              0             18
 -------------------------------------------------------------------------------
-SUM:                            19            703            194           1085
+SUM:                            23           1088            354           1627
 -------------------------------------------------------------------------------
 ```
 
 That gives a total of
 
-* 1773 lines of Python
-* 175 lines of the OpenGL Shading Language
-* 34 lines of C
+* 2810 lines of Python
+* 184 lines of the OpenGL Shading Language
+* 26 lines of C
 
 `custom.cloc` contains the language specification for GLSL (so that `cloc` can
 count shader sources).
