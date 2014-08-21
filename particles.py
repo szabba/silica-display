@@ -178,6 +178,23 @@ class ParticleAnimation(object):
         self.__particle_count = particle_count
         self.__frames = frames
 
+    @staticmethod
+    def test_animation(program, model, particle_count, frame_count):
+        """ParticleAnimation.test_animation(program, model, particle_count, frame_count) -> ParticleAnimation
+
+        An example ParticleAnimation"""
+
+        builder = AnimationBuilder(program, model, particle_count)
+
+        for frame_no in range(frame_count):
+            for particle_no in range(particle_count):
+
+                builder.add_particle_state(
+                        (6 * particle_no, 0, 0),
+                        (2 * math.pi / frame_count * (particle_no + frame_no), 0))
+
+        return builder.build()
+
     def __generate_frame(self, program, model, no):
         """PA.__generate_frame(program, model, no) -> triangle list
 
@@ -334,7 +351,7 @@ class Particles(object):
                     shaders.GLSLType.FLOAT,
                     shaders.GLSLType.Vector(2)))
 
-        animation = ParticleAnimation(self.__program, self.__model)
+        animation = ParticleAnimation.test_animation(self.__program, self.__model, 4, 16)
         self.__player = ParticlePlayer(self.__program, self.__model, animation)
 
     def __generate_shaders(self, model):
