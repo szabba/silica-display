@@ -86,6 +86,13 @@ class ParticleModel(object):
 class ParticleAnimation(object):
     """A sequence of frames"""
 
+    def __init__(self, program, model):
+
+        self.__frames = []
+        for i in range(self.frame_count()):
+            self.__frames.append(
+                    self.__generate_frame(program, model, i))
+
     def __generate_frame(self, program, model, no):
         """PA.__generate_frame(program, model, no) -> triangle list
 
