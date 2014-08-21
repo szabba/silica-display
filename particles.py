@@ -86,6 +86,11 @@ class ParticleModel(object):
 class ParticleAnimation(object):
     """A sequence of frames"""
 
+    def particle_count(self):
+        """PA.particle_count() -> the number of particles being displayed"""
+
+        return 4
+
 
 class ParticlePlayer(object):
     """Controls triangle list choice for the current frame."""
