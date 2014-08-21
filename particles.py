@@ -83,6 +83,10 @@ class ParticleModel(object):
         colours.set()
 
 
+class AnimationBuilder(object):
+    """A builder object for ParticleAnimations"""
+
+
 class ParticleAnimation(object):
     """A sequence of frames"""
 
