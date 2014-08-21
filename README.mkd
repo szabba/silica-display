@@ -36,6 +36,54 @@ An example follows.
 
 Yes, it is not a very imaginative example.
 
+## Particle animation file
+
+Using the `-p`/`--particles` option, the user may specify a file containing
+particle animation data. It's first line should contain the number of
+particles to be rendered in each frame.
+
+The following lines should contain six numbers each. The first three are the
+cartesian coordinates of the center of a particle. The following three are the
+components of the normalised magnetic moment.
+
+Frames are not delimeted in any way. If a valid file has 41 lines and the first
+one contains the number 4, it contains 10 frames.
+
+An example follows.
+
+```
+1
+0 0 0 0 0 0
+1 1 1 0 0 0
+```
+
+Yes, it is not a very imaginative example.
+
+# User interface
+
+The application is controlled through the mouse and keyboard.
+
+## Camera control
+
+The camera looks at a certain point. Dragging with the Left Mouse Button
+rotates the view around this point. Not all rotations are possible to make.
+
+As an aid in understanding the current camera orientation, the coordinate
+system axes are displayed in the lower left corner of the window. In line with
+the usual 3D graphics convention the x axis is red, the y axis is green and the
+z axis is blue.
+
+Dragging with the Right Mouse Button translates the camera parallel to the
+screen plane. Scrolling the mouse wheel zooms the camera in/out. Pressing C on
+the keyboard will reset all the camera parameters.
+
+## Particle playback control
+
+Pressing Space will toggle the particle animation playback. Pressign L will
+toggle whether the animation loops. Pressing the left/right arrow key will move
+one frame backward/forward, irrespective of whether the animation is currently
+playing or not.
+
 # Dependencies
 
 To run the program you will need:
