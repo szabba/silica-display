@@ -136,6 +136,25 @@ class AnimationBuilder(object):
 
         return phi, theta
 
+    def add_particle_state(self, position, orientation):
+        """AB.add_particle_state(pos, dir)
+
+        Both arguments are three component tuples. The first one is a
+        particle's absolute space position. The second -- it's orientation
+        versor.
+        """
+
+        if self.__in_current_frame == self.__particle_count:
+            self.__start_frame()
+
+        frame = self.__frames[-1]
+        frame['position'][self.__in_current_frame, :] = position
+
+        angular_orientation = AnimationBuilder.vector_to_angles(orientation)
+        frame['orientation'][self.__in_current_frame, :] = angular_orientation
+
+        self.__in_current_frame += 1
+
 
 class ParticleAnimation(object):
     """A sequence of frames"""
