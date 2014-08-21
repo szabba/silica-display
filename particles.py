@@ -129,6 +129,14 @@ class ParticleAnimation(object):
 
         return frame
 
+    def frame(self, no):
+        """PA.frame(no) -> triangle list
+
+        Data to render for the no-th current frame.
+        """
+
+        return self.__frames[no]
+
     def frame_count(self):
         """PA.frame_count() -> number of frames"""
 
