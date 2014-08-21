@@ -83,6 +83,10 @@ class ParticleModel(object):
         colours.set()
 
 
+class ParticleAnimation(object):
+    """A sequence of frames"""
+
+
 class ParticlePlayer(object):
     """Controls triangle list choice for the current frame."""
 
