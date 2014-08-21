@@ -7,6 +7,7 @@ import string
 
 import numpy
 from pyglet.window import key
+from pyglet import clock
 
 import cube
 import shaders
@@ -253,11 +254,17 @@ class ParticleAnimation(object):
 class ParticlePlayer(object):
     """Controls triangle list choice for the current frame."""
 
-    def __init__(self, animation):
+    def __init__(self, animation, fps):
 
         self.__animation = animation
-        self.__current_frame = 0
+
         self.__loop = True
+        self.__current_frame = 0
+
+        self.__frame_dt = 1 / fps
+        self.__since_last_frame = 0
+
+        clock.schedule_interval(self.tick, self.__frame_dt)
 
     def frame(self):
         """PP.frame() -> triangle list
@@ -266,6 +273,19 @@ class ParticlePlayer(object):
         """
 
         return self.__animation.frame(self.__current_frame)
+
+    def tick(self, dt):
+        """PP.tick(dt)
+
+        Forward the animation.
+        """
+
+        self.__since_last_frame += dt
+
+        while self.__since_last_frame > self.__frame_dt:
+
+            self.__since_last_frame -= self.__frame_dt
+            self.next_frame()
 
     def frame_count(self):
         """PP.frame_count() -> number of frames"""
@@ -382,7 +402,7 @@ class Particles(object):
                     shaders.GLSLType.Vector(2)))
 
         animation = ParticleAnimation.test_animation(self.__program, self.__model, 4, 16)
-        self.__player = ParticlePlayer(animation)
+        self.__player = ParticlePlayer(animation, config.particle_animation_fps())
 
     def __generate_shaders(self, model):
         """P.__generate_shaders(model)
