@@ -276,6 +276,11 @@ class ParticlePlayer(object):
 
         return self.__animation.particle_count()
 
+    def __first_frame(self):
+        """PP.__first_frame() -> number of the first frame"""
+
+        return 0
+
     def next_frame(self):
         """PP.next_frame()
 
@@ -286,7 +291,7 @@ class ParticlePlayer(object):
 
         if self.__current_frame >= self.frame_count():
 
-            self.__current_frame = 0
+            self.__current_frame = self.__first_frame()
 
     def previous_frame(self):
         """PP.previous_frame()
