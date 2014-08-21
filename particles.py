@@ -155,6 +155,19 @@ class AnimationBuilder(object):
 
         self.__in_current_frame += 1
 
+    def build(self):
+        """AB.build() -> ParticleAnimation"""
+
+        t_lists = []
+        for frame_data in self.__frames:
+
+            t_lists.append(self.__program.triangle_list(
+                self.__particle_count * self.__model.triangle_count()))
+
+            t_lists[-1].from_arrays(frame_data)
+
+        return ParticleAnimation(self.__particle_count, t_lists)
+
 
 class ParticleAnimation(object):
     """A sequence of frames"""
