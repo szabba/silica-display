@@ -288,6 +288,17 @@ class ParticlePlayer(object):
 
             self.__current_frame = 0
 
+    def previous_frame(self):
+        """PP.previous_frame()
+
+        Move the animation backward in time by one frame.
+        """
+        self.__current_frame -= 1
+
+        if self.__current_frame < 0:
+
+            self.__current_frame = self.__animation.frame_count() - 1
+
 
 class Particles(object):
     """The glass (or it's visible part)"""
