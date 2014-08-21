@@ -352,6 +352,28 @@ class ParticlePlayer(object):
             self.__current_frame = self.__last_frame() if self.__loop else self.__first_frame()
 
 
+def animation_from_file(program, model, filename):
+    """animation_from_file(program, model, filename) -> ParticleAnimation
+
+    Load up a paticle animation from a file.
+    """
+
+    with open(filename) as input_file:
+
+        particle_count = int(input_file.readline().strip())
+
+        builder = AnimationBuilder(program, model, particle_count)
+
+        for r_x, r_y, r_z, m_x, m_y, m_z in (
+                map(float, line.strip().split(' ')) for line in input_file.readlines()):
+
+            builder.add_particle_state(
+                    (r_x, r_y, r_z),
+                    AnimationBuilder.vector_to_angles((m_x, m_y, m_z)))
+
+        return builder.build()
+
+
 class Particles(object):
     """The glass (or it's visible part)"""
 
