@@ -90,8 +90,24 @@ class DisplayApp(object):
         self.__window.push_handlers(
                 Fog(config, cam))
 
-        self.__window.push_handlers(
-                Particles(config, cam))
+        if config.particle_file() is not None:
+
+            if os.path.exists(config.particle_file()):
+
+                logger.error(
+                        "Specified particle file '%s' does not exits",
+                        config.particle_file())
+
+            elif os.path.isdir(config.particle_file()):
+
+                logger.error(
+                        "Specified particles file '%s' is a directory",
+                        config.particle_file())
+
+            else:
+
+                self.__window.push_handlers(
+                        Particles(config, cam))
 
         self.__window.push_handlers(
                 Glass(config, cam))
