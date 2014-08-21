@@ -139,9 +139,9 @@ class AnimationBuilder(object):
     def add_particle_state(self, position, orientation):
         """AB.add_particle_state(pos, dir)
 
-        Both arguments are three component tuples. The first one is a
-        particle's absolute space position. The second -- it's orientation
-        versor.
+        Both arguments are tuples. The first one is a particle's absolute space
+        position. The second -- it's orientation as angles of rotation around
+        the z and y axis.
         """
 
         if self.__in_current_frame == self.__particle_count:
@@ -149,9 +149,7 @@ class AnimationBuilder(object):
 
         frame = self.__frames[-1]
         frame['position'][self.__in_current_frame, :] = position
-
-        angular_orientation = AnimationBuilder.vector_to_angles(orientation)
-        frame['orientation'][self.__in_current_frame, :] = angular_orientation
+        frame['orientation'][self.__in_current_frame, :] = orientation
 
         self.__in_current_frame += 1
 
