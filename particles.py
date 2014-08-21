@@ -94,6 +94,34 @@ class AnimationBuilder(object):
         self.__in_current_frame = 0
         self.__frames = []
 
+        self.__start_frame()
+
+    def __start_frame(self):
+        """AB.__start_frame()
+
+        Starts a new frame.
+        """
+
+        self.__in_current_frame = 0
+
+        self.__frames.append({
+
+            'ix_float': numpy.zeros((
+                self.__particle_count,
+                self.__model.vertex_count())),
+
+            'position': numpy.zeros((
+                self.__particle_count,
+                self.__model.vertex_count(),
+                COORDINATES_PER_VERTEX)),
+
+            'orientation': numpy.zeros((
+                self.__particle_count,
+                self.__model.vertex_count(),
+                ANGLES_PER_ORIENTATION)),
+        })
+
+
 class ParticleAnimation(object):
     """A sequence of frames"""
 
