@@ -281,6 +281,11 @@ class ParticlePlayer(object):
 
         return 0
 
+    def __last_frame(self):
+        """P.__last_frame() -> number of the last frame"""
+
+        return self.frame_count() - 1
+
     def next_frame(self):
         """PP.next_frame()
 
@@ -302,7 +307,7 @@ class ParticlePlayer(object):
 
         if self.__current_frame < 0:
 
-            self.__current_frame = self.__animation.frame_count() - 1
+            self.__current_frame = self.__last_frame()
 
 
 class Particles(object):
