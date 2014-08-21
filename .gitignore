@@ -1,4 +1,4 @@
 *.sw?
 *.pyc
 particles.f.glsl
-particles.f.glsl
+particles.v.glsl
