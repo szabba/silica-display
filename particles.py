@@ -154,11 +154,7 @@ class ParticlePlayer(object):
     def __init__(self, program, model, animation):
 
         self.__animation = animation
-
-        self.__frames = []
-        for i in range(self.frame_count()):
-            self.__frames.append(
-                    self.__generate_frame(program, model, i))
+        self.__current_frame = 0
 
     def __generate_frame(self, program, model, no):
         """PP.__generate_frame(program, model, no) -> triangle list
@@ -202,17 +198,17 @@ class ParticlePlayer(object):
         Data to render for the current frame.
         """
 
-        return self.__frames[0]
+        return self.__animation.frame(self.__current_frame)
 
     def frame_count(self):
         """PP.frame_count() -> number of frames"""
 
-        return 16
+        return self.__animation.frame_count()
 
     def particle_count(self):
-        """PP.particle_count() -> the number of particles being displayed"""
+        """PP.particle_count() -> the number of particles being displayed each frame"""
 
-        return 4
+        return self.__animation.particle_count()
 
     def next_frame(self):
         """PP.next_frame()
@@ -220,7 +216,11 @@ class ParticlePlayer(object):
         Move the animation forward in time by one frame.
         """
 
-        self.__frames.append(self.__frames.pop(0))
+        self.__current_frame += 1
+
+        if self.__current_frame >= self.frame_count():
+
+            self.__current_frame = 0
 
 
 class Particles(object):
