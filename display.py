@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import os.path
 import math
+import logging
 
 import pyglet
 from pyglet import gl
@@ -92,15 +94,15 @@ class DisplayApp(object):
 
         if config.particle_file() is not None:
 
-            if os.path.exists(config.particle_file()):
+            if not os.path.exists(config.particle_file()):
 
-                logger.error(
+                logging.error(
                         "Specified particle file '%s' does not exits",
                         config.particle_file())
 
             elif os.path.isdir(config.particle_file()):
 
-                logger.error(
+                logging.error(
                         "Specified particles file '%s' is a directory",
                         config.particle_file())
 
