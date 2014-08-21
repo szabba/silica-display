@@ -86,6 +86,11 @@ class ParticleModel(object):
 class ParticleAnimation(object):
     """A sequence of frames"""
 
+    def frame_count(self):
+        """PA.frame_count() -> number of frames"""
+
+        return 16
+
     def particle_count(self):
         """PA.particle_count() -> the number of particles being displayed"""
 
