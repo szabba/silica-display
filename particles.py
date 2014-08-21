@@ -86,6 +86,42 @@ class ParticleModel(object):
 class ParticleAnimation(object):
     """A sequence of frames"""
 
+    def __generate_frame(self, program, model, no):
+        """PA.__generate_frame(program, model, no) -> triangle list
+
+        No-th frame.
+        """
+
+        frame = program.triangle_list(
+                self.particle_count() * model.triangle_count())
+
+        arrays = {}
+
+        arrays['ix_float'] = numpy.zeros((
+            self.particle_count(),
+            model.vertex_count()))
+        arrays['ix_float'][:] = numpy.arange(model.vertex_count())
+
+        arrays['position'] = numpy.zeros((
+            self.particle_count(),
+            model.vertex_count(),
+            COORDINATES_PER_VERTEX))
+
+        for particle_no, particle in enumerate(arrays['position']):
+            particle[:, 0] += 6 * particle_no
+
+        arrays['orientation'] = numpy.zeros((
+            self.particle_count(),
+            model.vertex_count(),
+            ANGLES_PER_ORIENTATION))
+
+        for particle_no, particle in enumerate(arrays['orientation']):
+            particle[:, 0] = 2 * math.pi / self.frame_count() * (particle_no + no)
+
+        frame.from_arrays(arrays)
+
+        return frame
+
     def frame_count(self):
         """PA.frame_count() -> number of frames"""
 
