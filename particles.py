@@ -257,6 +257,7 @@ class ParticlePlayer(object):
 
         self.__animation = animation
         self.__current_frame = 0
+        self.__loop = True
 
     def frame(self):
         """PP.frame() -> triangle list
@@ -285,6 +286,14 @@ class ParticlePlayer(object):
         """P.__last_frame() -> number of the last frame"""
 
         return self.frame_count() - 1
+
+    def toggle_looping(self):
+        """PP.toggle_looping()
+
+        Toggle looping of the animation.
+        """
+
+        self.__loop = not self.__loop
 
     def next_frame(self):
         """PP.next_frame()
