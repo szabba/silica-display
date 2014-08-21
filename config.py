@@ -287,7 +287,7 @@ class Config(object):
     def particle_file(self):
         """C.particle_file() -> name of the particle file or None"""
 
-        return None
+        return self.__args.particles
 
     def particle_animation_fps(self):
         """C.particle_animation_fps() -> frame rate for particle animation"""
