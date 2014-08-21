@@ -436,7 +436,7 @@ class Particles(object):
                     shaders.GLSLType.FLOAT,
                     shaders.GLSLType.Vector(2)))
 
-        animation = ParticleAnimation.test_animation(self.__program, self.__model, 4, 16)
+        animation = animation_from_file(self.__program, self.__model, 'rollers.sim')
         self.__player = ParticlePlayer(animation, config.particle_animation_fps())
 
     def __generate_shaders(self, model):
