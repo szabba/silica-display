@@ -409,9 +409,13 @@ class Particles(object):
 
             self.__player.next_frame()
 
-        if symbol == key.LEFT:
+        elif symbol == key.LEFT:
 
             self.__player.previous_frame()
+
+        elif symbol == key.L:
+
+            self.__player.toggle_looping()
 
     def on_draw(self):
         """P.on_draw()
