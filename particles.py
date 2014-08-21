@@ -258,13 +258,24 @@ class ParticlePlayer(object):
 
         self.__animation = animation
 
-        self.__loop = True
+        self.__loop, self.__playing = True, True
         self.__current_frame = 0
 
         self.__frame_dt = 1 / fps
         self.__since_last_frame = 0
 
         clock.schedule_interval(self.tick, self.__frame_dt)
+
+    def toggle_playback(self):
+        """PP.toggle_playback()
+
+        Play/pause the animation.
+        """
+
+        if self.__playing:
+            self.__since_last_frame = 0
+
+        self.__playing = not self.__playing
 
     def frame(self):
         """PP.frame() -> triangle list
@@ -280,12 +291,14 @@ class ParticlePlayer(object):
         Forward the animation.
         """
 
-        self.__since_last_frame += dt
+        if self.__playing:
 
-        while self.__since_last_frame > self.__frame_dt:
+            self.__since_last_frame += dt
 
-            self.__since_last_frame -= self.__frame_dt
-            self.next_frame()
+            while self.__since_last_frame > self.__frame_dt:
+
+                self.__since_last_frame -= self.__frame_dt
+                self.next_frame()
 
     def frame_count(self):
         """PP.frame_count() -> number of frames"""
@@ -436,6 +449,10 @@ class Particles(object):
         elif symbol == key.L:
 
             self.__player.toggle_looping()
+
+        elif symbol == key.SPACE:
+
+            self.__player.toggle_playback()
 
     def on_draw(self):
         """P.on_draw()
