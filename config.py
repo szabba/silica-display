@@ -52,6 +52,11 @@ def parse_args(args):
             default=None)
 
     parser.add_argument(
+            '-P', '--particle-dimmensions',
+            help='length and width of a particle in glass grid units',
+            nargs=2, type=float, default=(1, 0.5))
+
+    parser.add_argument(
             '-s', '--slice',
             help=''.join([
                 'slice of glass to display; described by enclosed cube ',
@@ -277,7 +282,7 @@ class Config(object):
         Dimmensions of the magnetic particles in glass grid units.
         """
 
-        return 1, 0.5
+        return self.__args.particle_dimmensions
 
     def fog_color(self):
         """C.fog_color() -> the RGBA fog color"""
