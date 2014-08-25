@@ -111,8 +111,10 @@ class DisplayApp(object):
                 self.__window.push_handlers(
                         Particles(config, cam))
 
-        self.__window.push_handlers(
-                Glass(config, cam))
+        if config.glass_specified():
+
+            self.__window.push_handlers(
+                    Glass(config, cam))
 
         self.__window.push_handlers(
                 Cameraman(config, keys, transforms))

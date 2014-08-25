@@ -43,8 +43,9 @@ def parse_args(args):
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-            'GLASS_FILE',
-            help='name of the glass file')
+            '-G', '--glass-file',
+            help='name of the glass file',
+            default=None)
 
     parser.add_argument(
             '-p', '--particles',
@@ -124,13 +125,25 @@ class Config(object):
         Filename of the grid file.
         """
 
-        return self.__args.GLASS_FILE
+        return self.__args.glass_file
+
+    def glass_specified(self):
+        """C.glass_present() -> bool
+
+        Was a glass file specified?
+        """
+
+        return self.grid_file() is not None
 
     def grid_size(self):
         """C.grid_size() -> (width, height, depth)
 
         Dimmensions of the glass grid, guessed from the filename.
         """
+
+        if not self.glass_specified():
+
+            return (0., 0., 0.)
 
         if self.__grid_size is None:
 
@@ -148,6 +161,9 @@ class Config(object):
 
         Coordinates of the center of the repeated glass pieces.
         """
+
+        if not self.glass_specified():
+            return (0., 0., 0.)
 
         dimmensions = self.grid_size()
         repetitions = self.glass_repetitions()
