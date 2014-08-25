@@ -12,7 +12,10 @@ are described by input files (of which only the glass file is necessary.
 
 ## Glass file
 
-The glass file must be named `dataWIDTHxHEIGHTxDEPTHtNUMBER_NUMBER.dat` for the
+A file describing a glass grid may be specified using the `-G`/`--glass-file`
+option.
+
+It must be named `dataWIDTHxHEIGHTxDEPTHtNUMBER_NUMBER.dat` for the
 program to properly guess the glass piece's size. The glass is shown as built
 from cubes of unit size with integer coordinates.
 
