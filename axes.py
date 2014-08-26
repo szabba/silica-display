@@ -10,7 +10,6 @@ import numpy
 from pyglet import gl
 
 from constants import *
-from utils import *
 import shaders
 import transform
 import cube
@@ -42,6 +41,15 @@ class SquashZ(transform.Transform):
         squash[2, 2] = self.__z_scale
 
         self.set_matrix(squash)
+
+
+def numpy_to_c(array, t):
+    """numpy_to_c(array, t) -> ctypes array
+
+    `t` is the ctypes type of the arrays elements. The array is flattened.
+    """
+
+    return (array.size * t)(*array.flat)
 
 
 class Axes(object):
