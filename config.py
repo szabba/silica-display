@@ -58,6 +58,11 @@ def parse_args(args):
             nargs=2, type=float, default=(1, 0.5))
 
     parser.add_argument(
+            '-F', '--fps', '--frame-rate',
+            help='number of particle animation frames to play per second',
+            type=float, default=3.0)
+
+    parser.add_argument(
             '-s', '--slice',
             help=''.join([
                 'slice of glass to display; described by enclosed cube ',
@@ -313,4 +318,4 @@ class Config(object):
     def particle_animation_fps(self):
         """C.particle_animation_fps() -> frame rate for particle animation"""
 
-        return 3.0
+        return self.__args.fps
