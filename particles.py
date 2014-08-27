@@ -36,8 +36,8 @@ class ParticleModel(object):
         self.__normals[:] = cube.CUBE_NORMALS
 
         self.__colours = numpy.zeros(SHAPE)
-        self.__colours[0, ..., 0] = 1
-        self.__colours[1, ..., 2] = 1
+        self.__colours[0, ..., 2] = 1
+        self.__colours[1, ..., 0] = 1
 
         self.__positions = self.__positions.reshape((-1, COORDINATES_PER_VERTEX))
         self.__normals = self.__normals.reshape((-1, COORDINATES_PER_VERTEX))
