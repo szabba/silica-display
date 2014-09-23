@@ -4,10 +4,16 @@ The program visualises a piece of porous silicate glass and magnetic
 nanoparticles under it's influence. Both the glass piece and particle movements
 are described by input files (of which only the glass file is necessary.
 
+## Install
+
+```
+> python setup.py install
+```
+
 ## Usage
 
 ```
-> python display.py [OPTIONS] GLASS_FILE
+> python -m silica.viz.glass [OPTIONS]
 ```
 
 ## Glass file
@@ -82,7 +88,7 @@ the keyboard will reset all the camera parameters.
 
 ## Particle playback control
 
-Pressing Space will toggle the particle animation playback. Pressign L will
+Pressing Space will toggle the particle animation playback. Pressing L will
 toggle whether the animation loops. Pressing the left/right arrow key will move
 one frame backward/forward, irrespective of whether the animation is currently
 playing or not.
