@@ -2,6 +2,7 @@
 
 __all__ = ['Particles']
 
+import os.path
 import math
 import string
 
@@ -449,6 +450,12 @@ class Particles(object):
 
             shader_filename = "particles.%s.glsl" % letter
             template_filename = "template.%s" % shader_filename
+
+            shader_filename = os.path.join(shaders.shader_dir, shader_filename)
+            template_filename = os.path.join(shaders.shader_dir, template_filename)
+
+            print shader_filename
+            print template_filename
 
             with open(template_filename) as input:
                 template = string.Template(input.read())
