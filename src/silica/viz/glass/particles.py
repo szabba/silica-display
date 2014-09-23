@@ -10,9 +10,9 @@ import numpy
 from pyglet.window import key
 from pyglet import clock
 
-import cube
-import shaders
-from constants import *
+from silica.viz.common import cube
+from silica.viz.common import shaders
+from silica.viz.common.constants import *
 
 
 ANGLES_PER_ORIENTATION = 2

@@ -9,10 +9,10 @@ import ctypes as c
 import numpy
 from pyglet import gl
 
-from constants import *
-import shaders
-import transform
-import cube
+from silica.viz.common.constants import *
+from silica.viz.common import shaders
+from silica.viz.common import transform
+from silica.viz.common import cube
 
 
 class SquashZ(transform.Transform):

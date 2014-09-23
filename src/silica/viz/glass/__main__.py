@@ -7,15 +7,15 @@ import logging
 import pyglet
 from pyglet import gl
 
-import shaders
-import transform
-from constants import *
-from axes import Axes
-from glass import Glass
-from fog import Fog
-from camera import Cameraman, cam_transforms
-from config import Config
-from particles import Particles
+from silica.viz.common import shaders
+from silica.viz.common import transform
+from silica.viz.common.constants import *
+from silica.viz.common.camera import Cameraman, cam_transforms
+from silica.viz.common.axes import Axes
+from silica.viz.glass.glass import Glass
+from silica.viz.glass.fog import Fog
+from silica.viz.glass.config import Config
+from silica.viz.glass.particles import Particles
 
 
 def projection(transforms, cam_geometry, window):

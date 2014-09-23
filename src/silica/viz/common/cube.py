@@ -7,7 +7,7 @@ __all__ = [
 
 import numpy
 
-from constants import *
+from silica.viz.common.constants import *
 
 
 TRIANGLES_PER_SQUARE = 2

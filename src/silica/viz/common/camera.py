@@ -11,8 +11,8 @@ from pyglet import clock
 from pyglet.window import mouse
 from pyglet.window import key
 
-import transform
-from constants import X_AXIS, Y_AXIS, Z_AXIS
+from silica.viz.common import transform
+from silica.viz.common.constants import X_AXIS, Y_AXIS, Z_AXIS
 
 
 def cam_transforms(transforms, config):

@@ -8,9 +8,9 @@ import numpy
 from scipy import weave
 from pyglet import gl
 
-import shaders
-from constants import *
-from cube import *
+import silica.viz.common.shaders
+from silica.viz.common.constants import *
+from silica.viz.common.cube import *
 
 
 def grid_lines(filename):

@@ -11,7 +11,7 @@ import math
 import numpy
 from pyglet import gl
 
-from constants import AXIS_COUNT
+from silica.viz.common.constants import AXIS_COUNT
 
 
 class Transform(object):

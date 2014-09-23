@@ -12,7 +12,7 @@ import ctypes as c
 import numpy
 from pyglet import gl
 
-from constants import *
+from silica.viz.common.constants import *
 
 
 SHADER_TYPES = {

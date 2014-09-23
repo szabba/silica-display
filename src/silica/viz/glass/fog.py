@@ -4,8 +4,8 @@ __all__ = ['Fog']
 
 from pyglet import gl
 
-import shaders
-import cube
+from silica.viz.common import shaders
+from silica.viz.common import cube
 
 
 class Fog(object):

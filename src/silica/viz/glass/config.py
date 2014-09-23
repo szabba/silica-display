@@ -14,7 +14,7 @@ from pyglet import gl
 
 import numpy
 
-from constants import *
+from silica.viz.common.constants import *
 
 
 def guess_size(filename):
