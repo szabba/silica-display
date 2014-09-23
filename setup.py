@@ -17,6 +17,6 @@ setup(
             'scipy==0.14'],
 
         package_dir={'': 'src'},
-        packages=find_packages(),
+        packages=find_packages('src'),
         package_data={
             'silica.viz.glass': ['*.glsl', 'glass_inline.c']})
