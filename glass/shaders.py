@@ -5,6 +5,7 @@ __all__ = [
         'Program', 'GLSLType']
 
 
+import os.path
 import time
 import ctypes as c
 
@@ -17,6 +18,19 @@ from constants import *
 SHADER_TYPES = {
         'v': gl.GL_VERTEX_SHADER,
         'f': gl.GL_FRAGMENT_SHADER }
+
+
+shader_dir = ''
+
+
+def set_shader_dir(new_dir):
+    """set_shader_dir(new_dir)
+
+    Sets the directory in which shaders are looked up.
+    """
+
+    global shader_dir
+    shader_dir = new_dir
 
 
 def check_shader(shader, filename):
@@ -85,7 +99,7 @@ def load_shader(name, shader_type):
         raise ValueError("%s is not a shader type specifier!" % shader_type)
 
     # Generate the filename and read the contents
-    filename = '%s.%s.glsl' % (name, shader_type)
+    filename = os.path.join(shader_dir, '%s.%s.glsl' % (name, shader_type))
 
     with open(filename) as source_file:
         source = source_file.read()
