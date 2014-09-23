@@ -1,4 +1,7 @@
-from distutils.core import setup
+from ez_setup import use_setuptools
+use_setuptools()
+
+from setuptools import setup, find_packages
 
 setup(
         name='silica',
@@ -8,8 +11,12 @@ setup(
         author='Karol Marcjan',
         author_email='karol.marcjan@gmail.com',
 
+        install_requires=[
+            'pyglet>=1.1,<2',
+            'numpy>=1.8',
+            'scipy==0.14'],
+
         package_dir={'silica': 'src'},
-        packages=['silica', 'silica.viz', 'silica.viz.glass'],
+        packages=find_packages(),
         package_data={
-            'silica.viz.glass': ['*.glsl', 'glass_inline.c'],
-            })
+            'silica.viz.glass': ['*.glsl', 'glass_inline.c']})
