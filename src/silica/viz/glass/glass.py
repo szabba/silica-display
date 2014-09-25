@@ -33,85 +33,18 @@ with open(INLINE_PATH) as glass_inline_c:
     INLINE_CODE = glass_inline_c.read()
 
 
-class Glass(object):
-    """The glass (or it's visible part)"""
+class SurfaceDataGenerator(object):
+    """Generates surface data given a grid of cubes"""
 
-    def __init__(self, config, cam):
+    def __init__(self, grid, limits):
 
-        self.__config = config
-        self.__cam = cam
-
-        self.__program = shaders.Program('glass')
-
-        self.__camera = self.__program.uniform(
-                'camera',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Matrix(4)))
-
-        self.__sun = self.__program.uniform(
-                'sun',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
-
-        self.__color = self.__program.uniform(
-                'color',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
-
-        self.__copy_shift = self.__program.uniform(
-                'copy_shift',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
-
-        self.__program.attribute(
-                'position',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
-
-        self.__program.attribute(
-                'normal',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
-
-        grid, cubes = self.__grid_n_cubes()
-        positions, normals = self.__positions_and_normals(grid, cubes)
-
-        SIDES = positions.shape[0]
-        TRIANGLES = SIDES * TRIANGLES_PER_SQUARE
-
-        self.__triangles = self.__program.triangle_list(TRIANGLES)
-
-        self.__triangles.from_arrays(dict(
-            position=positions,
-            normal=normals))
-
-    def __grid_n_cubes(self):
-        """G.__grid_n_cubes() -> grid, cubes
-
-        Loads the glass grid and cube coordinates from the file specified by
-        the configuration.
-        """
-
-        filename = self.__config.grid_file()
-
-        w, h, d = self.__config.grid_size()
-
-        grid, cubes = numpy.zeros((w, h, d)), []
-
-        for x, y, z, solid in grid_lines(filename):
-
-            # Assuming solid is always either 1 or 0...
-            if solid:
-
-                cubes.append((x, y, z))
-
-            grid[x, y, z] = solid
-
-        # The sort ensures that the application of limits later on will not
-        # depend upon the order in which the cubes were specified in a file.
-        cubes.sort()
-        cubes = numpy.array(cubes)
-
-        return grid, cubes
+        self.__limits = limits
+        self.__grid = grid
 
     def __only_visible(self, grid):
-        """G.__only_visible(grid) -> grid'"""
+        """SDG.__only_visible(grid) -> grid'"""
 
-        x_min, x_max, y_min, y_max, z_min, z_max = self.__config.limits()
+        x_min, x_max, y_min, y_max, z_min, z_max = self.__limits
 
         w, h, d = grid.shape
 
@@ -121,7 +54,7 @@ class Glass(object):
         return grid * mask
 
     def __overlaps_grid(self, visible):
-        """G.__overlaps_grid(visible) -> overlaps grid
+        """SDG.__overlaps_grid(visible) -> overlaps grid
 
         Contains information about all the overlapping cube faces.
 
@@ -157,7 +90,7 @@ class Glass(object):
         return overlaps
 
     def __nonoverlap_mask(self, grid, cubes):
-        """G.__nonoverlap_mask(grid, cubes) -> array
+        """SDG.__nonoverlap_mask(grid, cubes) -> array
 
         A prefix-shaped mask for raw_triangles and raw_normals, to eliminate
         hidden triangles.
@@ -188,8 +121,8 @@ class Glass(object):
 
         return nonoverlap_mask
 
-    def __positions_and_normals(self, grid, cubes):
-        """G.__positions_and_normals() -> vertices, normals
+    def positions_and_normals(self, grid, cubes):
+        """SDG.positions_and_normals(grid, cubes) -> vertices, normals
 
         Vertices and normals of visible triangles.
         """
@@ -224,6 +157,83 @@ class Glass(object):
         return (
                 raw_triangles[nonoverlap_mask.nonzero()],
                 raw_normals[nonoverlap_mask.nonzero()])
+
+
+class Glass(object):
+    """The glass (or it's visible part)"""
+
+    def __init__(self, config, cam):
+
+        self.__config = config
+        self.__cam = cam
+
+        self.__program = shaders.Program('glass')
+
+        self.__camera = self.__program.uniform(
+                'camera',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Matrix(4)))
+
+        self.__sun = self.__program.uniform(
+                'sun',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        self.__color = self.__program.uniform(
+                'color',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        self.__copy_shift = self.__program.uniform(
+                'copy_shift',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        self.__program.attribute(
+                'position',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        self.__program.attribute(
+                'normal',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        grid, cubes = self.__grid_n_cubes()
+        surf_data_gen = SurfaceDataGenerator(grid, self.__config.limits())
+        positions, normals = surf_data_gen.positions_and_normals(grid, cubes)
+
+        SIDES = positions.shape[0]
+        TRIANGLES = SIDES * TRIANGLES_PER_SQUARE
+
+        self.__triangles = self.__program.triangle_list(TRIANGLES)
+
+        self.__triangles.from_arrays(dict(
+            position=positions,
+            normal=normals))
+
+    def __grid_n_cubes(self):
+        """SDG.__grid_n_cubes() -> grid, cubes
+
+        Loads the glass grid and cube coordinates from the file specified by
+        the configuration.
+        """
+
+        filename = self.__config.grid_file()
+
+        w, h, d = self.__config.grid_size()
+
+        grid, cubes = numpy.zeros((w, h, d)), []
+
+        for x, y, z, solid in grid_lines(filename):
+
+            # Assuming solid is always either 1 or 0...
+            if solid:
+
+                cubes.append((x, y, z))
+
+            grid[x, y, z] = solid
+
+        # The sort ensures that the application of limits later on will not
+        # depend upon the order in which the cubes were specified in the file.
+        cubes.sort()
+        cubes = numpy.array(cubes)
+
+        return grid, cubes
 
     def on_draw(self):
         """G.on_draw()
