@@ -8,7 +8,7 @@ import numpy
 from scipy import weave
 from pyglet import gl
 
-import silica.viz.common.shaders
+from silica.viz.common import shaders
 from silica.viz.common.constants import *
 from silica.viz.common.cube import *
 
