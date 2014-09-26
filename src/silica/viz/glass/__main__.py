@@ -24,8 +24,6 @@ class DisplayApp(object):
 
     def __init__(self, config):
 
-        pyglet.window.Window.register_event_type('on_tick')
-
         self.__window = config.create_window()
         keys = pyglet.window.key.KeyStateHandler()
         transforms = {}
@@ -75,15 +73,6 @@ class DisplayApp(object):
 
         self.__config = config
 
-    def __tick(self, dt):
-        """DA.__tick(dt)
-
-        Dispatches an on_tick event to the underlying window. Gets called
-        roughly each frame.
-        """
-
-        self.__window.dispatch_event('on_tick')
-
     def run(self):
         """DA.run()
 
@@ -95,10 +84,6 @@ class DisplayApp(object):
             raise RuntimeError('OpenGL 2.1 required!')
 
         gl.glEnable(gl.GL_DEPTH_TEST)
-
-        pyglet.clock.schedule_interval(
-                self.__tick,
-                1. / self.__config.max_fps())
 
         pyglet.app.run()
 
