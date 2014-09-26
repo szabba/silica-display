@@ -20,17 +20,7 @@ SHADER_TYPES = {
         'f': gl.GL_FRAGMENT_SHADER }
 
 
-shader_dir = ''
-
-
-def set_shader_dir(new_dir):
-    """set_shader_dir(new_dir)
-
-    Sets the directory in which shaders are looked up.
-    """
-
-    global shader_dir
-    shader_dir = new_dir
+shader_path = []
 
 
 def check_shader(shader, filename):
@@ -98,11 +88,20 @@ def load_shader(name, shader_type):
     if shader_type not in SHADER_TYPES:
         raise ValueError("%s is not a shader type specifier!" % shader_type)
 
-    # Generate the filename and read the contents
-    filename = os.path.join(shader_dir, '%s.%s.glsl' % (name, shader_type))
+    # Look for the shader file and when found -- read it's contents
+    source, err = None, None
+    for shader_dir in shader_path:
+        filename = os.path.join(shader_dir, '%s.%s.glsl' % (name, shader_type))
 
-    with open(filename) as source_file:
-        source = source_file.read()
+        try:
+            with open(filename) as source_file:
+                source = source_file.read()
+                break
+        except IOError as io_err:
+            err = io_err
+
+    if source is None and err is not None:
+        raise err
 
     # Perform ctypes enchantments
     source_buf = c.create_string_buffer(source)

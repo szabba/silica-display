@@ -90,7 +90,7 @@ class DisplayApp(object):
 
 if __name__ == '__main__':
 
-    shaders.set_shader_dir(os.path.dirname(__file__))
+    shaders.shader_path.append(os.path.dirname(__file__))
 
     app = DisplayApp(Config())
     app.run()

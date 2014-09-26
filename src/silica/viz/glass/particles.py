@@ -448,11 +448,13 @@ class Particles(object):
 
         for letter in ('v', 'f'):
 
+            shader_dir = os.path.dirname(__file__)
+
             shader_filename = "particles.%s.glsl" % letter
             template_filename = "template.%s" % shader_filename
 
-            shader_filename = os.path.join(shaders.shader_dir, shader_filename)
-            template_filename = os.path.join(shaders.shader_dir, template_filename)
+            shader_filename = os.path.join(shader_dir, shader_filename)
+            template_filename = os.path.join(shader_dir, template_filename)
 
             with open(template_filename) as input:
                 template = string.Template(input.read())

@@ -3,6 +3,7 @@
 __all__ = ['Axes']
 
 
+import os.path
 import math
 import ctypes as c
 
@@ -224,3 +225,6 @@ class Axes(object):
             self.__diffuse.set()
 
             triangles.draw()
+
+
+shaders.shader_path.append(os.path.dirname(__file__))
