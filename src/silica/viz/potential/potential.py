@@ -78,6 +78,14 @@ class GridCubeLoader(object):
 class ArgsParser(SlicedGridArgsParser):
     """Argument parser for the potential visualization"""
 
+    def __init__(self):
+
+        super(ArgsParser, self).__init__()
+
+        self.add_argument(
+                'potential_file',
+                help='file containing potential data to display')
+
     def object_sliced(self):
         "AP.object_sliced() -> name of object being sliced"""
 
@@ -90,7 +98,7 @@ class Config(CommonConfig):
     def potential_file(self):
         """C.potential_file() -> filename"""
 
-        return 'garbage.potential'
+        return self._args.potential_file
 
     def potential_min(self):
         """C.potential_min() -> minimal displayable potential value"""
