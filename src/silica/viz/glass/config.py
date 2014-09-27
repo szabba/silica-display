@@ -83,60 +83,6 @@ class ArgsParser(SlicedGridArgsParser):
                 default=(1, 1, 1))
 
 
-def parse_args(args):
-    """parse_args(args) -> the result of argparse's work"""
-
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-            '-G', '--glass-file',
-            help='name of the glass file',
-            default=None)
-
-    parser.add_argument(
-            '-p', '--particles',
-            help='name of a file describing particle positions and orientations',
-            default=None)
-
-    parser.add_argument(
-            '-P', '--particle-dimmensions',
-            help='length and width of a particle in glass grid units',
-            nargs=2, type=float, default=(1, 0.5))
-
-    parser.add_argument(
-            '-F', '--fps', '--frame-rate',
-            help='number of particle animation frames to play per second',
-            type=float, default=3.0)
-
-    parser.add_argument(
-            '-s', '--slice',
-            help=''.join([
-                'slice of glass to display; described by enclosed cube ',
-                'index ranges along all the axes']),
-            nargs=6, type=int,
-            default=(None, ) * 6)
-
-    parser.add_argument(
-            '-r', '--repeat',
-            help=''.join('number of repetitions along each axis (x, y, z)'),
-            nargs=3, type=int,
-            default=(1, 1, 1))
-
-    parser.add_argument(
-            '-f', '--fog-color',
-            help='RGBA color of the fog',
-            nargs=4, type=float,
-            default=(0, 1, 1, 0.125))
-
-    parser.add_argument(
-            '-g', '--glass-color',
-            help='RGB color of the fog',
-            nargs=3, type=float,
-            default=(.7, .7, .7))
-
-    return parser.parse_args(args)
-
-
 class Config(object):
     """The shared configuration of a display app."""
 
