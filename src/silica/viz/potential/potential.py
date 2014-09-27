@@ -4,6 +4,8 @@ __all__ = ['GridCubeLoader']
 
 import numpy
 
+from silica.viz.common.config import CommonConfig
+
 
 class GridCubeLoader(object):
     """Load a potential grid from a file-like object.
@@ -62,3 +64,12 @@ class GridCubeLoader(object):
         self.__cubes = numpy.array(self.__cubes)
 
         return self.__grid, self.__cubes
+
+
+class Config(CommonConfig):
+    """Config for the potential visualization."""
+
+    def potential_file(self):
+        """C.potential_file() -> filename"""
+
+        return 'garbage.potential'
