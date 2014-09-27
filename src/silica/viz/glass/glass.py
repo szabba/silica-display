@@ -104,7 +104,8 @@ class Glass(object):
     def on_draw(self):
         """G.on_draw()
 
-        Renders the glass piece."""
+        Renders the glass piece.
+        """
 
         x_rep, y_rep, z_rep = self.__config.glass_repetitions()
         w, h, d = self.__config.grid_size()

@@ -15,7 +15,7 @@ from silica.viz.common.constants import *
 from silica.viz.common.camera import Cameraman, cam_transforms
 from silica.viz.common.axes import Axes
 from silica.viz.common.config import BaseArgsParser
-from silica.viz.potential.potential import Config
+from silica.viz.potential.potential import Config, Potential
 
 
 class DisplayApp(object):
@@ -34,6 +34,9 @@ class DisplayApp(object):
 
         self.__window.push_handlers(
                 Axes(config, transforms, self.__window))
+
+        self.__window.push_handlers(
+                Potential(config, cam))
 
         self.__window.push_handlers(
                 Cameraman(config, keys, transforms))

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['GridCubeLoader']
+__all__ = ['GridCubeLoader', 'Config', 'Potential']
 
 import numpy
 
@@ -73,3 +73,18 @@ class Config(CommonConfig):
         """C.potential_file() -> filename"""
 
         return 'garbage.potential'
+
+
+class Potential(object):
+    """The potential surface"""
+
+    def __init__(self, config, cam):
+
+        self.__config = config
+        self.__cam = cam
+
+    def on_draw(self):
+        """P.on_draw()
+
+        Renders the potential surface.
+        """
