@@ -91,6 +91,11 @@ class Config(CommonConfig):
 
         return None
 
+    def limits(self):
+        """C.limits() -> (x_min, x_max, y_min, y_max, z_min, z_max)"""
+
+        return (0, 3, 0, 3, 0, 3)
+
 
 class Potential(object):
     """The potential surface"""
