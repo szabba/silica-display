@@ -93,6 +93,11 @@ class Config(CommonConfig):
 
         return None
 
+    def potential_color(self):
+        """C.potential_color() -> (r, g, b)"""
+
+        return (1., 1., 0.)
+
     def limits(self):
         """C.limits() -> (x_min, x_max, y_min, y_max, z_min, z_max)"""
 
