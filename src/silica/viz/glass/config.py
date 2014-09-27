@@ -11,11 +11,10 @@ import argparse
 
 import pyglet
 from pyglet import gl
-
 import numpy
 
 from silica.viz.common.constants import *
-from silica.viz.common.config import SlicedGridArgsParser
+from silica.viz.common.config import SlicedGridArgsParser, CommonConfig
 
 
 def guess_size(filename):
@@ -83,38 +82,15 @@ class ArgsParser(SlicedGridArgsParser):
                 default=(1, 1, 1))
 
 
-class Config(object):
+class Config(CommonConfig):
     """The shared configuration of a display app."""
 
     def __init__(self, args=sys.argv[1:]):
 
-        self.__args = ArgsParser().parse_args(args)
-
-        self.__sun = (gl.GLfloat * COORDINATES_PER_RAY)(
-                *[0.5, 1, 1.5])
+        super(Config, self).__init__(
+                ArgsParser().parse_args(args))
 
         self.__grid_size = None
-
-    def create_window(self):
-        """C.create_window() -> a window
-
-        Create a new window, according to the specified config.
-        """
-
-        window = pyglet.window.Window(
-                width=800,
-                height=600,
-                resizable=True)
-
-        return window
-
-    def max_fps(self):
-        """C.max_fps() -> max fps
-
-        The maximum number of frames per second.
-        """
-
-        return 32
 
     def grid_file(self):
         """C.grid_file() -> filename
@@ -122,7 +98,7 @@ class Config(object):
         Filename of the grid file.
         """
 
-        return self.__args.glass_file
+        return self._args.glass_file
 
     def glass_specified(self):
         """C.glass_present() -> bool
@@ -151,26 +127,12 @@ class Config(object):
     def glass_repetitions(self):
         """C.glass_repetitions() -> (x_rep, y_rep, z_rep)"""
 
-        return self.__args.repeat
-
-    def center_point(self):
-        """C.center_point() -> (x, y, z)
-
-        Coordinates of the center of the repeated glass pieces.
-        """
-
-        if not self.glass_specified():
-            return (0., 0., 0.)
-
-        dimmensions = self.grid_size()
-        repetitions = self.glass_repetitions()
-
-        return tuple(-(dim * rep) / 2.0 for dim, rep in zip(dimmensions, repetitions))
+        return self._args.repeat
 
     def glass_color(self):
         """C.glass_color() -> the RGB glass color"""
 
-        return self.__args.glass_color
+        return self._args.glass_color
 
     def limits(self):
         """C.limits() -> x_min, x_max, y_min, y_max, z_min, z_max
@@ -181,7 +143,7 @@ class Config(object):
 
         w, h, d = self.grid_size()
 
-        x_min, x_max, y_min, y_max, z_min, z_max = self.__args.slice
+        x_min, x_max, y_min, y_max, z_min, z_max = self._args.slice
 
         if x_min is None:
             x_min = 0
@@ -203,111 +165,25 @@ class Config(object):
 
         return x_min, x_max, y_min, y_max, z_min, z_max
 
-    def perspective_params(self):
-        """C.perspective_params() -> (d0, d)"""
-
-        return 50.0, 14000.0
-
-    def sun_direction(self):
-        """C.sun_direction() -> a ctypes array of gl.GLfloats
-
-        A vector describing the intensity and direction of the sunlight.
-        """
-
-        return self.__sun
-
-    def init_scale(self):
-        """C.init_scale() -> initial scaling factor"""
-
-        return 1000.0
-
-    def init_phi(self):
-        """C.init_phi() -> initial rotation about the z axis"""
-
-        return 0.0
-
-    def init_theta(self):
-        """C.init_theta() -> initial rotation about the y axis"""
-
-        return 0
-
-    def init_translation(self):
-        """C.init_translation() -> initial translation vector's coordinates"""
-
-        return numpy.array([[0], [0], [0], [1]], dtype=numpy.float)
-
-    def zoom_speed(self):
-        """C.zoom_speed() -> scale of scaling"""
-
-        return 0.05
-
-    def speed_along_sight_line(self):
-        """C.speed_along_sight_line() -> speed of movement along the sight line"""
-
-        return 3.0
-
-    def rot_z_speed(self):
-        """C.rot_z_speed() -> speed of rotation about the z axis"""
-
-        return 0.005
-
-    def trans_speed(self):
-        """C.translation_speed() -> speed of translation"""
-
-        return 120
-
-    def unit_factor(self):
-        """C.unit_factor() -> factor fixing unit sizes"""
-
-        return 5.
-
-    def axis_ambient(self):
-        """C.axis_ambient() -> gl.GLfloat"""
-
-        return gl.GLfloat(0.4)
-
-    def axis_diffuse(self):
-        """C.axis_diffuse() -> gl.GLfloat"""
-
-        return gl.GLfloat(0.6)
-
-    def axes_scale(self):
-        """C.axes_scale() -> scaling factor for the axes"""
-
-        return 8.
-
-    def axes_size(self):
-        """C.axes_size() -> width, height"""
-
-        return 1., 8.
-
-    def axes_position(self):
-        """C.axis_position() -> the position of the central point of the helper
-        axes
-
-        Relative to the lower left corner of the window."""
-
-        return 150., 150.
-
     def particle_dimmensions(self):
         """C.particle_dimmensions() -> height, width
 
         Dimmensions of the magnetic particles in glass grid units.
         """
 
-        return self.__args.particle_dimmensions
+        return self._args.particle_dimmensions
 
     def fog_color(self):
         """C.fog_color() -> the RGBA fog color"""
 
-        return self.__args.fog_color
+        return self._args.fog_color
 
     def particle_file(self):
         """C.particle_file() -> name of the particle file or None"""
 
-        return self.__args.particles
+        return self._args.particles
 
     def particle_animation_fps(self):
         """C.particle_animation_fps() -> frame rate for particle animation"""
 
-        return self.__args.fps
+        return self._args.fps

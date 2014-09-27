@@ -57,7 +57,7 @@ class CommonConfig(object):
 
     def __init__(self, parsed_args):
 
-        self.__args = parsed_args
+        self._args = parsed_args
 
         self.__sun = (gl.GLfloat * COORDINATES_PER_RAY)(
                 0.5, 1, 1.5)
