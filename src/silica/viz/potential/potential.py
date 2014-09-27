@@ -98,6 +98,13 @@ class Potential(object):
         self.__config = config
         self.__cam = cam
 
+        with open(self.__config.potential_file()) as input_file:
+
+            grid, cubes = GridCubeLoader(
+                    input_file,
+                    self.__config.potential_min(),
+                    self.__config.potential_max()).load()
+
     def on_draw(self):
         """P.on_draw()
 
