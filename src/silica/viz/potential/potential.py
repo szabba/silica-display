@@ -5,7 +5,9 @@ __all__ = ['GridCubeLoader', 'Config', 'Potential']
 import numpy
 from pyglet import gl
 
+from silica.viz.common.cube import TRIANGLES_PER_SQUARE
 from silica.viz.common import shaders
+from silica.viz.common.grid_surface import SurfaceDataGenerator
 from silica.viz.common.config import CommonConfig
 
 
@@ -105,13 +107,6 @@ class Potential(object):
         self.__config = config
         self.__cam = cam
 
-        with open(self.__config.potential_file()) as input_file:
-
-            grid, cubes = GridCubeLoader(
-                    input_file,
-                    self.__config.potential_min(),
-                    self.__config.potential_max()).load()
-
         self.__program = shaders.Program('potential')
 
         self.__camera = self.__program.uniform(
@@ -133,6 +128,25 @@ class Potential(object):
         self.__program.attribute(
                 'normal',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        with open(self.__config.potential_file()) as input_file:
+
+            grid, cubes = GridCubeLoader(
+                    input_file,
+                    self.__config.potential_min(),
+                    self.__config.potential_max()).load()
+
+        surf_data_gen = SurfaceDataGenerator(grid, self.__config.limits())
+        positions, normals = surf_data_gen.positions_and_normals(grid, cubes)
+
+        SIDES = positions.shape[0]
+        TRIANGLES = SIDES * TRIANGLES_PER_SQUARE
+
+        self.__triangles = self.__program.triangle_list(TRIANGLES)
+
+        self.__triangles.from_arrays(dict(
+            position=positions,
+            normal=normals))
 
     def on_draw(self):
         """P.on_draw()
