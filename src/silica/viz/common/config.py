@@ -52,8 +52,8 @@ class SlicedGridArgsParser(BaseArgsParser):
         raise NotImplementedError(self.__class__.__name__, self.object_sliced.__name__)
 
 
-class CommonConfig(object):
-    """Common configuration object"""
+class BaseConfig(object):
+    """Basic configuration object"""
 
     def __init__(self, parsed_args):
 
@@ -176,3 +176,7 @@ class CommonConfig(object):
         Relative to the lower left corner of the window."""
 
         return 150., 150.
+
+
+class CommonConfig(BaseConfig):
+    """Common config object"""
