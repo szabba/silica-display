@@ -38,7 +38,7 @@ class SlicedGridArgsParser(BaseArgsParser):
         self.add_argument(
                 '-s', '--slice',
                 help=''.join([
-                    'slice of ', self.object_sliced(), 'to display; described',
+                    'slice of ', self.object_sliced(), ' to display; described',
                     ' by enclosed cube index ranges along all the axes']),
                 nargs=6, type=int,
                 default=(None, ) * 6)

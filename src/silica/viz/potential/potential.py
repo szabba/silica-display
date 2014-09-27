@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['GridCubeLoader', 'Config', 'Potential']
+__all__ = ['GridCubeLoader', 'ArgsParser', 'Config', 'Potential']
 
 import numpy
 from pyglet import gl
@@ -8,7 +8,7 @@ from pyglet import gl
 from silica.viz.common.cube import TRIANGLES_PER_SQUARE
 from silica.viz.common import shaders
 from silica.viz.common.grid_surface import SurfaceDataGenerator
-from silica.viz.common.config import CommonConfig
+from silica.viz.common.config import CommonConfig, SlicedGridArgsParser
 
 
 class GridCubeLoader(object):
@@ -73,6 +73,15 @@ class GridCubeLoader(object):
         self.__cubes = numpy.array(self.__cubes)
 
         return self.__grid, self.__cubes
+
+
+class ArgsParser(SlicedGridArgsParser):
+    """Argument parser for the potential visualization"""
+
+    def object_sliced(self):
+        "AP.object_sliced() -> name of object being sliced"""
+
+        return 'potential'
 
 
 class Config(CommonConfig):

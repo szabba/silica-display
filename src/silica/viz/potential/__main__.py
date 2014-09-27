@@ -14,8 +14,7 @@ from silica.viz.common.transform.dicts import common_transforms
 from silica.viz.common.constants import *
 from silica.viz.common.camera import Cameraman, cam_transforms
 from silica.viz.common.axes import Axes
-from silica.viz.common.config import BaseArgsParser
-from silica.viz.potential.potential import Config, Potential
+from silica.viz.potential.potential import ArgsParser, Config, Potential
 
 
 class DisplayApp(object):
@@ -67,6 +66,6 @@ if __name__ == '__main__':
 
     shaders.shader_path.append(os.path.dirname(__file__))
 
-    args = BaseArgsParser().parse_args(sys.argv[1:])
+    args = ArgsParser().parse_args(sys.argv[1:])
     config = Config(args)
     DisplayApp(config).run()
