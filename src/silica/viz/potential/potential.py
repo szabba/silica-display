@@ -74,6 +74,16 @@ class Config(CommonConfig):
 
         return 'garbage.potential'
 
+    def potential_min(self):
+        """C.potential_min() -> minimal displayable potential value"""
+
+        return None
+
+    def potential_max(self):
+        """C.potential_max() -> maximal displayable potential value"""
+
+        return None
+
 
 class Potential(object):
     """The potential surface"""
