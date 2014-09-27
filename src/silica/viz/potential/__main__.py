@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os.path
+import sys
 import math
 import logging
 
@@ -13,7 +14,7 @@ from silica.viz.common.transform.dicts import common_transforms
 from silica.viz.common.constants import *
 from silica.viz.common.camera import Cameraman, cam_transforms
 from silica.viz.common.axes import Axes
-from silica.viz.glass.config import Config
+from silica.viz.common.config import CommonConfig, BaseArgsParser
 
 
 class DisplayApp(object):
@@ -62,5 +63,6 @@ if __name__ == '__main__':
 
     shaders.shader_path.append(os.path.dirname(__file__))
 
-    app = DisplayApp(Config())
-    app.run()
+    args = BaseArgsParser().parse_args(sys.argv[1:])
+    config = CommonConfig(args)
+    DisplayApp(config).run()

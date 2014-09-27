@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['BaseArgsParser']
+__all__ = ['BaseArgsParser', 'SlicedGridArgsParser', 'CommonConfig']
 
 import argparse
 
