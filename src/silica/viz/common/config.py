@@ -86,16 +86,10 @@ class CommonConfig(object):
     def center_point(self):
         """C.center_point() -> (x, y, z)
 
-        Coordinates of the center of the repeated glass pieces.
+        Point at which the camea is initially looking.
         """
 
-        if not self.glass_specified():
-            return (0., 0., 0.)
-
-        dimmensions = self.grid_size()
-        repetitions = self.glass_repetitions()
-
-        return tuple(-(dim * rep) / 2.0 for dim, rep in zip(dimmensions, repetitions))
+        return (0., 0., 0.)
 
     def perspective_params(self):
         """C.perspective_params() -> (d0, d)"""

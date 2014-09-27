@@ -127,6 +127,20 @@ class Config(CommonConfig):
 
         return self._args.repeat
 
+    def center_point(self):
+        """C.center_point() -> (x, y, z)
+
+        Coordinates of the center of the repeated glass pieces.
+        """
+
+        if not self.glass_specified():
+            return super(Config, self).center_point()
+
+        dimmensions = self.grid_size()
+        repetitions = self.glass_repetitions()
+
+        return tuple(-(dim * rep) / 2.0 for dim, rep in zip(dimmensions, repetitions))
+
     def glass_color(self):
         """C.glass_color() -> the RGB glass color"""
 
