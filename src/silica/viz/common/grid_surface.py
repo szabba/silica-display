@@ -34,6 +34,14 @@ class SurfaceDataGenerator(object):
 
         w, h, d = grid.shape
 
+        if x_min is None: x_min = 0
+        if y_min is None: y_min = 0
+        if z_min is None: z_min = 0
+
+        if x_max is None: x_max = w - 1
+        if y_max is None: y_max = h - 1
+        if z_max is None: z_max = d - 1
+
         mask = numpy.zeros(grid.shape, dtype=numpy.int)
         mask[x_min:x_max+1, y_min:y_max+1, z_min:z_max+1] = 1
 
