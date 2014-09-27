@@ -158,3 +158,19 @@ class Potential(object):
 
         Renders the potential surface.
         """
+
+        with self.__triangles as triangles:
+
+            self.__camera.clear()
+            self.__camera.add(*self.__cam.gl_matrix())
+            self.__camera.set()
+
+            if not self.__color.filled():
+                self.__color.add(*self.__config.potential_color())
+            self.__color.set()
+
+            if not self.__sun.filled():
+                self.__sun.add(*self.__config.sun_direction())
+            self.__sun.set()
+
+            triangles.draw()
