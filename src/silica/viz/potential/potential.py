@@ -50,9 +50,14 @@ class GridCubeLoader(object):
         x, y, z = int(float(x)), int(float(y)), int(float(z))
         value = float(value)
 
-        if self.__min <= value <= self.__max:
-            self.__grid[x, y, z] = 1
-            self.__cubes.append((x, y, z))
+        if self.__min is not None and self.__min > value:
+            return
+
+        if self.__max is not None and self.__max < value:
+            return
+
+        self.__grid[x, y, z] = 1
+        self.__cubes.append((x, y, z))
 
     def load(self):
         """GCL.load() -> numpy.ndarray"""
