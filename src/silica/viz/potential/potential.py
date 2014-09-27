@@ -3,7 +3,9 @@
 __all__ = ['GridCubeLoader', 'Config', 'Potential']
 
 import numpy
+from pyglet import gl
 
+from silica.viz.common import shaders
 from silica.viz.common.config import CommonConfig
 
 
@@ -104,6 +106,28 @@ class Potential(object):
                     input_file,
                     self.__config.potential_min(),
                     self.__config.potential_max()).load()
+
+        self.__program = shaders.Program('potential')
+
+        self.__camera = self.__program.uniform(
+                'camera',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Matrix(4)))
+
+        self.__sun = self.__program.uniform(
+                'sun',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        self.__color = self.__program.uniform(
+                'color',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        self.__program.attribute(
+                'position',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+
+        self.__program.attribute(
+                'normal',
+                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
     def on_draw(self):
         """P.on_draw()
