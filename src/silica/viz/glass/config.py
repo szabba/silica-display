@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['Config']
+__all__ = ['ArgsParser', 'Config']
 
 
 import os.path
-import sys
 import re
 import math
 import argparse
@@ -85,10 +84,9 @@ class ArgsParser(SlicedGridArgsParser):
 class Config(CommonConfig):
     """The shared configuration of a display app."""
 
-    def __init__(self, args=sys.argv[1:]):
+    def __init__(self, args):
 
-        super(Config, self).__init__(
-                ArgsParser().parse_args(args))
+        super(Config, self).__init__(args)
 
         self.__grid_size = None
 

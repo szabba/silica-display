@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os.path
+import sys
 import math
 import logging
 
@@ -15,7 +16,7 @@ from silica.viz.common.camera import Cameraman, cam_transforms
 from silica.viz.common.axes import Axes
 from silica.viz.glass.glass import Glass
 from silica.viz.glass.fog import Fog
-from silica.viz.glass.config import Config
+from silica.viz.glass.config import Config, ArgsParser
 from silica.viz.glass.particles import Particles
 
 
@@ -92,5 +93,6 @@ if __name__ == '__main__':
 
     shaders.shader_path.append(os.path.dirname(__file__))
 
-    app = DisplayApp(Config())
-    app.run()
+    args = ArgsParser().parse_args(sys.argv[1:])
+    config = Config(args)
+    DisplayApp(config).run()
