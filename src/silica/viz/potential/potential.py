@@ -9,8 +9,23 @@ from silica.viz.common.cube import TRIANGLES_PER_SQUARE
 from silica.viz.common import shaders
 from silica.viz.common.grid.surface import SurfaceDataGenerator
 from silica.viz.common.grid.load import (
-        GridCubeLoader, InclusionCondition, AndCondition, Slice3D)
+        GridCubeLoader, Sizer, InclusionCondition, AndCondition, Slice3D)
 from silica.viz.common.config import CommonConfig, SlicedGridArgsParser
+
+
+class Sizer(Sizer):
+    """Sizer for a potential file"""
+
+    def __init__(self, input_src):
+
+        self.__input = input_src
+
+    def size(self):
+
+        line = self.__input.readline()
+        w, h, d = map(int, map(float, line.split()))
+
+        return w, h, d
 
 
 class ValueInRange(InclusionCondition):
