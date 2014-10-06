@@ -9,6 +9,9 @@ from pyglet import gl
 
 from silica.viz.common import shaders
 from silica.viz.common.grid.surface import SurfaceDataGenerator
+from silica.viz.common.grid.load import (
+        GridCubeLoader, Sizer,
+        InclusionCondition, AndCondition, Slice3D)
 from silica.viz.common.constants import *
 from silica.viz.common.cube import *
 
@@ -23,6 +26,25 @@ def grid_lines(filename):
         for line in grid_file:
 
             yield tuple(map(int, line.split(' ')))
+
+
+class Sizer(Sizer):
+
+    def __init__(self, size):
+        self.__size = size
+
+    def size(self):
+        return self.__size
+
+
+class ValueEqual(InclusionCondition):
+
+    def __init__(self, value):
+        self.__value = value
+
+    def include(self, x, y, z, v):
+
+        return v == self.__value
 
 
 class Glass(object):
@@ -59,7 +81,16 @@ class Glass(object):
                 'normal',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
-        grid, cubes = self.__grid_n_cubes()
+        includer = AndCondition(
+                ValueEqual(1),
+                Slice3D(*self.__config.limits()))
+
+        with open(self.__config.grid_file()) as input_file:
+
+            grid, cubes = GridCubeLoader(
+                    input_file, includer,
+                    Sizer(self.__config.grid_size())).load()
+
         surf_data_gen = SurfaceDataGenerator(grid, self.__config.limits())
         positions, normals = surf_data_gen.positions_and_normals(grid, cubes)
 
