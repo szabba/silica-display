@@ -11,6 +11,19 @@ from silica.viz.common.grid_surface import SurfaceDataGenerator
 from silica.viz.common.config import CommonConfig, SlicedGridArgsParser
 
 
+class InclusionCondition(object):
+    """Decides whether to ignore a given cell position"""
+
+    def include(self, x, y, z, v):
+        """IC.include(x, y, z, v) -> bool
+
+        Should the grid cell at (x, y, z) with value v be included in what is
+        displayed?
+        """
+
+        raise NotImplementedError(self.__class__.__name__, self.ignore.__name__)
+
+
 class GridCubeLoader(object):
     """Load a potential grid from a file-like object.
 
