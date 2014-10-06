@@ -22,33 +22,12 @@ with open(INLINE_PATH) as glass_inline_c:
 class SurfaceDataGenerator(object):
     """Generates surface data given a grid of cubes"""
 
-    def __init__(self, grid, limits):
+    def __init__(self, grid):
 
-        self.__limits = limits
         self.__grid = grid
 
-    def __only_visible(self, grid):
-        """SDG.__only_visible(grid) -> grid'"""
-
-        x_min, x_max, y_min, y_max, z_min, z_max = self.__limits
-
-        w, h, d = grid.shape
-
-        if x_min is None: x_min = 0
-        if y_min is None: y_min = 0
-        if z_min is None: z_min = 0
-
-        if x_max is None: x_max = w - 1
-        if y_max is None: y_max = h - 1
-        if z_max is None: z_max = d - 1
-
-        mask = numpy.zeros(grid.shape, dtype=numpy.int)
-        mask[x_min:x_max+1, y_min:y_max+1, z_min:z_max+1] = 1
-
-        return grid * mask
-
-    def __overlaps_grid(self, visible):
-        """SDG.__overlaps_grid(visible) -> overlaps grid
+    def __overlaps_grid(self, grid):
+        """SDG.__overlaps_grid(grid) -> overlaps grid
 
         Contains information about all the overlapping cube faces.
 
@@ -60,26 +39,26 @@ class SurfaceDataGenerator(object):
         values are 0.
         """
 
-        W, H, D = visible.shape
+        W, H, D = grid.shape
         xyzs = numpy.mgrid[:W, :H, :D]
 
-        overlaps = numpy.zeros((SQUARES_PER_CUBE, ) + visible.shape)
+        overlaps = numpy.zeros((SQUARES_PER_CUBE, ) + grid.shape)
 
         # Normals antiparallel to axes
         for i in range(SQUARES_PER_CUBE / 2):
 
-            safely_wrapped = numpy.roll(visible, 1, i) *\
-                (xyzs[i] == visible.shape[i])
+            safely_wrapped = numpy.roll(grid, 1, i) *\
+                (xyzs[i] == grid.shape[i])
 
-            overlaps[i] = visible != safely_wrapped
+            overlaps[i] = grid != safely_wrapped
 
         # Normals parallel to axes
         for i in range(SQUARES_PER_CUBE / 2, SQUARES_PER_CUBE):
 
-            safely_wrapped = numpy.roll(visible, -1, i % 3) *\
+            safely_wrapped = numpy.roll(grid, -1, i % 3) *\
                 (xyzs[i % 3] == 0)
 
-            overlaps[i] = visible != safely_wrapped
+            overlaps[i] = grid != safely_wrapped
 
         return overlaps
 
@@ -93,8 +72,7 @@ class SurfaceDataGenerator(object):
         W, H, D = grid.shape
         CUBES = cubes.shape[0]
 
-        visible = self.__only_visible(grid)
-        overlaps_grid = self.__overlaps_grid(visible)
+        overlaps_grid = self.__overlaps_grid(grid)
 
         nonoverlap_mask = numpy.zeros(
                 (CUBES, SQUARES_PER_CUBE),
@@ -103,10 +81,8 @@ class SurfaceDataGenerator(object):
         weave.inline(
             INLINE_CODE,
             [
-                'grid', 'visible', 'overlaps_grid',
-                'nonoverlap_mask',
-                'CUBES', 'SQUARES_PER_CUBE',
-                'W', 'H', 'D',
+                'grid', 'overlaps_grid', 'nonoverlap_mask',
+                'CUBES', 'SQUARES_PER_CUBE', 'W', 'H', 'D',
             ],
             headers=[
                 '<stdio.h>',

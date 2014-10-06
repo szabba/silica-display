@@ -91,7 +91,7 @@ class Glass(object):
                     input_file, includer,
                     Sizer(self.__config.grid_size())).load()
 
-        surf_data_gen = SurfaceDataGenerator(grid, self.__config.limits())
+        surf_data_gen = SurfaceDataGenerator(grid)
         positions, normals = surf_data_gen.positions_and_normals(grid, cubes)
 
         SIDES = positions.shape[0]

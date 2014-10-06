@@ -6,7 +6,7 @@ for (int i = 0; i < W; i++) {
 
             int pos = i * H * D + j * D + k;
 
-            if (visible[pos]) {
+            if (grid[pos]) {
 
                 for (int side = 0; side < SQUARES_PER_CUBE; side++) {
 
@@ -16,10 +16,7 @@ for (int i = 0; i < W; i++) {
                         overlaps_grid[side * W * H * D + pos];
                 }
 
-            }
-
-            if (grid[pos]) {
-                cube++;
+				cube++;
             }
         }
     }
