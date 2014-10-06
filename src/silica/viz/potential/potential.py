@@ -58,6 +58,18 @@ class Slice3D(InclusionCondition):
         return True
 
 
+class ValueInRange(InclusionCondition):
+    """Includes the grid cells with a values in a particular range"""
+
+    def __init__(self, minimum, maximum):
+
+        self.__min, self.__max = minimum, maximum
+
+    def include(self, x, y, z, v):
+
+        return self.__min <= v <= self.__max
+
+
 class GridCubeLoader(object):
     """Load a potential grid from a file-like object.
 
