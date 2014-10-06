@@ -115,6 +115,14 @@ class SurfaceDataGenerator(object):
 
         return nonoverlap_mask
 
+    def no_cubes(self, shape):
+        """SDG.no_cubes(shape) -> vertices, normals
+
+        Vertex and normal values to use when there are no cubes to show.
+        """
+
+        return numpy.zeros(shape), numpy.zeros(shape)
+
     def positions_and_normals(self, grid, cubes):
         """SDG.positions_and_normals(grid, cubes) -> vertices, normals
 
@@ -127,6 +135,10 @@ class SurfaceDataGenerator(object):
             TRIANGLES_PER_SQUARE, VERTICES_PER_TRIANGLE,
             COORDINATES_PER_VERTEX,
         )
+
+        # FIXME: It shouldn't be necessary to special-case this
+        if not CUBES:
+            return self.no_cubes(RAW_TRIANGLES_SIZE)
 
         # Normals at for possible cube side positions
         raw_normals = numpy.resize(

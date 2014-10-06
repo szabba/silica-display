@@ -81,10 +81,10 @@ class GridCubeLoader(object):
     the potential at that point.
     """
 
-    def __init__(self, input_src, minimum, maximum):
+    def __init__(self, input_src, condition):
 
         self.__input = input_src
-        self.__min, self.__max = minimum, maximum
+        self.__condition = condition
 
         self.__grid = None
         self.__cubes = []
@@ -113,14 +113,10 @@ class GridCubeLoader(object):
         x, y, z = int(float(x)), int(float(y)), int(float(z))
         value = float(value)
 
-        if self.__min is not None and self.__min > value:
-            return
+        if self.__condition.include(x, y, z, value):
 
-        if self.__max is not None and self.__max < value:
-            return
-
-        self.__grid[x, y, z] = 1
-        self.__cubes.append((x, y, z))
+            self.__grid[x, y, z] = 1
+            self.__cubes.append((x, y, z))
 
     def load(self):
         """GCL.load() -> numpy.ndarray"""
@@ -129,7 +125,7 @@ class GridCubeLoader(object):
         for line in self.__input.readlines():
             self.__parse_value(line)
 
-        self.__cubes = numpy.array(self.__cubes)
+        self.__cubes = numpy.array(self.__cubes).reshape((-1, 3))
 
         return self.__grid, self.__cubes
 
@@ -214,8 +210,9 @@ class Potential(object):
 
             grid, cubes = GridCubeLoader(
                     input_file,
-                    self.__config.potential_min(),
-                    self.__config.potential_max()).load()
+                    ValueInRange(
+                        self.__config.potential_min(),
+                        self.__config.potential_max())).load()
 
         surf_data_gen = SurfaceDataGenerator(grid, self.__config.limits())
         positions, normals = surf_data_gen.positions_and_normals(grid, cubes)
