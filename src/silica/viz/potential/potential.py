@@ -54,6 +54,16 @@ class ArgsParser(SlicedGridArgsParser):
         super(ArgsParser, self).__init__()
 
         self.add_argument(
+                '-m', '--min',
+                help='minimal visible potential value',
+               type=float, default=None)
+
+        self.add_argument(
+                '-M', '--max',
+                help='minimal visible potential value',
+                type=float, default=None)
+
+        self.add_argument(
                 'potential_file',
                 help='file containing potential data to display')
 
@@ -74,12 +84,12 @@ class Config(SliceGridConfig):
     def potential_min(self):
         """C.potential_min() -> minimal displayable potential value"""
 
-        return None
+        return self._args.min
 
     def potential_max(self):
         """C.potential_max() -> maximal displayable potential value"""
 
-        return None
+        return self._args.max
 
     def potential_color(self):
         """C.potential_color() -> (r, g, b)"""
