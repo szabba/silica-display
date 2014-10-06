@@ -22,12 +22,13 @@ with open(INLINE_PATH) as glass_inline_c:
 class SurfaceDataGenerator(object):
     """Generates surface data given a grid of cubes"""
 
-    def __init__(self, grid):
+    def __init__(self, grid, cubes):
 
         self.__grid = grid
+        self.__cubes = cubes
 
-    def __overlaps_grid(self, grid):
-        """SDG.__overlaps_grid(grid) -> overlaps grid
+    def __overlaps_grid(self):
+        """SDG.__overlaps_grid() -> overlaps grid
 
         Contains information about all the overlapping cube faces.
 
@@ -39,45 +40,46 @@ class SurfaceDataGenerator(object):
         values are 0.
         """
 
-        W, H, D = grid.shape
+        W, H, D = self.__grid.shape
         xyzs = numpy.mgrid[:W, :H, :D]
 
-        overlaps = numpy.zeros((SQUARES_PER_CUBE, ) + grid.shape)
+        overlaps = numpy.zeros((SQUARES_PER_CUBE, ) + self.__grid.shape)
 
         # Normals antiparallel to axes
         for i in range(SQUARES_PER_CUBE / 2):
 
-            safely_wrapped = numpy.roll(grid, 1, i) *\
-                (xyzs[i] == grid.shape[i])
+            safely_wrapped = numpy.roll(self.__grid, 1, i) *\
+                (xyzs[i] == self.__grid.shape[i])
 
-            overlaps[i] = grid != safely_wrapped
+            overlaps[i] = self.__grid != safely_wrapped
 
         # Normals parallel to axes
         for i in range(SQUARES_PER_CUBE / 2, SQUARES_PER_CUBE):
 
-            safely_wrapped = numpy.roll(grid, -1, i % 3) *\
+            safely_wrapped = numpy.roll(self.__grid, -1, i % 3) *\
                 (xyzs[i % 3] == 0)
 
-            overlaps[i] = grid != safely_wrapped
+            overlaps[i] = self.__grid != safely_wrapped
 
         return overlaps
 
-    def __nonoverlap_mask(self, grid, cubes):
-        """SDG.__nonoverlap_mask(grid, cubes) -> array
+    def __nonoverlap_mask(self):
+        """SDG.__nonoverlap_mask() -> array
 
         A prefix-shaped mask for raw_triangles and raw_normals, to eliminate
         hidden triangles.
         """
 
-        W, H, D = grid.shape
-        CUBES = cubes.shape[0]
+        W, H, D = self.__grid.shape
+        CUBES = self.__cubes.shape[0]
 
-        overlaps_grid = self.__overlaps_grid(grid)
+        overlaps_grid = self.__overlaps_grid()
 
         nonoverlap_mask = numpy.zeros(
                 (CUBES, SQUARES_PER_CUBE),
                 dtype=numpy.int)
 
+        grid = self.__grid
         weave.inline(
             INLINE_CODE,
             [
@@ -99,13 +101,13 @@ class SurfaceDataGenerator(object):
 
         return numpy.zeros(shape), numpy.zeros(shape)
 
-    def positions_and_normals(self, grid, cubes):
+    def positions_and_normals(self):
         """SDG.positions_and_normals(grid, cubes) -> vertices, normals
 
         Vertices and normals of visible triangles.
         """
 
-        CUBES = cubes.shape[0]
+        CUBES = self.__cubes.shape[0]
         RAW_TRIANGLES_SIZE = RAW_NORMALS_SIZE = (
             CUBES, SQUARES_PER_CUBE,
             TRIANGLES_PER_SQUARE, VERTICES_PER_TRIANGLE,
@@ -123,7 +125,7 @@ class SurfaceDataGenerator(object):
 
         # Coordinates for all possible triangles
         repeated_faces = CUBE_FACES[None].repeat(CUBES, 0)
-        shifts_in_space = cubes[:, None, None, None, :].repeat(
+        shifts_in_space = self.__cubes[:, None, None, None, :].repeat(
                 SQUARES_PER_CUBE, 1,
             ).repeat(
                 TRIANGLES_PER_SQUARE, 2,
@@ -134,7 +136,7 @@ class SurfaceDataGenerator(object):
         raw_triangles = repeated_faces + shifts_in_space
 
         # Normals and vertex positions for actually visible triangles
-        nonoverlap_mask = self.__nonoverlap_mask(grid, cubes)
+        nonoverlap_mask = self.__nonoverlap_mask()
 
         return (
                 raw_triangles[nonoverlap_mask.nonzero()],
