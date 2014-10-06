@@ -76,6 +76,23 @@ class ValueInRange(InclusionCondition):
         return True
 
 
+class AndCondition(InclusionCondition):
+    """Intersection of several InclusionConditions"""
+
+    def __init__(self, *conds):
+
+        self.__conds = conds
+
+    def include(self, x, y, z, v):
+
+        for cond in self.__conds:
+
+            if not cond.include(x, y, z, v):
+                return False
+
+        return True
+
+
 class GridCubeLoader(object):
     """Load a potential grid from a file-like object.
 
