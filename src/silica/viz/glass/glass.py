@@ -8,7 +8,7 @@ import numpy
 from pyglet import gl
 
 from silica.viz.common import shaders
-from silica.viz.common.grid_surface import SurfaceDataGenerator
+from silica.viz.common.grid.surface import SurfaceDataGenerator
 from silica.viz.common.constants import *
 from silica.viz.common.cube import *
 

@@ -7,7 +7,7 @@ from pyglet import gl
 
 from silica.viz.common.cube import TRIANGLES_PER_SQUARE
 from silica.viz.common import shaders
-from silica.viz.common.grid_surface import SurfaceDataGenerator
+from silica.viz.common.grid.surface import SurfaceDataGenerator
 from silica.viz.common.config import CommonConfig, SlicedGridArgsParser
 
 
