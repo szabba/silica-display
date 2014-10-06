@@ -229,13 +229,15 @@ class Potential(object):
                 'normal',
                 shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
 
+        includer = AndCondition(
+                ValueInRange(
+                    self.__config.potential_min(),
+                    self.__config.potential_max()),
+                Slice3D(*self.__config.limits()))
+
         with open(self.__config.potential_file()) as input_file:
 
-            grid, cubes = GridCubeLoader(
-                    input_file,
-                    ValueInRange(
-                        self.__config.potential_min(),
-                        self.__config.potential_max())).load()
+            grid, cubes = GridCubeLoader(input_file, includer).load()
 
         surf_data_gen = SurfaceDataGenerator(grid, self.__config.limits())
         positions, normals = surf_data_gen.positions_and_normals(grid, cubes)
