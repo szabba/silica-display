@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['GridCubeLoader', 'InclusionCondition', 'Slice3D', 'AndCondition']
+__all__ = [
+        'GridCubeLoader', 'Sizer',
+        'InclusionCondition', 'Slice3D', 'AndCondition']
 
 import numpy
 
@@ -63,6 +65,20 @@ class GridCubeLoader(object):
         self.__cubes = numpy.array(self.__cubes).reshape((-1, 3))
 
         return self.__grid, self.__cubes
+
+
+class Sizer(object):
+    """Determines the size of a cube grid"""
+
+    def size(self):
+        """S.size() -> (w, h, d)
+
+        Dimmensions of the cube grid.
+        """
+
+        raise NotImplementedError(
+                self.__class__.__name__,
+                self.size.__name__)
 
 
 class InclusionCondition(object):
