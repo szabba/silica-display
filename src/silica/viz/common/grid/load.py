@@ -18,26 +18,13 @@ class GridCubeLoader(object):
     the potential at that point.
     """
 
-    def __init__(self, input_src, condition):
+    def __init__(self, input_src, condition, sizer):
 
         self.__input = input_src
         self.__condition = condition
 
-        self.__grid = None
+        self.__grid = numpy.zeros(sizer.size())
         self.__cubes = []
-
-    def __parse_size(self):
-        """GCL.__parse_size()
-
-        Parse the first line of a potential file, specifying the potential grid size.
-        """
-
-        line = self.__input.readline()
-        w, h, d = line.split()
-
-        grid_size = (int(float(w)), int(float(h)), int(float(d)))
-
-        self.__grid = numpy.zeros(grid_size)
 
     def __parse_value(self, line):
         """GCL.__parse_value(line)
@@ -58,7 +45,6 @@ class GridCubeLoader(object):
     def load(self):
         """GCL.load() -> grid array, cube position array"""
 
-        self.__parse_size()
         for line in self.__input.readlines():
             self.__parse_value(line)
 

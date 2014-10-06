@@ -130,7 +130,8 @@ class Potential(object):
 
         with open(self.__config.potential_file()) as input_file:
 
-            grid, cubes = GridCubeLoader(input_file, includer).load()
+            grid, cubes = GridCubeLoader(
+                    input_file, includer, Sizer(input_file)).load()
 
         surf_data_gen = SurfaceDataGenerator(grid, self.__config.limits())
         positions, normals = surf_data_gen.positions_and_normals(grid, cubes)
