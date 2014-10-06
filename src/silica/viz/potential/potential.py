@@ -67,7 +67,13 @@ class ValueInRange(InclusionCondition):
 
     def include(self, x, y, z, v):
 
-        return self.__min <= v <= self.__max
+        if self.__min is not None and v < self.__min:
+            return False
+
+        if self.__max is not None and self.__max < v:
+            return False
+
+        return True
 
 
 class GridCubeLoader(object):
