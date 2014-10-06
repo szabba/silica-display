@@ -196,7 +196,7 @@ class Config(CommonConfig):
     def limits(self):
         """C.limits() -> (x_min, x_max, y_min, y_max, z_min, z_max)"""
 
-        return (None, None, None, None, None, None)
+        return self._args.slice
 
 
 class Potential(object):
