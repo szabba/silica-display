@@ -133,8 +133,8 @@ class Potential(object):
             grid, cubes = GridCubeLoader(
                     input_file, includer, Sizer(input_file)).load()
 
-        surf_data_gen = SurfaceDataGenerator(grid, cubes)
-        positions, normals = surf_data_gen.positions_and_normals()
+        positions, normals = SurfaceDataGenerator(
+                grid, cubes).positions_and_normals()
 
         SIDES = positions.shape[0]
         TRIANGLES = SIDES * TRIANGLES_PER_SQUARE
