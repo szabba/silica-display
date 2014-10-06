@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__all__ = ['GridCubeLoader']
+__all__ = ['GridCubeLoader', 'InclusionCondition', 'Slice3D', 'AndCondition']
 
 import numpy
 
@@ -63,3 +63,67 @@ class GridCubeLoader(object):
         self.__cubes = numpy.array(self.__cubes).reshape((-1, 3))
 
         return self.__grid, self.__cubes
+
+
+class InclusionCondition(object):
+    """Decides whether to ignore a given cell position"""
+
+    def include(self, x, y, z, v):
+        """IC.include(x, y, z, v) -> bool
+
+        Should the grid cell at (x, y, z) with value v be included in what is
+        displayed?
+        """
+
+        raise NotImplementedError(self.__class__.__name__, self.ignore.__name__)
+
+
+class Slice3D(InclusionCondition):
+    """An InclusionCondition that handles slicing of a shape consting of grid
+    cells
+    """
+
+    def __init__(self, x_min, x_max, y_min, y_max, z_min, z_max):
+
+        self.__x_min, self.__x_max = x_min, x_max
+        self.__y_min, self.__y_max = y_min, y_max
+        self.__z_min, self.__z_max = z_min, z_max
+
+    def include(self, x, y, z, v):
+
+        if self.__x_min is not None and x < self.__x_min:
+            return False
+
+        if self.__y_min is not None and y < self.__y_min:
+            return False
+
+        if self.__z_min is not None and z < self.__z_min:
+            return False
+
+        if self.__x_max is not None and self.__x_max < x:
+            return False
+
+        if self.__y_max is not None and self.__y_max < y:
+            return False
+
+        if self.__z_max is not None and self.__z_max < z:
+            return False
+
+        return True
+
+
+class AndCondition(InclusionCondition):
+    """Intersection of several InclusionConditions"""
+
+    def __init__(self, *conds):
+
+        self.__conds = conds
+
+    def include(self, x, y, z, v):
+
+        for cond in self.__conds:
+
+            if not cond.include(x, y, z, v):
+                return False
+
+        return True
