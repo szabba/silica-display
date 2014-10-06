@@ -83,7 +83,7 @@ class Glass(object):
 
         includer = AndCondition(
                 ValueEqual(1),
-                Slice3D(*self.__config.limits()))
+                Slice3D(*self.__config.slice()))
 
         with open(self.__config.grid_file()) as input_file:
 

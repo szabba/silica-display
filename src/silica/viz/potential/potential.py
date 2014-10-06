@@ -10,7 +10,7 @@ from silica.viz.common import shaders
 from silica.viz.common.grid.surface import SurfaceDataGenerator
 from silica.viz.common.grid.load import (
         GridCubeLoader, Sizer, InclusionCondition, AndCondition, Slice3D)
-from silica.viz.common.config import CommonConfig, SlicedGridArgsParser
+from silica.viz.common.config import SliceGridConfig, SlicedGridArgsParser
 
 
 class Sizer(Sizer):
@@ -63,7 +63,7 @@ class ArgsParser(SlicedGridArgsParser):
         return 'potential'
 
 
-class Config(CommonConfig):
+class Config(SliceGridConfig):
     """Config for the potential visualization."""
 
     def potential_file(self):
@@ -85,11 +85,6 @@ class Config(CommonConfig):
         """C.potential_color() -> (r, g, b)"""
 
         return (1., 1., 0.)
-
-    def limits(self):
-        """C.limits() -> (x_min, x_max, y_min, y_max, z_min, z_max)"""
-
-        return self._args.slice
 
 
 class Potential(object):
@@ -126,7 +121,7 @@ class Potential(object):
                 ValueInRange(
                     self.__config.potential_min(),
                     self.__config.potential_max()),
-                Slice3D(*self.__config.limits()))
+                Slice3D(*self.__config.slice()))
 
         with open(self.__config.potential_file()) as input_file:
 

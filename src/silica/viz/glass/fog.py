@@ -59,6 +59,22 @@ class Fog(object):
 
         return layers
 
+    def __slice(self):
+        """F.__slice() -> x_min, x_max, y_min, y_max, z_min, z_max"""
+
+        W, H, D = self.__config.grid_size()
+        x_min, x_max, y_min, y_max, z_min, z_max = self.__config.slice()
+
+        x_min = 0 if x_min is None else x_min
+        y_min = 0 if y_min is None else y_min
+        z_min = 0 if z_min is None else z_min
+
+        x_max = W - 1 if x_max is None else x_max
+        y_max = H - 1 if y_max is None else y_max
+        z_max = D - 1 if z_max is None else z_max
+
+        return x_min, x_max, y_min, y_max, z_min, z_max
+
     def __fog_layer(self, i):
         """F.__fog_layer(i) -> TriangleList or None
 
@@ -66,7 +82,7 @@ class Fog(object):
         would be 0.
         """
 
-        x_min, x_max, y_min, y_max, z_min, z_max = self.__config.limits()
+        x_min, x_max, y_min, y_max, z_min, z_max = self.__slice()
 
         w = x_max - x_min - 2 * i
         h = y_max - y_min - 2 * i

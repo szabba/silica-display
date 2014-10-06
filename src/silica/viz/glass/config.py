@@ -13,7 +13,7 @@ from pyglet import gl
 import numpy
 
 from silica.viz.common.constants import *
-from silica.viz.common.config import SlicedGridArgsParser, CommonConfig
+from silica.viz.common.config import SlicedGridArgsParser, SliceGridConfig
 
 
 def guess_size(filename):
@@ -81,7 +81,7 @@ class ArgsParser(SlicedGridArgsParser):
                 default=(1, 1, 1))
 
 
-class Config(CommonConfig):
+class Config(SliceGridConfig):
     """The shared configuration of a display app."""
 
     def __init__(self, args):
@@ -145,37 +145,6 @@ class Config(CommonConfig):
         """C.glass_color() -> the RGB glass color"""
 
         return self._args.glass_color
-
-    def limits(self):
-        """C.limits() -> x_min, x_max, y_min, y_max, z_min, z_max
-
-        Limits of what part of the glass is visible. Integers or NoneS (for no
-        limit).
-        """
-
-        w, h, d = self.grid_size()
-
-        x_min, x_max, y_min, y_max, z_min, z_max = self._args.slice
-
-        if x_min is None:
-            x_min = 0
-
-        if y_min is None:
-            y_min = 0
-
-        if z_min is None:
-            z_min = 0
-
-        if x_max is None:
-            x_max = w - 1
-
-        if y_max is None:
-            y_max = h - 1
-
-        if z_max is None:
-            z_max = d - 1
-
-        return x_min, x_max, y_min, y_max, z_min, z_max
 
     def particle_dimmensions(self):
         """C.particle_dimmensions() -> height, width

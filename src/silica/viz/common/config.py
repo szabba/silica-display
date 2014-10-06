@@ -178,5 +178,10 @@ class BaseConfig(object):
         return 150., 150.
 
 
-class CommonConfig(BaseConfig):
-    """Common config object"""
+class SliceGridConfig(BaseConfig):
+    """Config for apps containing sliceable grid-based objects"""
+
+    def slice(self):
+        """C.slice() -> (x_min, x_max, y_min, y_max, z_min, z_max)"""
+
+        return self._args.slice
