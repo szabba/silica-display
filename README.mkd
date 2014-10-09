@@ -1,8 +1,9 @@
 # Visualisation for SILICA
 
-The program visualises a piece of porous silicate glass and magnetic
-nanoparticles under it's influence. Both the glass piece and particle movements
-are described by input files (of which only the glass file is necessary.
+The project includes two visualization for use with porous silica glass
+simulations. One displays a piece of glass an magnetic nanoparticles under it's
+incluence. The other shows the shape of space with potential values in a given
+range.
 
 ## Install
 
@@ -10,13 +11,13 @@ are described by input files (of which only the glass file is necessary.
 > python setup.py install
 ```
 
-## Usage
+## Glass and particles
 
 ```
 > python -m silica.viz.glass [OPTIONS]
 ```
 
-## Glass file
+### Glass file
 
 A file describing a glass grid may be specified using the `-G`/`--glass-file`
 option.
@@ -45,7 +46,7 @@ An example follows.
 
 Yes, it is not a very imaginative example.
 
-## Particle animation file
+### Particle animation file
 
 Using the `-p`/`--particles` option, the user may specify a file containing
 particle animation data. It's first line should contain the number of
@@ -68,9 +69,23 @@ An example follows.
 
 Yes, it is not a very imaginative example.
 
+## Potential
+
+```
+> python -m silica.viz.potential [OPTIONS] POTENTIAL_FILE
+```
+
+The first line of the potential file contains the dimmensions of the potential
+as three, space-separated integers.
+
+Each line after that contains the coordinates of a grid cell and the value at
+that cell. If a value for a cell isn't specified (no line contains it's
+coordinates) it defaults to zero. The behaviour with a file that contains the
+same coordinates more than once is undefined.
+
 # User interface
 
-The application is controlled through the mouse and keyboard.
+The applications are controlled through the mouse and keyboard.
 
 ## Camera control
 
@@ -88,10 +103,10 @@ the keyboard will reset all the camera parameters.
 
 ## Particle playback control
 
-Pressing Space will toggle the particle animation playback. Pressing L will
-toggle whether the animation loops. Pressing the left/right arrow key will move
-one frame backward/forward, irrespective of whether the animation is currently
-playing or not.
+In the glass visualization, pressing Space will toggle the particle animation
+playback. Pressing L will toggle whether the animation loops. Pressing the
+left/right arrow key will move one frame backward/forward, irrespective of
+whether the animation is currently playing or not.
 
 # Dependencies
 
