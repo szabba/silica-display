@@ -19,4 +19,6 @@ setup(
         package_dir={'': 'src'},
         packages=find_packages('src'),
         package_data={
-            'silica.viz.glass': ['*.glsl', 'glass_inline.c']})
+            'silica.viz.glass': ['*.glsl'],
+            'silica.viz.common': ['*.glsl'],
+            'silica.viz.common.grid' : ['surface_inline.c']})
