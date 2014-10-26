@@ -14,6 +14,10 @@ class Vector(object):
 
         return self.x == o.x and self.y == o.y and self.z == o.z
 
+    def __repr__(self):
+
+        return "Vector(%s, %s, %s)" % (self.x, self.y, self.z)
+
     def __add__(self, o):
 
         if not isinstance(o, self.__class__.__name__):
