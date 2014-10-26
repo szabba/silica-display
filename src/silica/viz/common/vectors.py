@@ -26,3 +26,8 @@ class Vector(object):
             return Vector(self.x * o, self.y * o, self.z * o)
 
         return NotImplemented
+
+    def dot(self, o):
+        """V.dot(o) -> the dot product of V and o"""
+
+        return self.x * o.x + self.y * o.y + self.z * o.z
