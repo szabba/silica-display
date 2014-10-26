@@ -31,3 +31,11 @@ class Vector(object):
         """V.dot(o) -> the dot product of V and o"""
 
         return self.x * o.x + self.y * o.y + self.z * o.z
+
+    def cross(self, o):
+        """V.cross(o) -> the cross produt of V and o"""
+
+        return Vector(
+                self.y * o.z - self.z * o.y,
+                self.z * o.x - self.x * o.z,
+                self.x * o.y - self.y * o.x)
