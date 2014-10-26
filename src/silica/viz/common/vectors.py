@@ -10,6 +10,10 @@ class Vector(object):
 
         self.x, self.y, self.z = x, y, z
 
+    def __eq__(self, o):
+
+        return self.x == o.x and self.y == o.y and self.z == o.z
+
     def __add__(self, o):
 
         if not isinstance(o, self.__class__.__name__):
