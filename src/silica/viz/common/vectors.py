@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import numbers
+
 
 class Vector(object):
     """A 3D vector in some Cartesian basis"""
@@ -16,3 +18,11 @@ class Vector(object):
                     o, self.__class__.__name__)
 
         return Vector(self.x + o.x, self.y + o.y, self.z + o.z)
+
+    def __mul__(self, o):
+
+        if isinstance(o, numbers.Number):
+
+            return Vector(self.x * o, self.y * o, self.z * o)
+
+        return NotImplemented
