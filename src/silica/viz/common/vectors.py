@@ -55,3 +55,7 @@ class Vector(object):
     def __invert__(self):
 
         return -self
+
+    def __abs__(self):
+
+        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
