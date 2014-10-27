@@ -9,6 +9,15 @@ class Vector(object):
 
     def __init__(self, x=0, y=0, z=0):
 
+        if isinstance(x, numbers.Integral):
+            x = float(x)
+
+        if isinstance(y, numbers.Integral):
+            y = float(y)
+
+        if isinstance(z, numbers.Integral):
+            z = float(z)
+
         self.x, self.y, self.z = x, y, z
 
     def __eq__(self, o):
