@@ -82,3 +82,16 @@ class Vector(object):
         """
 
         return self / abs(self)
+
+    def decompose(self, direction):
+        """V.decompose(direction) -> parallel, orthogonal
+
+        Decomposes V into the part parallel and orthogonal to direction (another Vector).
+        """
+
+        direction = direction.unit()
+
+        parallel = self.dot(direction) * direction
+        orthogonal = self - parallel
+
+        return parallel, orthogonal
