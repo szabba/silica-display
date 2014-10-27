@@ -47,3 +47,11 @@ class Vector(object):
                 self.y * o.z - self.z * o.y,
                 self.z * o.x - self.x * o.z,
                 self.x * o.y - self.y * o.x)
+
+    def __neg__(self):
+
+        return Vector(-self.x, -self.y, -self.z)
+
+    def __invert__(self):
+
+        return -self
