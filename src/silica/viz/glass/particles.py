@@ -396,38 +396,38 @@ class Particles(object):
 
         self.__camera = self.__program.uniform(
                 'camera',
-                shaders.GLSLType(shape=shaders.GLSLType.Matrix(4)))
+                shaders.GLSLType(shaders.GLSLType.Matrix(4)))
 
         self.__sun = self.__program.uniform(
                 'sun',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__positions = self.__program.uniform(
                 'positions',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)),
+                shaders.GLSLType(shaders.GLSLType.Vector(3)),
                 self.__model.vertex_count())
 
         self.__normals = self.__program.uniform(
                 'normals',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)),
+                shaders.GLSLType(shaders.GLSLType.Vector(3)),
                 self.__model.vertex_count())
 
         self.__colours = self.__program.uniform(
                 'colours',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)),
+                shaders.GLSLType(shaders.GLSLType.Vector(3)),
                 self.__model.vertex_count())
 
         self.__ix = self.__program.attribute(
                 'ix_float',
-                shaders.GLSLType(shape=shaders.GLSLType.Scalar()))
+                shaders.GLSLType(shaders.GLSLType.Scalar()))
 
         self.__position = self.__program.attribute(
                 'position',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__orientation = self.__program.attribute(
                 'orientation',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(2)))
+                shaders.GLSLType(shaders.GLSLType.Vector(2)))
 
         animation = animation_from_file(self.__program, self.__model, config.particle_file())
         self.__player = ParticlePlayer(animation, config.particle_animation_fps())

@@ -109,23 +109,23 @@ class Potential(object):
 
         self.__camera = self.__program.uniform(
                 'camera',
-                shaders.GLSLType(shape=shaders.GLSLType.Matrix(4)))
+                shaders.GLSLType(shaders.GLSLType.Matrix(4)))
 
         self.__sun = self.__program.uniform(
                 'sun',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__color = self.__program.uniform(
                 'color',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
                 'position',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
                 'normal',
-                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         includer = AndCondition(
                 ValueInRange(
