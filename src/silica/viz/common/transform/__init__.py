@@ -221,9 +221,10 @@ class ChangeBasis(Transform):
 
         self.set_matrix(
                 numpy.array([
-                    [e_0.x, e_0.y, e_0.z],
-                    [e_1.x, e_1.y, e_1.z],
-                    [e_2.x, e_2.y, e_2.z]]))
+                    [e_0.x, e_0.y, e_0.z, 0],
+                    [e_1.x, e_1.y, e_1.z, 0],
+                    [e_2.x, e_2.y, e_2.z, 0],
+                    [    0,     0,     0, 1]]))
 
 
 class Scale(Transform):
