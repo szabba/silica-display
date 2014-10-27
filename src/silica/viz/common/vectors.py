@@ -59,3 +59,10 @@ class Vector(object):
     def __abs__(self):
 
         return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+
+    def unit(self):
+        """V.unit() -> unit vector parallel to V and pointing in the same
+        direction
+        """
+
+        return self / abs(self)
