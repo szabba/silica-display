@@ -198,6 +198,7 @@ class ChangeBasis(Transform):
 
     def __init__(self, e_0, e_1, e_2):
 
+        super(ChangeBasis, self).__init__()
         self.set_basis(e_0, e_1, e_2)
 
     def basis(self):
