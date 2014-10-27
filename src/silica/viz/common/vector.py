@@ -116,3 +116,6 @@ class Vector(object):
         return parallel + abs(orthogonal) * (
                 math.cos(angle) * orthogonal.unit() +
                 math.sin(angle) * axis.unit().cross(orthogonal.unit()))
+
+
+E_X, E_Y, E_Z = Vector(x=1), Vector(y=1), Vector(z=1)
