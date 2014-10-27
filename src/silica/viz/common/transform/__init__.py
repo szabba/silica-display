@@ -12,6 +12,7 @@ import numpy
 from pyglet import gl
 
 from silica.viz.common.constants import AXIS_COUNT
+from silica.viz.common import vector
 
 
 class Transform(object):
@@ -89,6 +90,18 @@ class Transform(object):
             product.add_factor(self)
             product.add_factor(o)
             return product
+
+        elif isinstance(o, vector.Vector):
+
+            matrix = self.matrix()
+
+            transformed = matrix.dot(
+                    numpy.array([[o.x], [o.y], [o.z], [1]]))
+
+            return vector.Vector(
+                    transformed[0, 0],
+                    transformed[1, 0],
+                    transformed[2, 0])
 
         return NotImplemented
 
