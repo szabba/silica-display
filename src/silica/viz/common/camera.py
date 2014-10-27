@@ -86,7 +86,7 @@ class Cameraman(object):
 
             self.__shift.set_r(*self.__config.center_point())
             self.__scale.set_scale(self.__config.init_scale())
-            self.__rot.set_basi(*config.init_rot_basis())
+            self.__rot.set_basis(*config.init_rot_basis())
 
     def move_along_sight_line(self, dt):
         """C.move_along_sight_line(dt)
