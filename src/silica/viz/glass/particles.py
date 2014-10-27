@@ -2,6 +2,7 @@
 
 __all__ = ['Particles']
 
+import os
 import os.path
 import math
 import string
@@ -16,6 +17,9 @@ from silica.viz.common.constants import *
 
 
 ANGLES_PER_ORIENTATION = 2
+
+TEMPLATE_DIR = os.path.abspath(os.path.dirname(__file__))
+SHADER_DIR = os.path.abspath(os.getcwd())
 
 
 class ParticleModel(object):
@@ -448,13 +452,11 @@ class Particles(object):
 
         for letter in ('v', 'f'):
 
-            shader_dir = os.path.dirname(__file__)
-
             shader_filename = "particles.%s.glsl" % letter
             template_filename = "template.%s" % shader_filename
 
-            shader_filename = os.path.join(shader_dir, shader_filename)
-            template_filename = os.path.join(shader_dir, template_filename)
+            shader_filename = os.path.join(SHADER_DIR, shader_filename)
+            template_filename = os.path.join(TEMPLATE_DIR, template_filename)
 
             with open(template_filename) as input:
                 template = string.Template(input.read())
@@ -504,3 +506,6 @@ class Particles(object):
                     self.__colours)
 
             frame.draw()
+
+
+shaders.shader_path.insert(0, SHADER_DIR)
