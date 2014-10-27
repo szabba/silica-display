@@ -9,6 +9,7 @@ from pyglet import gl
 import numpy
 
 from silica.viz.common.constants import COORDINATES_PER_RAY
+from silica.viz.common import vector
 
 
 class BaseArgsParser(argparse.ArgumentParser):
@@ -109,15 +110,10 @@ class BaseConfig(object):
 
         return 1000.0
 
-    def init_phi(self):
-        """C.init_phi() -> initial rotation about the z axis"""
+    def init_rot_basis(self):
+        """C.init_rot_basis() -> inital rotated basis"""
 
-        return 0.0
-
-    def init_theta(self):
-        """C.init_theta() -> initial rotation about the y axis"""
-
-        return 0
+        return vector.E_X, vector.E_Y, vector.E_Z
 
     def init_translation(self):
         """C.init_translation() -> initial translation vector's coordinates"""

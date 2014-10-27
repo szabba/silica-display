@@ -29,24 +29,6 @@ def projection(transforms, cam_geometry, window):
     project.add_factor(ah)
 
 
-def rotation(transforms, config):
-    """rotation(transforms, config)
-
-    Adds 'rot_y', 'rot_z' and 'rot' to the transforms dict.
-    """
-
-    transforms['rot_y'] = rot_y = transform.BasicAxisRotation(
-            config.init_phi(), Y_AXIS)
-    transforms['rot_z'] = rot_z = transform.BasicAxisRotation(
-            config.init_theta(), Z_AXIS)
-    rot_x = transform.BasicAxisRotation(-math.pi / 2, X_AXIS)
-
-    transforms['rot'] = rot = transform.Product()
-    rot.add_factor(rot_y)
-    rot.add_factor(rot_z)
-    rot.add_factor(rot_x)
-
-
 def common_transforms(transforms, config, window):
     """common_transforms(transforms, config, window)
 
@@ -57,4 +39,5 @@ def common_transforms(transforms, config, window):
             *config.perspective_params())
 
     projection(transforms, cam_geometry, window)
-    rotation(transforms, config)
+
+    transforms['rot'] = transform.ChangeBasis(*config.init_rot_basis())
