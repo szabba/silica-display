@@ -7,7 +7,7 @@ import numbers
 class Vector(object):
     """A 3D vector in some Cartesian basis"""
 
-    def __init__(self, x, y, z):
+    def __init__(self, x=0, y=0, z=0):
 
         self.x, self.y, self.z = x, y, z
 
