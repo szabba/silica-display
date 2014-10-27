@@ -63,8 +63,7 @@ class Cameraman(object):
         self.__sr = transforms['sr']
         self.__scale = transforms['scale']
 
-        self.__rot_y = transforms['rot_y']
-        self.__rot_z = transforms['rot_z']
+        self.__rot = transforms['rot']
 
         self.__shift = transforms['cam_shift']
 
@@ -87,8 +86,7 @@ class Cameraman(object):
 
             self.__shift.set_r(*self.__config.center_point())
             self.__scale.set_scale(self.__config.init_scale())
-            self.__rot_y.set_angle(self.__config.init_phi())
-            self.__rot_z.set_angle(self.__config.init_theta())
+            self.__rot.set_basi(*config.init_rot_basis())
 
     def move_along_sight_line(self, dt):
         """C.move_along_sight_line(dt)
@@ -138,19 +136,16 @@ class Cameraman(object):
 
         if buttons == mouse.LEFT:
 
-            phi = self.__rot_y.angle()
-            phi += dx * self.__config.rot_z_speed()
+            horiz, up, forward = self.__rot.basis()
 
-            theta = self.__rot_z.angle()
-            theta += dy * self.__config.rot_z_speed()
+            new_horiz = horiz.rotate(up, dx * self.__config.rot_z_speed())
+            new_up = up.rotate(horiz, -dy * self.__config.rot_z_speed())
+            new_forward = (forward.
+                rotate(horiz, -dy * self.__config.rot_z_speed()).
+                rotate(up, dx * self.__config.rot_z_speed()))
 
-            self.__rot_y.set_angle(
-                    limit_angle(
-                        phi, (0, 2 * math.pi), WRAP))
+            self.__rot.set_basis(new_horiz, new_up, new_forward)
 
-            self.__rot_z.set_angle(
-                    limit_angle(
-                        theta, (-math.pi / 2, math.pi / 2), CUT_OFF))
 
         elif buttons == mouse.RIGHT:
 
