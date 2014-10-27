@@ -146,7 +146,6 @@ class Cameraman(object):
 
             self.__rot.set_basis(new_horiz, new_up, new_forward)
 
-
         elif buttons == mouse.RIGHT:
 
             SR = self.__sr.matrix()

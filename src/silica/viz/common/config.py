@@ -113,7 +113,7 @@ class BaseConfig(object):
     def init_rot_basis(self):
         """C.init_rot_basis() -> inital rotated basis"""
 
-        return vector.E_X, vector.E_Y, vector.E_Z
+        return vector.E_X, vector.E_Z, -vector.E_Y
 
     def init_translation(self):
         """C.init_translation() -> initial translation vector's coordinates"""
