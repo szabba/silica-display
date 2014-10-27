@@ -22,6 +22,10 @@ class Vector(object):
 
         return Vector(self.x + o.x, self.y + o.y, self.z + o.z)
 
+    def __sub__(self, o):
+
+        return self + (-o)
+
     def __mul__(self, o):
 
         if isinstance(o, numbers.Number):
