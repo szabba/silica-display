@@ -81,6 +81,17 @@ class Transform(object):
 
         return self.__gl_matrix
 
+    def __mul__(self, o):
+
+        if isinstance(o, Transform):
+
+            product = Product()
+            product.add_factor(self)
+            product.add_factor(o)
+            return product
+
+        return NotImplemented
+
 
 class Product(Transform):
     """A transform resulting from matrix multiplication of it's factors."""
