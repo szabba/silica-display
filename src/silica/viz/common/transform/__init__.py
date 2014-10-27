@@ -214,6 +214,7 @@ class ChangeBasis(Transform):
         """
 
         self.__basis = e_0, e_1, e_2
+        self.dirty()
 
     def calculate(self):
 
