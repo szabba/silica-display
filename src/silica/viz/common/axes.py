@@ -70,31 +70,29 @@ class Axes(object):
 
         self.__sun = self.__program.uniform(
                 'sun',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
 
         self.__ambient = self.__program.uniform(
-                'ambient',
-                shaders.GLSLType(gl.GLfloat))
+                'ambient', shaders.GLSLType())
 
         self.__diffuse = self.__program.uniform(
-                'diffuse',
-                shaders.GLSLType(gl.GLfloat))
+                'diffuse', shaders.GLSLType())
 
         self.__camera = self.__program.uniform(
                 'camera',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Matrix(4)))
+                shaders.GLSLType(shape=shaders.GLSLType.Matrix(4)))
 
         self.__program.attribute(
                 'position',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
                 'normal',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
                 'color',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
 
         self.__triangles = self.__program.triangle_list(
                 AXIS_COUNT * cube.TRIANGLES_PER_CUBE)

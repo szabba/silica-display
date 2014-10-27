@@ -20,19 +20,19 @@ class Fog(object):
 
         self.__camera = self.__program.uniform(
                 'camera',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Matrix(4)))
+                shaders.GLSLType(shape=shaders.GLSLType.Matrix(4)))
 
         self.__color = self.__program.uniform(
                 'color',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(4)))
+                shaders.GLSLType(shape=shaders.GLSLType.Vector(4)))
 
         self.__copy_shift = self.__program.uniform(
                 'copy_shift',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
                 'position',
-                shaders.GLSLType(gl.GLfloat, shaders.GLSLType.Vector(3)))
+                shaders.GLSLType(shape=shaders.GLSLType.Vector(3)))
 
         self.__layers = self.__fog_layers()
 
