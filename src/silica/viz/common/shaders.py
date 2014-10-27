@@ -214,7 +214,7 @@ class GLSLType(object):
 
     INT, FLOAT = gl.GLint, gl.GLfloat
 
-    def __init__(self, element_type=FLOAT, shape=Scalar()):
+    def __init__(self, shape=Scalar(), element_type=FLOAT):
 
         if (shape not in [(1, 1), (2, 1), (3, 1), (4, 1)] and
                 element_type == GLSLType.INT):
