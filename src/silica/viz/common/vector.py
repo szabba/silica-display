@@ -95,3 +95,15 @@ class Vector(object):
         orthogonal = self - parallel
 
         return parallel, orthogonal
+
+    def rotate(self, axis, angle):
+        """V.rotate(axis, angle) -> rotated vector
+
+        Rotates V to the right around the axis direction by the given angle.
+        """
+
+        parallel, orthogonal = self.decompose(axis)
+
+        return parallel + abs(orthogonal) * (
+                math.cos(angle) * orthogonal.unit() +
+                math.sin(angle) * axis.unit().cross(orthogonal.unit()))
