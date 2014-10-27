@@ -35,6 +35,14 @@ class Vector(object):
 
         return NotImplemented
 
+    def __div__(self, o):
+
+        if isinstance(o, numbers.Number):
+
+            return self * (1 / o)
+
+        return NotImplemented
+
     def dot(self, o):
         """V.dot(o) -> the dot product of V and o"""
 
