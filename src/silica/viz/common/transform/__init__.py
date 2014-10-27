@@ -191,6 +191,40 @@ class BasicAxisRotation(Transform):
         self.set_matrix(matrix)
 
 
+class ChangeBasis(Transform):
+    """A transform that changes vector coordinates from one Cartesian basis
+    into another.
+    """
+
+    def __init__(self, e_0, e_1, e_2):
+
+        self.set_basis(e_0, e_1, e_2)
+
+    def basis(self):
+        """CB.basis() -> tuple of three base vectors"""
+
+        return self.__basis
+
+    def set_basis(self, e_0, e_1, e_2):
+        """CB.set_basis(e_0, e_1, e_2)
+
+        Sets the new output basis. The base vectors should be expressed in
+        coordinates of the input basis.
+        """
+
+        self.__basis = e_0, e_1, e_2
+
+    def calculate(self):
+
+        e_0, e_1, e_2 = self.__basis
+
+        self.set_matrix(
+                numpy.array([
+                    [e_0.x, e_0.y, e_0.z],
+                    [e_1.x, e_1.y, e_1.z],
+                    [e_2.x, e_2.y, e_2.z]]))
+
+
 class Scale(Transform):
     """A scaling transform"""
 
