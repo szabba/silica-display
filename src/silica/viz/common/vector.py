@@ -35,6 +35,14 @@ class Vector(object):
 
         return NotImplemented
 
+    def __rmul__(self, o):
+
+        if isinstance(o, numbers.Number):
+
+            return self.__mul__(o)
+
+        return NotImplemented
+
     def __div__(self, o):
 
         if isinstance(o, numbers.Number):
