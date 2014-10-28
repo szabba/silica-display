@@ -206,7 +206,7 @@ class ChangeBasis(Transform):
 
         return self.__basis
 
-    def set_basis(self, e_0, e_1, e_2):
+    def set_basis(self, e_0, e_1, e_2, dirtify=True):
         """CB.set_basis(e_0, e_1, e_2)
 
         Sets the new output basis. The base vectors should be expressed in
@@ -214,7 +214,8 @@ class ChangeBasis(Transform):
         """
 
         self.__basis = e_0, e_1, e_2
-        self.dirty()
+        if dirtify:
+            self.dirty()
 
     def calculate(self):
 
