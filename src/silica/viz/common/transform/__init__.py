@@ -221,12 +221,30 @@ class ChangeBasis(Transform):
 
         e_0, e_1, e_2 = self.__basis
 
-        self.set_matrix(
-                numpy.array([
-                    [e_0.x, e_0.y, e_0.z, 0],
-                    [e_1.x, e_1.y, e_1.z, 0],
-                    [e_2.x, e_2.y, e_2.z, 0],
-                    [    0,     0,     0, 1]]))
+        start = numpy.array([
+            [e_0.x, e_0.y, e_0.z, 0],
+            [e_1.x, e_1.y, e_1.z, 0],
+            [e_2.x, e_2.y, e_2.z, 0],
+            [    0,     0,     0, 1]])
+
+        if self.__orthogonalize:
+
+            orthogonal = numpy.eye(4)
+
+            U, S, V = numpy.linalg.svd(start)
+            orthogonal[:3, :3] = U.dot(V)[:3, :3]
+
+            self.set_basis(
+                    vector.Vector(*orthogonal[0, :3]),
+                    vector.Vector(*orthogonal[1, :3]),
+                    vector.Vector(*orthogonal[2, :3]),
+                    dirtify=False)
+
+            self.set_matrix(orthogonal)
+
+        else:
+
+            self.set_matrix(start)
 
 
 class Scale(Transform):
