@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 setup(
         name='silica',
         url='bitbucket.org/szabba/silica_display',
-        version='0.2',
+        version='0.3',
 
         author='Karol Marcjan',
         author_email='karol.marcjan@gmail.com',
