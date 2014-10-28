@@ -121,33 +121,3 @@ To run the program you will need:
 The versions specified are the ones the program has been extensively run
 against. It might work just fine with other ones.
 
-# Language usage statistic
-
-The program is written in a combination of three different languages and
-uses several not-so-simple libraries and APIs.
-
-```
-      33 text files.
-      32 unique files.
-      12 files ignored.
-
-http://cloc.sourceforge.net v 1.62  T=0.07 s (342.1 files/s, 45641.8 lines/s)
--------------------------------------------------------------------------------
-Language                     files          blank        comment           code
--------------------------------------------------------------------------------
-Python                          13           1004            354           1452
-GLSL                             8             61              0            123
-C                                1              8              0             18
--------------------------------------------------------------------------------
-SUM:                            23           1088            354           1627
--------------------------------------------------------------------------------
-```
-
-That gives a total of
-
-* 2810 lines of Python
-* 184 lines of the OpenGL Shading Language
-* 26 lines of C
-
-`custom.cloc` contains the language specification for GLSL (so that `cloc` can
-count shader sources).
