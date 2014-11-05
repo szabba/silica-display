@@ -12,14 +12,15 @@ from silica.viz.common.cube import *
 
 
 INLINE_PATH = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        'surface_inline.c')
+    os.path.dirname(os.path.abspath(__file__)),
+    'surface_inline.c')
 
 with open(INLINE_PATH) as glass_inline_c:
     INLINE_CODE = glass_inline_c.read()
 
 
 class SurfaceDataGenerator(object):
+
     """Generates surface data given a grid of cubes"""
 
     def __init__(self, grid, cubes):
@@ -76,8 +77,8 @@ class SurfaceDataGenerator(object):
         overlaps_grid = self.__overlaps_grid()
 
         nonoverlap_mask = numpy.zeros(
-                (CUBES, SQUARES_PER_CUBE),
-                dtype=numpy.int)
+            (CUBES, SQUARES_PER_CUBE),
+            dtype=numpy.int)
 
         grid = self.__grid
         weave.inline(
@@ -120,18 +121,18 @@ class SurfaceDataGenerator(object):
 
         # Normals at for possible cube side positions
         raw_normals = numpy.resize(
-                CUBE_NORMALS,
-                RAW_NORMALS_SIZE)
+            CUBE_NORMALS,
+            RAW_NORMALS_SIZE)
 
         # Coordinates for all possible triangles
         repeated_faces = CUBE_FACES[None].repeat(CUBES, 0)
         shifts_in_space = self.__cubes[:, None, None, None, :].repeat(
-                SQUARES_PER_CUBE, 1,
-            ).repeat(
-                TRIANGLES_PER_SQUARE, 2,
-            ).repeat(
-                VERTICES_PER_TRIANGLE, 3,
-            )
+            SQUARES_PER_CUBE, 1,
+        ).repeat(
+            TRIANGLES_PER_SQUARE, 2,
+        ).repeat(
+            VERTICES_PER_TRIANGLE, 3,
+        )
 
         raw_triangles = repeated_faces + shifts_in_space
 
@@ -139,5 +140,5 @@ class SurfaceDataGenerator(object):
         nonoverlap_mask = self.__nonoverlap_mask()
 
         return (
-                raw_triangles[nonoverlap_mask.nonzero()],
-                raw_normals[nonoverlap_mask.nonzero()])
+            raw_triangles[nonoverlap_mask.nonzero()],
+            raw_normals[nonoverlap_mask.nonzero()])

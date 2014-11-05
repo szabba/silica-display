@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 __all__ = [
-        'CUBE_FACES', 'CUBE_NORMALS',
-        'SQUARES_PER_CUBE', 'TRIANGLES_PER_SQUARE',
-        'TRIANGLES_PER_CUBE']
+    'CUBE_FACES', 'CUBE_NORMALS',
+    'SQUARES_PER_CUBE', 'TRIANGLES_PER_SQUARE',
+    'TRIANGLES_PER_CUBE']
 
 import numpy
 
@@ -68,4 +68,3 @@ def cube_normals():
 
 CUBE_FACES = cube_faces()
 CUBE_NORMALS = cube_normals()
-

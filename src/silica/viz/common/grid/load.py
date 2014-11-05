@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 __all__ = [
-        'GridCubeLoader', 'Sizer',
-        'InclusionCondition', 'Slice3D', 'AndCondition']
+    'GridCubeLoader', 'Sizer',
+    'InclusionCondition', 'Slice3D', 'AndCondition']
 
 import numpy
 
 
 class GridCubeLoader(object):
+
     """Load a potential grid from a file-like object.
 
     The first line of the input should contain three numbers -- the dimmensions
@@ -54,6 +55,7 @@ class GridCubeLoader(object):
 
 
 class Sizer(object):
+
     """Determines the size of a cube grid"""
 
     def size(self):
@@ -63,11 +65,12 @@ class Sizer(object):
         """
 
         raise NotImplementedError(
-                self.__class__.__name__,
-                self.size.__name__)
+            self.__class__.__name__,
+            self.size.__name__)
 
 
 class InclusionCondition(object):
+
     """Decides whether to ignore a given cell position"""
 
     def include(self, x, y, z, v):
@@ -77,10 +80,12 @@ class InclusionCondition(object):
         displayed?
         """
 
-        raise NotImplementedError(self.__class__.__name__, self.ignore.__name__)
+        raise NotImplementedError(
+            self.__class__.__name__, self.ignore.__name__)
 
 
 class Slice3D(InclusionCondition):
+
     """An InclusionCondition that handles slicing of a shape consting of grid
     cells
     """
@@ -115,6 +120,7 @@ class Slice3D(InclusionCondition):
 
 
 class AndCondition(InclusionCondition):
+
     """Intersection of several InclusionConditions"""
 
     def __init__(self, *conds):

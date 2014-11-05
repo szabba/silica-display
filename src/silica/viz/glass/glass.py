@@ -10,8 +10,8 @@ from pyglet import gl
 from silica.viz.common import shaders
 from silica.viz.common.grid.surface import SurfaceDataGenerator
 from silica.viz.common.grid.load import (
-        GridCubeLoader, Sizer,
-        InclusionCondition, AndCondition, Slice3D)
+    GridCubeLoader, Sizer,
+    InclusionCondition, AndCondition, Slice3D)
 from silica.viz.common.constants import *
 from silica.viz.common.cube import *
 
@@ -48,6 +48,7 @@ class ValueEqual(InclusionCondition):
 
 
 class Glass(object):
+
     """The glass (or it's visible part)"""
 
     def __init__(self, config, cam):
@@ -58,41 +59,41 @@ class Glass(object):
         self.__program = shaders.Program('glass')
 
         self.__camera = self.__program.uniform(
-                'camera',
-                shaders.GLSLType(shaders.GLSLType.Matrix(4)))
+            'camera',
+            shaders.GLSLType(shaders.GLSLType.Matrix(4)))
 
         self.__sun = self.__program.uniform(
-                'sun',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'sun',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__color = self.__program.uniform(
-                'color',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'color',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__copy_shift = self.__program.uniform(
-                'copy_shift',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'copy_shift',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
-                'position',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'position',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
-                'normal',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'normal',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         includer = AndCondition(
-                ValueEqual(1),
-                Slice3D(*self.__config.slice()))
+            ValueEqual(1),
+            Slice3D(*self.__config.slice()))
 
         with open(self.__config.grid_file()) as input_file:
 
             grid, cubes = GridCubeLoader(
-                    input_file, includer,
-                    Sizer(self.__config.grid_size())).load()
+                input_file, includer,
+                Sizer(self.__config.grid_size())).load()
 
         positions, normals = SurfaceDataGenerator(
-                grid, cubes).positions_and_normals()
+            grid, cubes).positions_and_normals()
 
         SIDES = positions.shape[0]
         TRIANGLES = SIDES * TRIANGLES_PER_SQUARE
@@ -160,9 +161,9 @@ class Glass(object):
                     for z_copy in range(z_rep):
 
                         shift = (
-                                w * x_copy,
-                                h * y_copy,
-                                d * z_copy)
+                            w * x_copy,
+                            h * y_copy,
+                            d * z_copy)
 
                         self.__copy_shift.clear()
                         self.__copy_shift.add(*shift)

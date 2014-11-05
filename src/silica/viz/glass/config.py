@@ -23,20 +23,21 @@ def guess_size(filename):
     """
 
     match = re.match(
-            r'data(?P<w>\d+)x(?P<h>\d+)x(?P<d>\d+)t\d+_\d+.dat',
-            os.path.basename(filename))
+        r'data(?P<w>\d+)x(?P<h>\d+)x(?P<d>\d+)t\d+_\d+.dat',
+        os.path.basename(filename))
 
     if match is None:
         raise ValueError(
-                'Size of grid in \'%s\' cannot be guessed.' % filename)
+            'Size of grid in \'%s\' cannot be guessed.' % filename)
 
     return (
-            int(match.groupdict()['w']),
-            int(match.groupdict()['h']),
-            int(match.groupdict()['d']))
+        int(match.groupdict()['w']),
+        int(match.groupdict()['h']),
+        int(match.groupdict()['d']))
 
 
 class ArgsParser(SlicedGridArgsParser):
+
     """Argument parser for the glass visualization."""
 
     def object_sliced(self):
@@ -48,40 +49,42 @@ class ArgsParser(SlicedGridArgsParser):
         super(ArgsParser, self).__init__()
 
         self.add_argument(
-                '-g', '--glass-color',
-                help='RGB color of the fog',
-                nargs=3, type=float,
-                default=(.7, .7, .7))
+            '-g', '--glass-color',
+            help='RGB color of the fog',
+            nargs=3, type=float,
+            default=(.7, .7, .7))
 
         self.add_argument(
-                '-G', '--glass-file',
-                help='name of the glass file',
-                default=None)
+            '-G', '--glass-file',
+            help='name of the glass file',
+            default=None)
 
         self.add_argument(
-                '-p', '--particles',
-                help='name of a file describing particle positions and orientations',
-                default=None)
+            '-p', '--particles',
+            help='name of a file describing particle positions and orientations',
+            default=None)
 
         self.add_argument(
-                '-P', '--particle-dimmensions',
-                help='length and width of a particle in glass grid units',
-                nargs=2, type=float, default=(1, 0.5))
+            '-P', '--particle-dimmensions',
+            help='length and width of a particle in glass grid units',
+            nargs=2, type=float, default=(1, 0.5))
 
         self.add_argument(
-                '-f', '--fog-color',
-                help='RGBA color of the fog',
-                nargs=4, type=float,
-                default=(0, 1, 1, 0.125))
+            '-f', '--fog-color',
+            help='RGBA color of the fog',
+            nargs=4, type=float,
+            default=(0, 1, 1, 0.125))
 
         self.add_argument(
-                '-r', '--repeat',
-                help=''.join('number of repetitions along each axis (x, y, z)'),
-                nargs=3, type=int,
-                default=(1, 1, 1))
+            '-r', '--repeat',
+            help=''.join(
+                'number of repetitions along each axis (x, y, z)'),
+            nargs=3, type=int,
+            default=(1, 1, 1))
 
 
 class Config(SliceGridConfig):
+
     """The shared configuration of a display app."""
 
     def __init__(self, args):

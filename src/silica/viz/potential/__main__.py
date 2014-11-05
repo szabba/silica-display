@@ -18,6 +18,7 @@ from silica.viz.potential.potential import ArgsParser, Config, Potential
 
 
 class DisplayApp(object):
+
     """Main object"""
 
     def __init__(self, config):
@@ -32,16 +33,16 @@ class DisplayApp(object):
         cam = transforms['camera']
 
         self.__window.push_handlers(
-                Axes(config, transforms, self.__window))
+            Axes(config, transforms, self.__window))
 
         self.__window.push_handlers(
-                Potential(config, cam))
+            Potential(config, cam))
 
         self.__window.push_handlers(
-                Cameraman(config, keys, transforms))
+            Cameraman(config, keys, transforms))
 
         self.__window.push_handlers(
-                keys)
+            keys)
 
         pyglet.clock.set_fps_limit(config.max_fps())
 

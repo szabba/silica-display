@@ -9,6 +9,7 @@ from silica.viz.common import cube
 
 
 class Fog(object):
+
     """Semi-transparent fog approximating ambient occlusion in the glass."""
 
     def __init__(self, config, cam):
@@ -19,20 +20,20 @@ class Fog(object):
         self.__program = shaders.Program('fog')
 
         self.__camera = self.__program.uniform(
-                'camera',
-                shaders.GLSLType(shaders.GLSLType.Matrix(4)))
+            'camera',
+            shaders.GLSLType(shaders.GLSLType.Matrix(4)))
 
         self.__color = self.__program.uniform(
-                'color',
-                shaders.GLSLType(shaders.GLSLType.Vector(4)))
+            'color',
+            shaders.GLSLType(shaders.GLSLType.Vector(4)))
 
         self.__copy_shift = self.__program.uniform(
-                'copy_shift',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'copy_shift',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
-                'position',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'position',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__layers = self.__fog_layers()
 
@@ -106,8 +107,8 @@ class Fog(object):
         positions[:, :, :, 2] += z
 
         t_list = self.__program.triangle_list(
-                cube.SQUARES_PER_CUBE *
-                cube.TRIANGLES_PER_SQUARE)
+            cube.SQUARES_PER_CUBE *
+            cube.TRIANGLES_PER_SQUARE)
 
         t_list.from_arrays(dict(position=positions))
 
@@ -143,9 +144,9 @@ class Fog(object):
                         for z_copy in range(z_rep):
 
                             shift = (
-                                    w * x_copy,
-                                    h * y_copy,
-                                    d * z_copy)
+                                w * x_copy,
+                                h * y_copy,
+                                d * z_copy)
 
                             self.__copy_shift.clear()
                             self.__copy_shift.add(*shift)

@@ -9,11 +9,12 @@ from silica.viz.common.cube import TRIANGLES_PER_SQUARE
 from silica.viz.common import shaders
 from silica.viz.common.grid.surface import SurfaceDataGenerator
 from silica.viz.common.grid.load import (
-        GridCubeLoader, Sizer, InclusionCondition, AndCondition, Slice3D)
+    GridCubeLoader, Sizer, InclusionCondition, AndCondition, Slice3D)
 from silica.viz.common.config import SliceGridConfig, SlicedGridArgsParser
 
 
 class Sizer(Sizer):
+
     """Sizer for a potential file"""
 
     def __init__(self, input_src):
@@ -29,6 +30,7 @@ class Sizer(Sizer):
 
 
 class ValueInRange(InclusionCondition):
+
     """Includes the grid cells with a values in a particular range"""
 
     def __init__(self, minimum, maximum):
@@ -47,6 +49,7 @@ class ValueInRange(InclusionCondition):
 
 
 class ArgsParser(SlicedGridArgsParser):
+
     """Argument parser for the potential visualization"""
 
     def __init__(self):
@@ -54,18 +57,18 @@ class ArgsParser(SlicedGridArgsParser):
         super(ArgsParser, self).__init__()
 
         self.add_argument(
-                '-m', '--min',
-                help='minimal visible potential value',
-               type=float, default=None)
+            '-m', '--min',
+            help='minimal visible potential value',
+            type=float, default=None)
 
         self.add_argument(
-                '-M', '--max',
-                help='minimal visible potential value',
-                type=float, default=None)
+            '-M', '--max',
+            help='minimal visible potential value',
+            type=float, default=None)
 
         self.add_argument(
-                'potential_file',
-                help='file containing potential data to display')
+            'potential_file',
+            help='file containing potential data to display')
 
     def object_sliced(self):
         "AP.object_sliced() -> name of object being sliced"""
@@ -74,6 +77,7 @@ class ArgsParser(SlicedGridArgsParser):
 
 
 class Config(SliceGridConfig):
+
     """Config for the potential visualization."""
 
     def potential_file(self):
@@ -98,6 +102,7 @@ class Config(SliceGridConfig):
 
 
 class Potential(object):
+
     """The potential surface"""
 
     def __init__(self, config, cam):
@@ -108,38 +113,38 @@ class Potential(object):
         self.__program = shaders.Program('potential')
 
         self.__camera = self.__program.uniform(
-                'camera',
-                shaders.GLSLType(shaders.GLSLType.Matrix(4)))
+            'camera',
+            shaders.GLSLType(shaders.GLSLType.Matrix(4)))
 
         self.__sun = self.__program.uniform(
-                'sun',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'sun',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__color = self.__program.uniform(
-                'color',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'color',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
-                'position',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'position',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
-                'normal',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'normal',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         includer = AndCondition(
-                ValueInRange(
-                    self.__config.potential_min(),
-                    self.__config.potential_max()),
-                Slice3D(*self.__config.slice()))
+            ValueInRange(
+                self.__config.potential_min(),
+                self.__config.potential_max()),
+            Slice3D(*self.__config.slice()))
 
         with open(self.__config.potential_file()) as input_file:
 
             grid, cubes = GridCubeLoader(
-                    input_file, includer, Sizer(input_file)).load()
+                input_file, includer, Sizer(input_file)).load()
 
         positions, normals = SurfaceDataGenerator(
-                grid, cubes).positions_and_normals()
+            grid, cubes).positions_and_normals()
 
         SIDES = positions.shape[0]
         TRIANGLES = SIDES * TRIANGLES_PER_SQUARE

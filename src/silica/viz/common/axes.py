@@ -17,6 +17,7 @@ from silica.viz.common import cube
 
 
 class SquashZ(transform.Transform):
+
     '''Adjust the range of z coordinates, so that the axes won't get cut off by
     the clipping planes.
     '''
@@ -54,6 +55,7 @@ def numpy_to_c(array, t):
 
 
 class Axes(object):
+
     """The axis orientation indicators"""
 
     TRIANGLES_PER_AXIS = 8
@@ -69,33 +71,33 @@ class Axes(object):
         self.__program = shaders.Program('axes')
 
         self.__sun = self.__program.uniform(
-                'sun',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'sun',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__ambient = self.__program.uniform(
-                'ambient', shaders.GLSLType())
+            'ambient', shaders.GLSLType())
 
         self.__diffuse = self.__program.uniform(
-                'diffuse', shaders.GLSLType())
+            'diffuse', shaders.GLSLType())
 
         self.__camera = self.__program.uniform(
-                'camera',
-                shaders.GLSLType(shaders.GLSLType.Matrix(4)))
+            'camera',
+            shaders.GLSLType(shaders.GLSLType.Matrix(4)))
 
         self.__program.attribute(
-                'position',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'position',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
-                'normal',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'normal',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__program.attribute(
-                'color',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'color',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__triangles = self.__program.triangle_list(
-                AXIS_COUNT * cube.TRIANGLES_PER_CUBE)
+            AXIS_COUNT * cube.TRIANGLES_PER_CUBE)
 
         ps, ns = self.__positions_and_normals()
 
@@ -110,7 +112,7 @@ class Axes(object):
         """
 
         transforms['axis_shift'] = transform.Translate(
-                *self.translation_from_win_size(*window.get_size()))
+            *self.translation_from_win_size(*window.get_size()))
 
         transforms['axis_total'] = axis_total = transform.Product()
         axis_total.add_factor(transforms['axis_shift'])
@@ -136,9 +138,9 @@ class Axes(object):
         """A.__positions_and_normals() -> positions, normals"""
 
         positions = cube.CUBE_FACES.repeat(
-                AXIS_COUNT
+            AXIS_COUNT
         ).reshape(
-                cube.CUBE_FACES.shape + (AXIS_COUNT, )
+            cube.CUBE_FACES.shape + (AXIS_COUNT, )
         )
         positions = numpy.rollaxis(positions, -1)
 
@@ -169,9 +171,9 @@ class Axes(object):
         positions[2, :, :, :, 1] -= width
 
         normals = cube.CUBE_NORMALS.repeat(
-                AXIS_COUNT
+            AXIS_COUNT
         ).reshape(
-                cube.CUBE_NORMALS.shape + (AXIS_COUNT, )
+            cube.CUBE_NORMALS.shape + (AXIS_COUNT, )
         )
         normals = numpy.rollaxis(normals, -1)
 
@@ -198,7 +200,7 @@ class Axes(object):
     def on_resize(self, width, height):
 
         self.__shift.set_r(
-                *self.translation_from_win_size(width, height))
+            *self.translation_from_win_size(width, height))
 
     def on_draw(self):
 

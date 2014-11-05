@@ -36,7 +36,7 @@ def common_transforms(transforms, config, window):
     """
 
     cam_geometry = transform.CameraGeometry(
-            *config.perspective_params())
+        *config.perspective_params())
 
     projection(transforms, cam_geometry, window)
 

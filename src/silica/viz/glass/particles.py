@@ -23,6 +23,7 @@ SHADER_DIR = os.path.abspath(os.getcwd())
 
 
 class ParticleModel(object):
+
     """The 3D model for a single particle"""
 
     def __init__(self, height, width):
@@ -44,7 +45,8 @@ class ParticleModel(object):
         self.__colours[0, ..., 2] = 1
         self.__colours[1, ..., 0] = 1
 
-        self.__positions = self.__positions.reshape((-1, COORDINATES_PER_VERTEX))
+        self.__positions = self.__positions.reshape(
+            (-1, COORDINATES_PER_VERTEX))
         self.__normals = self.__normals.reshape((-1, COORDINATES_PER_VERTEX))
         self.__colours = self.__colours.reshape((-1, COORDINATES_PER_VERTEX))
 
@@ -90,6 +92,7 @@ class ParticleModel(object):
 
 
 class AnimationBuilder(object):
+
     """A builder object for ParticleAnimations"""
 
     def __init__(self, program, model, particle_count):
@@ -127,7 +130,7 @@ class AnimationBuilder(object):
                 ANGLES_PER_ORIENTATION)),
         })
         self.__frames[-1]['ix_float'][:] = numpy.arange(
-                self.__model.vertex_count())
+            self.__model.vertex_count())
 
     @staticmethod
     def vector_to_angles(vector):
@@ -140,7 +143,7 @@ class AnimationBuilder(object):
         x, y, z = vector
 
         phi = math.atan2(y, x)
-        theta = math.atan2(z, math.sqrt(x**2 + y**2))
+        theta = math.atan2(z, math.sqrt(x ** 2 + y ** 2))
 
         return phi, theta
 
@@ -168,7 +171,7 @@ class AnimationBuilder(object):
         for frame_data in self.__frames:
 
             t_list = self.__program.triangle_list(
-                    self.__particle_count * self.__model.triangle_count())
+                self.__particle_count * self.__model.triangle_count())
             t_list.from_arrays(frame_data)
 
             t_lists.append(t_list)
@@ -177,6 +180,7 @@ class AnimationBuilder(object):
 
 
 class ParticleAnimation(object):
+
     """A sequence of frames"""
 
     def __init__(self, particle_count, frames):
@@ -196,8 +200,8 @@ class ParticleAnimation(object):
             for particle_no in range(particle_count):
 
                 builder.add_particle_state(
-                        (6 * particle_no, 0, 0),
-                        (2 * math.pi / frame_count * (particle_no + frame_no), 0))
+                    (6 * particle_no, 0, 0),
+                    (2 * math.pi / frame_count * (particle_no + frame_no), 0))
 
         return builder.build()
 
@@ -208,7 +212,7 @@ class ParticleAnimation(object):
         """
 
         frame = program.triangle_list(
-                self.particle_count() * model.triangle_count())
+            self.particle_count() * model.triangle_count())
 
         arrays = {}
 
@@ -231,7 +235,8 @@ class ParticleAnimation(object):
             ANGLES_PER_ORIENTATION))
 
         for particle_no, particle in enumerate(arrays['orientation']):
-            particle[:, 0] = 2 * math.pi / self.frame_count() * (particle_no + no)
+            particle[:, 0] = 2 * math.pi / \
+                self.frame_count() * (particle_no + no)
 
         frame.from_arrays(arrays)
 
@@ -257,6 +262,7 @@ class ParticleAnimation(object):
 
 
 class ParticlePlayer(object):
+
     """Controls triangle list choice for the current frame."""
 
     def __init__(self, animation, fps):
@@ -343,7 +349,8 @@ class ParticlePlayer(object):
 
         if self.__current_frame >= self.frame_count():
 
-            self.__current_frame = self.__first_frame() if self.__loop else self.__last_frame()
+            self.__current_frame = self.__first_frame(
+            ) if self.__loop else self.__last_frame()
 
     def previous_frame(self):
         """PP.previous_frame()
@@ -354,7 +361,8 @@ class ParticlePlayer(object):
 
         if self.__current_frame < 0:
 
-            self.__current_frame = self.__last_frame() if self.__loop else self.__first_frame()
+            self.__current_frame = self.__last_frame(
+            ) if self.__loop else self.__first_frame()
 
 
 def animation_from_file(program, model, filename):
@@ -373,13 +381,14 @@ def animation_from_file(program, model, filename):
                 map(float, line.strip().split(' ')) for line in input_file.readlines()):
 
             builder.add_particle_state(
-                    (r_x, r_y, r_z),
-                    AnimationBuilder.vector_to_angles((m_x, m_y, m_z)))
+                (r_x, r_y, r_z),
+                AnimationBuilder.vector_to_angles((m_x, m_y, m_z)))
 
         return builder.build()
 
 
 class Particles(object):
+
     """The glass (or it's visible part)"""
 
     def __init__(self, config, cam):
@@ -395,42 +404,44 @@ class Particles(object):
         self.__program = shaders.Program('particles')
 
         self.__camera = self.__program.uniform(
-                'camera',
-                shaders.GLSLType(shaders.GLSLType.Matrix(4)))
+            'camera',
+            shaders.GLSLType(shaders.GLSLType.Matrix(4)))
 
         self.__sun = self.__program.uniform(
-                'sun',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'sun',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__positions = self.__program.uniform(
-                'positions',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)),
-                self.__model.vertex_count())
+            'positions',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)),
+            self.__model.vertex_count())
 
         self.__normals = self.__program.uniform(
-                'normals',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)),
-                self.__model.vertex_count())
+            'normals',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)),
+            self.__model.vertex_count())
 
         self.__colours = self.__program.uniform(
-                'colours',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)),
-                self.__model.vertex_count())
+            'colours',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)),
+            self.__model.vertex_count())
 
         self.__ix = self.__program.attribute(
-                'ix_float',
-                shaders.GLSLType(shaders.GLSLType.Scalar()))
+            'ix_float',
+            shaders.GLSLType(shaders.GLSLType.Scalar()))
 
         self.__position = self.__program.attribute(
-                'position',
-                shaders.GLSLType(shaders.GLSLType.Vector(3)))
+            'position',
+            shaders.GLSLType(shaders.GLSLType.Vector(3)))
 
         self.__orientation = self.__program.attribute(
-                'orientation',
-                shaders.GLSLType(shaders.GLSLType.Vector(2)))
+            'orientation',
+            shaders.GLSLType(shaders.GLSLType.Vector(2)))
 
-        animation = animation_from_file(self.__program, self.__model, config.particle_file())
-        self.__player = ParticlePlayer(animation, config.particle_animation_fps())
+        animation = animation_from_file(
+            self.__program, self.__model, config.particle_file())
+        self.__player = ParticlePlayer(
+            animation, config.particle_animation_fps())
 
     def __generate_shaders(self, model):
         """P.__generate_shaders(model)
@@ -489,9 +500,9 @@ class Particles(object):
             self.__sun.set()
 
             self.__model.populate(
-                    self.__positions,
-                    self.__normals,
-                    self.__colours)
+                self.__positions,
+                self.__normals,
+                self.__colours)
 
             frame.draw()
 

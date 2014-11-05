@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 __all__ = [
-        'check_shader', 'check_program', 'load_shader', 'build_program',
-        'Program', 'GLSLType']
+    'check_shader', 'check_program', 'load_shader', 'build_program',
+    'Program', 'GLSLType']
 
 
 import os.path
@@ -16,8 +16,8 @@ from silica.viz.common.constants import *
 
 
 SHADER_TYPES = {
-        'v': gl.GL_VERTEX_SHADER,
-        'f': gl.GL_FRAGMENT_SHADER }
+    'v': gl.GL_VERTEX_SHADER,
+    'f': gl.GL_FRAGMENT_SHADER}
 
 
 shader_path = []
@@ -32,7 +32,7 @@ def check_shader(shader, filename):
     compile_ok = gl.GLint(0)
 
     gl.glGetShaderiv(shader, gl.GL_COMPILE_STATUS,
-            c.pointer(compile_ok))
+                     c.pointer(compile_ok))
 
     # If the compilation fails, get the error description from OpenGL
     # and raise it
@@ -40,15 +40,15 @@ def check_shader(shader, filename):
         log_len = gl.GLint(0)
 
         gl.glGetShaderiv(shader, gl.GL_INFO_LOG_LENGTH,
-                c.pointer(log_len))
+                         c.pointer(log_len))
 
         log_buf = c.create_string_buffer(log_len.value)
 
         gl.glGetShaderInfoLog(shader, log_len, None, log_buf)
 
         raise RuntimeError(
-                "Shader from %s could not compile: %s" % (
-                    filename, log_buf.value))
+            "Shader from %s could not compile: %s" % (
+                filename, log_buf.value))
 
 
 def check_program(program):
@@ -60,7 +60,7 @@ def check_program(program):
     link_ok = gl.GLint(0)
 
     gl.glGetProgramiv(program, gl.GL_LINK_STATUS,
-            c.pointer(link_ok))
+                      c.pointer(link_ok))
 
     # If linking fails, get the error description from OpenGL and raise
     # it
@@ -68,15 +68,15 @@ def check_program(program):
         log_len = gl.GLint(0)
 
         gl.glGetProgramiv(program, gl.GL_INFO_LOG_LENGTH,
-                c.pointer(log_len))
+                          c.pointer(log_len))
 
         log_buf = c.create_string_buffer(log_len.value)
 
         gl.glGetProgramInfoLog(program, log_len, None, log_buf)
 
         raise RuntimeError(
-                "Program %d could not link: %s" % (
-                    program, log_buf.value))
+            "Program %d could not link: %s" % (
+                program, log_buf.value))
 
 
 def load_shader(name, shader_type):
@@ -106,7 +106,7 @@ def load_shader(name, shader_type):
     # Perform ctypes enchantments
     source_buf = c.create_string_buffer(source)
     c_source = c.cast(source_buf,
-            c.POINTER(gl.GLchar))
+                      c.POINTER(gl.GLchar))
 
     # Create and compile the shader
     shader = gl.glCreateShader(SHADER_TYPES[shader_type])
@@ -151,8 +151,8 @@ def __max_vertex_attribute():
 
     buffy = (1 * gl.GLint)()
     gl.glGetIntegerv(
-            gl.GL_MAX_VERTEX_ATTRIBS,
-            buffy)
+        gl.GL_MAX_VERTEX_ATTRIBS,
+        buffy)
 
     return buffy[0]
 
@@ -161,9 +161,11 @@ _MAX_VERTEX_ATTRIB = __max_vertex_attribute()
 
 
 class GLSLType(object):
+
     """A GLSL type representation"""
 
     class Shape(object):
+
         """A shape of a GLSL value"""
 
         def to_api_string(self):
@@ -267,6 +269,7 @@ class GLSLType(object):
 
 
 class Uniform(object):
+
     """A GLSL uniform value"""
 
     def __init__(self, program, uniform, type, count):
@@ -287,8 +290,8 @@ class Uniform(object):
         if len(values) != self.__type.shape().value_count():
 
             raise TypeError(
-                    'This uniform requires %d components per value.' %
-                    self.__type.shape().value_count())
+                'This uniform requires %d components per value.' %
+                self.__type.shape().value_count())
 
         for i, value in enumerate(values):
 
@@ -312,6 +315,7 @@ class Uniform(object):
 
 
 class Attribute(object):
+
     """A GLSL attribute"""
 
     def __init__(self, gl_id, gl_type, values_per_vertex):
@@ -330,7 +334,6 @@ class Attribute(object):
         values_per_vertex = self.__values_per_vertex
 
         return components_per_value * values_per_vertex
-
 
     def c_array_for(self, triangle_count):
         """A.c_array_for(triangle_count) -> a ctypes array
@@ -356,11 +359,11 @@ class Attribute(object):
 
             gl.glEnableVertexAttribArray(self.__gl_id)
             gl.glVertexAttribPointer(
-                    self.__gl_id,
-                    self.components_per_vertex(),
-                    self.__gl_type.element_type_tag(),
-                    gl.GL_FALSE, 0,
-                    source)
+                self.__gl_id,
+                self.components_per_vertex(),
+                self.__gl_type.element_type_tag(),
+                gl.GL_FALSE, 0,
+                source)
 
     def gl_type(self):
         """A.gl_type() -> GLSLType"""
@@ -369,6 +372,7 @@ class Attribute(object):
 
 
 class Program(object):
+
     """A GLSL shader program"""
 
     def __init__(self, name):
@@ -382,10 +386,10 @@ class Program(object):
         if name not in self.__uniforms:
 
             location = gl.glGetUniformLocation(
-                    self.__program, name)
+                self.__program, name)
 
             self.__uniforms[name] = Uniform(
-                    self.__program, location, type, count)
+                self.__program, location, type, count)
 
         return self.__uniforms[name]
 
@@ -394,10 +398,10 @@ class Program(object):
         if name not in self.__attributes:
 
             location = gl.glGetAttribLocation(
-                    self.__program, name)
+                self.__program, name)
 
             self.__attributes[name] = Attribute(
-                    location, type, values_per_vertex)
+                location, type, values_per_vertex)
 
         return self.__attributes[name]
 
@@ -437,6 +441,7 @@ class Program(object):
 
 
 class TriangleList(object):
+
     """A set of data that can be used with a program to draw something."""
 
     def __init__(self, program, count, attrs):
@@ -485,8 +490,8 @@ class TriangleList(object):
         """
 
         gl.glDrawArrays(
-                gl.GL_TRIANGLES, 0,
-                self.__count * VERTICES_PER_TRIANGLE)
+            gl.GL_TRIANGLES, 0,
+            self.__count * VERTICES_PER_TRIANGLE)
 
     def __exit__(self, type, value, traceback):
 

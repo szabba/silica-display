@@ -13,6 +13,7 @@ from silica.viz.common import vector
 
 
 class BaseArgsParser(argparse.ArgumentParser):
+
     """An argument parser accepting the common options to pyglet-based
     visualizations.
     """
@@ -22,12 +23,13 @@ class BaseArgsParser(argparse.ArgumentParser):
         super(BaseArgsParser, self).__init__()
 
         self.add_argument(
-                '-F', '--fps', '--frame-rate',
-                help='number of particle animation frames to play per second',
-                type=float, default=3.0)
+            '-F', '--fps', '--frame-rate',
+            help='number of particle animation frames to play per second',
+            type=float, default=3.0)
 
 
 class SlicedGridArgsParser(BaseArgsParser):
+
     """An argument parser for things that display cubical grids that may be
     sliced.
     """
@@ -37,12 +39,13 @@ class SlicedGridArgsParser(BaseArgsParser):
         super(SlicedGridArgsParser, self).__init__()
 
         self.add_argument(
-                '-s', '--slice',
-                help=''.join([
-                    'slice of ', self.object_sliced(), ' to display; described',
-                    ' by enclosed cube index ranges along all the axes']),
-                nargs=6, type=int,
-                default=(None, ) * 6)
+            '-s', '--slice',
+            help=''.join([
+                'slice of ', self.object_sliced(
+                ), ' to display; described',
+                ' by enclosed cube index ranges along all the axes']),
+            nargs=6, type=int,
+            default=(None, ) * 6)
 
     def object_sliced(self):
         """SGAP.object_sliced() -> string
@@ -50,10 +53,12 @@ class SlicedGridArgsParser(BaseArgsParser):
         Name of the object being sliced.
         """
 
-        raise NotImplementedError(self.__class__.__name__, self.object_sliced.__name__)
+        raise NotImplementedError(
+            self.__class__.__name__, self.object_sliced.__name__)
 
 
 class BaseConfig(object):
+
     """Basic configuration object"""
 
     def __init__(self, parsed_args):
@@ -61,7 +66,7 @@ class BaseConfig(object):
         self._args = parsed_args
 
         self.__sun = (gl.GLfloat * COORDINATES_PER_RAY)(
-                0.5, 1, 1.5)
+            0.5, 1, 1.5)
 
     def create_window(self):
         """C.create_window() -> a window
@@ -70,9 +75,9 @@ class BaseConfig(object):
         """
 
         window = pyglet.window.Window(
-                width=800,
-                height=600,
-                resizable=True)
+            width=800,
+            height=600,
+            resizable=True)
 
         return window
 
@@ -175,6 +180,7 @@ class BaseConfig(object):
 
 
 class SliceGridConfig(BaseConfig):
+
     """Config for apps containing sliceable grid-based objects"""
 
     def slice(self):

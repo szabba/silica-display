@@ -24,19 +24,19 @@ def cam_transforms(transforms, config):
     """
 
     cam_geometry = transform.CameraGeometry(
-            *config.perspective_params())
+        *config.perspective_params())
 
     transforms['scale'] = scale = transform.Scale(config.init_scale())
 
     transforms['look_at'] = look_at = transform.LookAt(
-            cam_geometry, scale)
+        cam_geometry, scale)
 
     transforms['sr'] = sr = transform.Product()
     sr.add_factor(scale)
     sr.add_factor(transforms['rot'])
 
     transforms['cam_shift'] = cam_shift = transform.Translate(
-            *config.center_point())
+        *config.center_point())
 
     transforms['camera'] = camera = transform.Product()
     camera.add_factor(transforms['project'])
@@ -46,6 +46,7 @@ def cam_transforms(transforms, config):
 
 
 class Cameraman(object):
+
     '''Adjusts the camera parameters in reaction to external events.'''
 
     def __init__(self, config, keys, transforms):
@@ -97,11 +98,12 @@ class Cameraman(object):
 
         if self.__keys[key.UP] or self.__keys[key.DOWN]:
 
-            speed = self.__scale.scale() * self.__config.speed_along_sight_line()
+            speed = self.__scale.scale() * \
+                self.__config.speed_along_sight_line()
 
             displacement = speed * (
-                    self.__keys.get(key.UP, 0) - self.__keys.get(key.DOWN, 0)
-                    ) * dt
+                self.__keys.get(key.UP, 0) - self.__keys.get(key.DOWN, 0)
+            ) * dt
 
             k = numpy.array([[0, 0, 1, 1]]).T
 
@@ -141,8 +143,8 @@ class Cameraman(object):
             new_horiz = horiz.rotate(up, dx * self.__config.rot_z_speed())
             new_up = up.rotate(horiz, -dy * self.__config.rot_z_speed())
             new_forward = (forward.
-                rotate(horiz, -dy * self.__config.rot_z_speed()).
-                rotate(up, dx * self.__config.rot_z_speed()))
+                           rotate(horiz, -dy * self.__config.rot_z_speed()).
+                           rotate(up, dx * self.__config.rot_z_speed()))
 
             self.__rot.set_basis(new_horiz, new_up, new_forward)
 
@@ -179,7 +181,7 @@ class Cameraman(object):
             self.__look_at.matrix(),
             self.__sr.matrix(),
             self.__shift.matrix(),
-            ]))
+        ]))
 
     def on_draw(self):
 

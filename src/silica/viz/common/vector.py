@@ -5,6 +5,7 @@ import numbers
 
 
 class Vector(object):
+
     """A 3D vector in some Cartesian basis"""
 
     def __init__(self, x=0, y=0, z=0):
@@ -69,9 +70,9 @@ class Vector(object):
         """V.cross(o) -> the cross produt of V and o"""
 
         return Vector(
-                self.y * o.z - self.z * o.y,
-                self.z * o.x - self.x * o.z,
-                self.x * o.y - self.y * o.x)
+            self.y * o.z - self.z * o.y,
+            self.z * o.x - self.x * o.z,
+            self.x * o.y - self.y * o.x)
 
     def __neg__(self):
 
@@ -83,7 +84,7 @@ class Vector(object):
 
     def __abs__(self):
 
-        return math.sqrt(self.x**2 + self.y**2 + self.z**2)
+        return math.sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
     def unit(self):
         """V.unit() -> unit vector parallel to V and pointing in the same
@@ -114,8 +115,8 @@ class Vector(object):
         parallel, orthogonal = self.decompose(axis)
 
         return parallel + abs(orthogonal) * (
-                math.cos(angle) * orthogonal.unit() +
-                math.sin(angle) * axis.unit().cross(orthogonal.unit()))
+            math.cos(angle) * orthogonal.unit() +
+            math.sin(angle) * axis.unit().cross(orthogonal.unit()))
 
 
 E_X, E_Y, E_Z = Vector(x=1), Vector(y=1), Vector(z=1)

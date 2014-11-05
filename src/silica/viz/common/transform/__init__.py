@@ -16,6 +16,7 @@ from silica.viz.common import vector
 
 
 class Transform(object):
+
     '''A linear transform of homogeneous coordinates.'''
 
     def __init__(self):
@@ -96,17 +97,18 @@ class Transform(object):
             matrix = self.matrix()
 
             transformed = matrix.dot(
-                    numpy.array([[o.x], [o.y], [o.z], [1]]))
+                numpy.array([[o.x], [o.y], [o.z], [1]]))
 
             return vector.Vector(
-                    transformed[0, 0],
-                    transformed[1, 0],
-                    transformed[2, 0])
+                transformed[0, 0],
+                transformed[1, 0],
+                transformed[2, 0])
 
         return NotImplemented
 
 
 class Product(Transform):
+
     """A transform resulting from matrix multiplication of it's factors."""
 
     def __init__(self):
@@ -140,6 +142,7 @@ class Product(Transform):
 
 
 class BasicAxisRotation(Transform):
+
     """Rotation around one of the basic axes."""
 
     def __init__(self, angle, axis):
@@ -192,6 +195,7 @@ class BasicAxisRotation(Transform):
 
 
 class ChangeBasis(Transform):
+
     """A transform that changes vector coordinates from one Cartesian basis
     into another.
     """
@@ -225,7 +229,7 @@ class ChangeBasis(Transform):
             [e_0.x, e_0.y, e_0.z, 0],
             [e_1.x, e_1.y, e_1.z, 0],
             [e_2.x, e_2.y, e_2.z, 0],
-            [    0,     0,     0, 1]])
+            [0,     0,     0, 1]])
 
         if self.__orthogonalize:
 
@@ -235,10 +239,10 @@ class ChangeBasis(Transform):
             orthogonal[:3, :3] = U.dot(V)[:3, :3]
 
             self.set_basis(
-                    vector.Vector(*orthogonal[0, :3]),
-                    vector.Vector(*orthogonal[1, :3]),
-                    vector.Vector(*orthogonal[2, :3]),
-                    dirtify=False)
+                vector.Vector(*orthogonal[0, :3]),
+                vector.Vector(*orthogonal[1, :3]),
+                vector.Vector(*orthogonal[2, :3]),
+                dirtify=False)
 
             self.set_matrix(orthogonal)
 
@@ -248,6 +252,7 @@ class ChangeBasis(Transform):
 
 
 class Scale(Transform):
+
     """A scaling transform"""
 
     def __init__(self, scale):
@@ -278,6 +283,7 @@ class Scale(Transform):
 
 
 class Translate(Transform):
+
     '''A translation by a 3D vector'''
 
     def __init__(self, x, y, z):
@@ -311,6 +317,7 @@ class Translate(Transform):
 
 
 class FlipHandedness(Transform):
+
     '''Flips handedness of the coordinate system by changing the sign of the
     given axis' coordinate.
     '''
@@ -329,6 +336,7 @@ class FlipHandedness(Transform):
 
 
 class CameraGeometry(object):
+
     '''The geometry of a camera.'''
 
     def __init__(self, d0, d):
@@ -348,6 +356,7 @@ class CameraGeometry(object):
 
 
 class Foreshortening(Transform):
+
     '''A foreshortening (perspective projection) transform'''
 
     def __init__(self, geometry):
@@ -362,14 +371,15 @@ class Foreshortening(Transform):
 
         foreshort = numpy.eye(4)
 
-        foreshort[2, 2] = 1./d0 + 2./d
+        foreshort[2, 2] = 1. / d0 + 2. / d
         foreshort[2, 3] = -1
-        foreshort[3, 2] = 1./d0
+        foreshort[3, 2] = 1. / d0
 
         self.set_matrix(foreshort)
 
 
 class AspectRatio(Transform):
+
     '''Adjust x:y proportions to avoid distortion.'''
 
     def __init__(self, width, height):
@@ -405,6 +415,7 @@ class AspectRatio(Transform):
 
 
 class LookAt(Transform):
+
     '''Move the point from the middle of the screen to the middle of the
     visible area.
     '''

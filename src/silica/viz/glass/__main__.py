@@ -21,6 +21,7 @@ from silica.viz.glass.particles import Particles
 
 
 class DisplayApp(object):
+
     """Main object"""
 
     def __init__(self, config):
@@ -35,40 +36,40 @@ class DisplayApp(object):
         cam = transforms['camera']
 
         self.__window.push_handlers(
-                Axes(config, transforms, self.__window))
+            Axes(config, transforms, self.__window))
 
         self.__window.push_handlers(
-                Fog(config, cam))
+            Fog(config, cam))
 
         if config.particle_file() is not None:
 
             if not os.path.exists(config.particle_file()):
 
                 logging.error(
-                        "Specified particle file '%s' does not exits",
-                        config.particle_file())
+                    "Specified particle file '%s' does not exits",
+                    config.particle_file())
 
             elif os.path.isdir(config.particle_file()):
 
                 logging.error(
-                        "Specified particles file '%s' is a directory",
-                        config.particle_file())
+                    "Specified particles file '%s' is a directory",
+                    config.particle_file())
 
             else:
 
                 self.__window.push_handlers(
-                        Particles(config, cam))
+                    Particles(config, cam))
 
         if config.glass_specified():
 
             self.__window.push_handlers(
-                    Glass(config, cam))
+                Glass(config, cam))
 
         self.__window.push_handlers(
-                Cameraman(config, keys, transforms))
+            Cameraman(config, keys, transforms))
 
         self.__window.push_handlers(
-                keys)
+            keys)
 
         pyglet.clock.set_fps_limit(config.max_fps())
 
