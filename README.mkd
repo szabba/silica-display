@@ -2,8 +2,10 @@
 
 The project includes two visualization for use with porous silica glass
 simulations. One displays a piece of glass an magnetic nanoparticles under it's
-incluence. The other shows the shape of space with potential values in a given
+influence. The other shows the shape of space with potential values in a given
 range.
+
+![](shot.png)
 
 ## Install
 
